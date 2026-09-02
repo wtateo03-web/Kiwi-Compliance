@@ -7,16 +7,25 @@ export default function Hero() {
   return (
     <section className="hero" id="top">
       <FruitCorner where="hero" />
-      <div className="container hero-grid">
-        <Reveal className="hero-copy">
+
+      {/* The headline runs the full width so it holds its size and breaks on
+          the sentence; the supporting copy and the visual sit beneath it. */}
+      <div className="container">
+        <Reveal className="hero-head">
           <p className="eyebrow">Physical compliance, managed</p>
-          <h1 className="display">Compliance, run properly.</h1>
+          <h1 className="display">Less compliance admin. More control.</h1>
+        </Reveal>
+      </div>
+
+      <div className="container hero-grid">
+        <Reveal className="hero-copy" delay={60}>
           <p className="lead hero-lead">
-            Kiwi takes your spreadsheets, certificates, contractors and inspection schedules and brings
-            them into one managed system.
+            Kiwi takes care of the chasing behind statutory compliance — organising your records,
+            arranging specialist inspections, tracking completion and keeping the evidence current.
           </p>
           <p className="hero-sub muted">
-            We arrange the work, track what has been completed and keep the record current.
+            Keep your existing team, systems and trusted contractors. We work around what you already
+            have.
           </p>
 
           <div className="btn-row">
@@ -30,7 +39,7 @@ export default function Hero() {
 
           <p className="hero-strap">
             <PerchedKiwi where="strap" pose="walk" flip tilt={0} />
-            One schedule. One record. One accountable partner.
+            You stay in control. Kiwi keeps the work moving.
           </p>
         </Reveal>
 

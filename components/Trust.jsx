@@ -5,18 +5,18 @@ import { FruitCorner } from './Decor';
 const PRINCIPLES = [
   {
     n: '01',
-    title: 'Competent specialists',
-    body: 'Work is routed to appropriately qualified providers for the asset and the requirement.',
+    title: 'Your providers, or ours',
+    body: 'Work goes to the contractor you already use. Where you have a gap, we source an appropriately qualified specialist and hold them to the same standard.',
   },
   {
     n: '02',
-    title: 'Evidence retained',
-    body: 'Reports and certificates stay attached to the relevant site and asset, not in a shared folder.',
+    title: 'Evidence where you need it',
+    body: 'Reports and certificates stay attached to the site and asset they belong to — ready for an audit, not buried in a shared drive.',
   },
   {
     n: '03',
-    title: 'Nothing disappears',
-    body: 'Every completed action becomes the starting point for the next requirement.',
+    title: 'We chase the loose ends',
+    body: 'Unconfirmed attendance, certificates that never arrived, actions left open. The follow-up that eats your week is ours, not yours.',
   },
 ];
 

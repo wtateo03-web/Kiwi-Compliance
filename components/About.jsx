@@ -18,8 +18,8 @@ export default function About() {
           </p>
           <p className="ab-question"><KiwiSlice tone="simple" />Are we compliant?</p>
           <p className="muted">
-            Kiwi combines specialist field services with modern technology to make physical compliance
-            easier to organise, easier to track and easier to prove.
+            Kiwi sits alongside your facilities team and handles the work between something becoming due
+            and the evidence being safely back on file.
           </p>
         </Reveal>
       </div>

@@ -98,9 +98,9 @@ export function StructureDiagram() {
    we take the due, we return the done. */
 export function RoutingDiagram() {
   const specialists = [
-    { label: 'LOLER examiner', y: 22 },
-    { label: 'LEV examiner', y: 84 },
-    { label: 'Water specialist', y: 146 },
+    { label: 'Your LOLER provider', y: 22 },
+    { label: 'Your LEV provider', y: 84 },
+    { label: 'Kiwi-sourced water', y: 146 },
   ];
   return (
     <svg viewBox="0 0 400 226" className="dg" role="img" aria-label="Work that falls due passes from the estate to Kiwi. Kiwi routes it to the appropriate specialist, the report comes back to Kiwi, and the completed record returns to the estate.">
@@ -123,7 +123,7 @@ export function RoutingDiagram() {
         <g key={s.label}>
           <path d={`M242 ${100} C 268 ${100} 272 ${s.y + 17} 296 ${s.y + 17}`} {...LINE} markerEnd="url(#ar3)" />
           <rect x="300" y={s.y} width="94" height="34" rx="5" {...NODE} />
-          <text x="347" y={s.y + 21} textAnchor="middle" fontSize="9.5" fill="var(--ink)" fontFamily="var(--sans)">{s.label}</text>
+          <text x="347" y={s.y + 21} textAnchor="middle" fontSize="8.8" fill="var(--ink)" fontFamily="var(--sans)">{s.label}</text>
         </g>
       ))}
 

@@ -8,20 +8,20 @@ export default function FinalCta() {
       <FruitPile />
       <div className="container">
         <Reveal className="cta-inner">
-          <h2 className="h2 cta-head">Show us the mess.</h2>
+          <h2 className="h2 cta-head">Show us one site.</h2>
           <p className="lead muted cta-copy">
-            Send us your existing spreadsheets, certificates, contractor lists or asset records. We&rsquo;ll
-            help turn them into one managed compliance programme.
+            Send us a compliance register, an asset list — or simply talk us through how one site works
+            today. We&rsquo;ll show you where Kiwi could take work off your team.
           </p>
           <div className="btn-row">
-            <a className="btn btn-primary" href="mailto:hello@kiwicompliance.com?subject=Talk%20to%20Kiwi">
-              Talk to Kiwi <span className="arw" aria-hidden="true">→</span>
+            <a className="btn btn-primary" href="mailto:hello@kiwicompliance.com?subject=Walk%20us%20through%20one%20site">
+              Walk us through one site <span className="arw" aria-hidden="true">→</span>
             </a>
             <a className="btn btn-ghost" href="mailto:hello@kiwicompliance.com">hello@kiwicompliance.com</a>
           </div>
           <p className="cta-small">
             <PerchedKiwi where="cta" pose="peck" flip tilt={0} />
-            No perfect asset register required.
+            No migration. No perfect data. No need to change providers.
           </p>
         </Reveal>
       </div>

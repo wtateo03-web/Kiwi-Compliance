@@ -49,14 +49,14 @@ function BeforeDiagram() {
 
 function WithKiwiDiagram() {
   const specialists = [
-    { label: 'LOLER examiner', y: 20 },
-    { label: 'LEV examiner', y: 74 },
-    { label: 'Electrical engineer', y: 128 },
-    { label: 'Water specialist', y: 182 },
+    { label: 'Your LOLER provider', y: 20 },
+    { label: 'Your LEV provider', y: 74 },
+    { label: 'Your electrical firm', y: 128 },
+    { label: 'Kiwi-sourced PSSR', y: 182, sourced: true },
   ];
   return (
     <svg viewBox="0 0 380 330" className="dg" role="img"
-         aria-label="The estate deals only with Kiwi: work that falls due goes to Kiwi, Kiwi routes it to the right specialist, the report comes back to Kiwi, and the completed work returns to the estate along with a live compliance record.">
+         aria-label="Your team deals only with Kiwi. Work that falls due goes to Kiwi, which books it with the providers you already use — or sources one where you have a gap — takes the report back, and returns the completed work along with a live compliance record.">
       <defs>
         <marker id="wk-ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M0.5 1 L7 4 L0.5 7" fill="none" stroke="var(--border-strong)" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
@@ -67,7 +67,7 @@ function WithKiwiDiagram() {
       </defs>
 
       <rect x="6" y="132" width="96" height="50" rx="5" fill="var(--white)" stroke="var(--border-strong)" strokeWidth="1" />
-      <text x="54" y="153" textAnchor="middle" fontSize="10.5" fill="var(--ink)" fontFamily="var(--sans)">Your estate</text>
+      <text x="54" y="153" textAnchor="middle" fontSize="10.5" fill="var(--ink)" fontFamily="var(--sans)">Your team</text>
       <text x="54" y="167" textAnchor="middle" fontSize="9" fill="var(--muted)" fontFamily="var(--sans)">one relationship</text>
 
       {/* We take the due… */}
@@ -84,8 +84,11 @@ function WithKiwiDiagram() {
       {specialists.map((s) => (
         <g key={s.label}>
           <path d={`M238 152 C 262 152 262 ${s.y + 16} 286 ${s.y + 16}`} stroke="var(--border-strong)" strokeWidth="1" fill="none" markerEnd="url(#wk-ar)" />
-          <rect x="290" y={s.y} width="86" height="32" rx="5" fill="var(--white)" stroke="var(--border-strong)" strokeWidth="1" />
-          <text x="333" y={s.y + 20} textAnchor="middle" fontSize="8.6" fill="var(--ink)" fontFamily="var(--sans)">{s.label}</text>
+          <rect x="290" y={s.y} width="86" height="32" rx="5" fill="var(--white)"
+                stroke={s.sourced ? 'rgba(49,107,78,.45)' : 'var(--border-strong)'}
+                strokeDasharray={s.sourced ? '3 2.5' : undefined} strokeWidth="1" />
+          <text x="333" y={s.y + 20} textAnchor="middle" fontSize="8.4"
+                fill={s.sourced ? 'var(--kiwi)' : 'var(--ink)'} fontFamily="var(--sans)">{s.label}</text>
         </g>
       ))}
 
@@ -122,7 +125,7 @@ export default function BeforeAfter() {
             <h3 className="ba-title">With Kiwi</h3>
             <div className="ba-visual"><WithKiwiDiagram /></div>
             <PerchedKiwi where="card" pose="alert" flip tilt={0} />
-            <p className="ba-note ba-note-good">One relationship. You send us what&rsquo;s due, we send back what&rsquo;s done.</p>
+            <p className="ba-note ba-note-good">We know what&rsquo;s due, arrange the work and return the evidence.</p>
           </Reveal>
         </div>
       </div>

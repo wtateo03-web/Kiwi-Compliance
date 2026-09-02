@@ -2,9 +2,9 @@ import Reveal from './Reveal';
 
 const INPUTS = ['Spreadsheets', 'Certificates', 'Emails', 'Asset lists'];
 const SPECIALISTS = [
-  { label: 'LOLER examiner', x: 262 },
-  { label: 'LEV examiner', x: 412 },
-  { label: 'PSSR examiner', x: 562 },
+  { label: 'Your LOLER provider', x: 262 },
+  { label: 'Your LEV provider', x: 412 },
+  { label: 'Kiwi-sourced PSSR', x: 562, sourced: true },
 ];
 
 /* The defining diagram: Kiwi sits between one estate and many specialists,
@@ -12,7 +12,7 @@ const SPECIALISTS = [
 function OperatingDiagram() {
   return (
     <svg viewBox="0 0 960 430" className="dg om-dg" role="img"
-         aria-label="Spreadsheets, certificates, emails and asset lists pass into Kiwi. Kiwi exchanges work and results with LOLER, LEV and PSSR examiners, returns a compliant estate, and maintains a live record that answers what is due next.">
+         aria-label="Spreadsheets, certificates, emails and asset lists pass into Kiwi. Kiwi exchanges work and results with the providers you already use, and with specialists it sources where you have a gap, returns a compliant estate, and maintains a live record that answers what is due next.">
       <defs>
         <marker id="om-a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">
           <path d="M0.5 1 L7 4 L0.5 7" fill="none" stroke="var(--line-dark-strong)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
@@ -23,13 +23,16 @@ function OperatingDiagram() {
       </defs>
 
       <text x="480" y="22" textAnchor="middle" fontSize="10" letterSpacing="2.2" fill="var(--muted-dark)" fontFamily="var(--sans)">
-        SPECIALIST PROVIDERS
+        YOUR PROVIDERS, AND OURS
       </text>
 
       {SPECIALISTS.map((s) => (
         <g key={s.label}>
-          <rect x={s.x} y="38" width="136" height="42" rx="6" fill="none" stroke="var(--line-dark-strong)" strokeWidth="1" />
-          <text x={s.x + 68} y="64" textAnchor="middle" fontSize="11.5" fill="var(--warm)" fontFamily="var(--sans)">{s.label}</text>
+          <rect x={s.x} y="38" width="136" height="42" rx="6" fill="none"
+                stroke={s.sourced ? 'var(--fresh)' : 'var(--line-dark-strong)'}
+                strokeDasharray={s.sourced ? '4 3' : undefined} strokeWidth="1" />
+          <text x={s.x + 68} y="64" textAnchor="middle" fontSize="10.5"
+                fill={s.sourced ? 'var(--fresh)' : 'var(--warm)'} fontFamily="var(--sans)">{s.label}</text>
           {/* two-way: work out, results back */}
           <path d={`M${s.x + 68} 84 C ${s.x + 68} 140 480 130 480 182`} fill="none" stroke="var(--line-dark-strong)" strokeWidth="1"
                 markerStart="url(#om-a)" markerEnd="url(#om-a)" />
@@ -46,7 +49,7 @@ function OperatingDiagram() {
       {/* Kiwi */}
       <rect x="400" y="186" width="160" height="78" rx="8" fill="var(--fresh)" />
       <text x="480" y="222" textAnchor="middle" fontSize="17" fontWeight="700" letterSpacing="2.4" fill="var(--ink)" fontFamily="var(--sans)">KIWI</text>
-      <text x="480" y="242" textAnchor="middle" fontSize="10" fill="rgba(16,32,27,.72)" fontFamily="var(--sans)">operates the process</text>
+      <text x="480" y="242" textAnchor="middle" fontSize="10" fill="rgba(16,32,27,.72)" fontFamily="var(--sans)">coordinates it</text>
 
       {/* outcome */}
       <path d="M564 224 H 700" fill="none" stroke="var(--fresh)" strokeWidth="1.2" markerEnd="url(#om-g)" />
@@ -72,16 +75,17 @@ export default function OperatingModel() {
       <div className="container">
         <Reveal className="om-head">
           <div>
-            <p className="eyebrow">We operate it</p>
-            <h2 className="h2">Software you don&rsquo;t have to operate.</h2>
+            <p className="eyebrow">Your providers</p>
+            <h2 className="h2">We work with the providers you already have.</h2>
           </div>
           <div className="om-head-copy">
             <p className="muted">
-              Kiwi isn&rsquo;t another dashboard your team needs to maintain.
+              Keep the contractors you trust. Introduce us, and we manage the dates, the bookings, the
+              paperwork and the follow-up with them.
             </p>
             <p className="muted">
-              We manage the underlying process — keeping records organised, arranging specialist work,
-              tracking completion and maintaining the ongoing schedule.
+              Where you don&rsquo;t have coverage, we source the right specialist and hold them to the
+              same standard. No supplier has to be replaced for Kiwi to start being useful.
             </p>
           </div>
         </Reveal>

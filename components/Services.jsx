@@ -20,7 +20,11 @@ export default function Services() {
       <div className="container">
         <Reveal>
           <p className="eyebrow">Services</p>
-          <h2 className="h2 measure">One place for physical compliance.</h2>
+          <h2 className="h2 measure">One relationship across specialist compliance.</h2>
+          <p className="lead muted svc-lede">
+            Every discipline below can run through the provider you already use, or one we source for
+            you. Either way there is one number to call and one record to look at.
+          </p>
         </Reveal>
 
         <Reveal className="svc-list">
@@ -30,12 +34,14 @@ export default function Services() {
               <span className="svc-icon"><Icon width="21" height="21" /></span>
               <h3 className="svc-name">{name}</h3>
               <p className="svc-desc">{desc}</p>
+              <p className="svc-cover">Your provider <span>or Kiwi-sourced</span></p>
             </div>
           ))}
           <div className="svc-row svc-row-more">
             <span className="svc-icon svc-icon-kiwi"><KiwiSlice tone="simple" /></span>
             <h3 className="svc-name">And other physical compliance requirements.</h3>
             <p className="svc-desc">Tell us what you look after and we&rsquo;ll tell you what we can cover.</p>
+            <p className="svc-cover" />
           </div>
         </Reveal>
 

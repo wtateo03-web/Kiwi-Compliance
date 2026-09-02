@@ -2,23 +2,23 @@
 
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useInView, useCountUp } from './hooks';
-import { Spreadsheet, Certificate, Email, Calendar, Invoice, Tick } from './Icons';
+import { Spreadsheet, Certificate, Email, Engineer, Layers, Tick } from './Icons';
 import { PerchedKiwi } from './KiwiMarks';
 
 const INPUTS = [
-  { Icon: Spreadsheet, label: 'Site Register.xlsx', kind: 'Spreadsheet' },
+  { Icon: Spreadsheet, label: 'Asset register.xlsx', kind: 'Spreadsheet' },
+  { Icon: Layers, label: 'Your existing CAFM', kind: 'System' },
   { Icon: Certificate, label: 'LOLER Certificate.pdf', kind: 'Certificate' },
-  { Icon: Email, label: 'RE: annual inspection', kind: 'Email' },
-  { Icon: Calendar, label: 'Inspection due — 18 Sep', kind: 'Reminder' },
-  { Icon: Invoice, label: 'ABC Testing Ltd — invoice', kind: 'Invoice' },
+  { Icon: Engineer, label: 'Contractors you already use', kind: 'Providers' },
+  { Icon: Email, label: 'RE: annual inspection', kind: 'Site emails' },
 ];
 
 const OUTPUTS = [
-  'Inspector arranged',
-  'Inspection completed',
-  'Certificate stored',
-  'Next due 18 Sep 2027',
-  'Compliance record updated',
+  'Inspection booked',
+  'Provider chased',
+  'Certificate received',
+  'Action raised',
+  'Next due recorded',
 ];
 
 const STATS = [
@@ -147,9 +147,9 @@ export default function HeroFlow() {
   return (
     <figure ref={setFig} className={`flow${inView ? ' in' : ''}`} aria-labelledby="flow-cap">
       <figcaption id="flow-cap" className="sr-only">
-        Scattered compliance records — spreadsheets, certificates, emails, reminders and invoices — feed
-        into Kiwi, which arranges the inspection, stores the certificate, sets the next due date and
-        updates the compliance record.
+        The records, systems and contractors you already have feed into Kiwi, which books the
+        inspection, chases the provider, receives the certificate, raises any action and records the
+        next due date.
       </figcaption>
 
       <PerchedKiwi where="panel" pose="peck" tilt={-3} />
@@ -176,7 +176,7 @@ export default function HeroFlow() {
 
       {/* ---------------------------------------------------------- inputs */}
       <div className="flow-side flow-inputs">
-        <p className="flow-label">What you have now</p>
+        <p className="flow-label">What you already have</p>
         <ul>
           {INPUTS.map(({ Icon, label, kind }, i) => (
             <li
@@ -201,7 +201,7 @@ export default function HeroFlow() {
       <div className="flow-core" ref={coreRef}>
         <div className="core-head">
           <span className="core-brand">KIWI</span>
-          <span className="core-sub">Compliance operating system</span>
+          <span className="core-sub">Your managed compliance desk</span>
         </div>
 
         <div className="core-body">
@@ -215,7 +215,7 @@ export default function HeroFlow() {
             <div className="core-process-bar"><span /></div>
             <p className="core-process-text">
               <Tick className="core-process-tick" width="13" height="13" />
-              Records structured
+              Chased to done
             </p>
           </div>
         </div>
@@ -225,7 +225,7 @@ export default function HeroFlow() {
 
       {/* --------------------------------------------------------- outputs */}
       <div className="flow-side flow-outputs">
-        <p className="flow-label">What you get back</p>
+        <p className="flow-label">What Kiwi handles</p>
         <ul>
           {OUTPUTS.map((label, i) => (
             <li

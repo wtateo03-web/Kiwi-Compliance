@@ -41,12 +41,16 @@ export const UPCOMING = [
   { title: 'Water Risk Review', site: 'Bristol Office', due: 'Due 3 November', state: 'Scheduled', tone: 'current' },
 ];
 
+/* The route every requirement travels. Kiwi moves each item along it; the
+   customer only watches. This is the product, not the database. */
+export const STAGES = ['Due', 'Provider contacted', 'Booked', 'Attended', 'Certificate received', 'Closed'];
+
 export const JOBS = [
-  { ref: 'J-2418', work: 'LEV Thorough Examination', site: 'Birmingham — Unit 4', provider: 'Northwest Extraction Testing', state: 'Inspector arranged', tone: 'current' },
-  { ref: 'J-2417', work: 'LOLER Examination', site: 'Manchester Distribution Centre', provider: 'Pennine Lift Services', state: 'Awaiting confirmation', tone: 'due' },
-  { ref: 'J-2415', work: 'Remedial — extraction ductwork', site: 'Shrewsbury Depot', provider: 'Northwest Extraction Testing', state: 'Action required', tone: 'action' },
-  { ref: 'J-2412', work: 'Fire alarm inspection', site: 'Bristol Office', provider: 'Severn Fire Systems', state: 'Completed', tone: 'current' },
-  { ref: 'J-2409', work: 'Water risk assessment', site: 'Shrewsbury Depot', provider: 'Marches Water Hygiene', state: 'Certificate received', tone: 'current' },
+  { ref: 'J-2418', work: 'LEV Thorough Examination', site: 'Birmingham — Unit 4', provider: 'Northwest Extraction Testing', stage: 2, owned: true },
+  { ref: 'J-2417', work: 'LOLER Examination', site: 'Manchester Distribution Centre', provider: 'Pennine Lift Services', stage: 1, owned: true },
+  { ref: 'J-2415', work: 'Remedial — extraction ductwork', site: 'Shrewsbury Depot', provider: 'Northwest Extraction Testing', stage: 3, owned: true },
+  { ref: 'J-2412', work: 'Fire alarm inspection', site: 'Bristol Office', provider: 'Severn Fire Systems', stage: 5, owned: false },
+  { ref: 'J-2409', work: 'Water risk assessment', site: 'Shrewsbury Depot', provider: 'Marches Water Hygiene', stage: 4, owned: true },
 ];
 
 export const DOCUMENTS = [

@@ -54,7 +54,7 @@ export default function MessToOrder() {
               Compliance information ends up everywhere.
             </h2>
             <h2 className="h2 mess-head mess-head-2" style={{ opacity: clamp01((p - 0.45) / 0.3) }}>
-              Kiwi turns it into one system.
+              Kiwi puts it in order, and keeps it there.
             </h2>
           </div>
 

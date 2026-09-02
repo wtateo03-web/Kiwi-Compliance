@@ -7,7 +7,7 @@ const STAGES = [
   {
     n: '01',
     title: 'Send us what you have.',
-    body: 'Spreadsheets, certificates, emails, asset lists, existing contractors and site information.',
+    body: 'Spreadsheets, certificates, emails, asset lists, your existing contractors and site information. However it currently sits.',
     Visual: IntakeDiagram,
   },
   {
@@ -19,7 +19,7 @@ const STAGES = [
   {
     n: '03',
     title: 'We arrange the work.',
-    body: 'When something needs doing, Kiwi coordinates the appropriate specialist and tracks the job through completion.',
+    body: 'When something falls due, Kiwi books it with your provider — or sources one where you have a gap — and chases it through to completion.',
     Visual: RoutingDiagram,
   },
   {
@@ -37,7 +37,7 @@ export default function HowItWorks() {
       <div className="container">
         <Reveal>
           <p className="eyebrow">How Kiwi works</p>
-          <h2 className="h2 measure">Four steps, and none of them are yours.</h2>
+          <h2 className="h2 measure">Give us what&rsquo;s due. We keep it moving.</h2>
         </Reveal>
 
         <ol className="stages">
@@ -58,7 +58,13 @@ export default function HowItWorks() {
 
         <Reveal className="stages-coda">
           <PerchedKiwi where="rule" pose="lookup" tilt={2} />
-          <p className="statement">You don&rsquo;t need another system to operate. Kiwi operates it for you.</p>
+          <p className="statement">
+            Not another system for your team to maintain. Kiwi manages the work behind it.
+          </p>
+          <p className="stages-coda-sub muted">
+            Due dates, bookings, contractors, certificates, follow-ups and records — handled by us,
+            visible to you.
+          </p>
         </Reveal>
       </div>
     </section>

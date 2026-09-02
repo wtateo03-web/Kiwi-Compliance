@@ -7,7 +7,7 @@ import { FruitCorner } from './Decor';
 import { useInView } from './hooks';
 import {
   ESTATE, STATUS_SPLIT, SITES, ASSETS, UPCOMING, JOBS,
-  DOCUMENTS, PROVIDERS, CATEGORIES, ASSET_DETAIL,
+  DOCUMENTS, PROVIDERS, CATEGORIES, ASSET_DETAIL, STAGES,
 } from './platformData';
 
 const NAV = ['Overview', 'Sites', 'Assets', 'Upcoming', 'Jobs', 'Documents', 'Reports', 'Providers'];
@@ -44,6 +44,53 @@ const Status = ({ tone, children }) => (
   <span className="status"><span className={`dot is-${tone}`} />{children}</span>
 );
 
+/** Where a job has got to on the route from Due to Closed. */
+function Track({ stage }) {
+  return (
+    <div className="track" role="img" aria-label={`Stage ${stage + 1} of ${STAGES.length}: ${STAGES[stage]}`}>
+      <ol className="track-nodes">
+        {STAGES.map((label, i) => (
+          <li
+            key={label}
+            className={`track-node${i < stage ? ' is-done' : ''}${i === stage ? ' is-now' : ''}`}
+            title={label}
+          >
+            <span className="track-dot" />
+          </li>
+        ))}
+      </ol>
+      <p className="track-label">
+        <span className="track-label-now">{STAGES[stage]}</span>
+        {stage < STAGES.length - 1 && <span className="track-label-next">next: {STAGES[stage + 1]}</span>}
+      </p>
+    </div>
+  );
+}
+
+function JobList({ jobs }) {
+  return (
+    <ul className="joblist">
+      {jobs.map((j) => (
+        <li key={j.ref}>
+          <div className="job-head">
+            <div>
+              <p className="job-work">{j.work}</p>
+              <p className="job-meta">
+                <span className="mono">{j.ref}</span> · {j.site}
+              </p>
+            </div>
+            <p className="job-provider">
+              {j.provider}
+              <span className="job-owner">{j.owned ? 'your provider' : 'Kiwi-sourced'}</span>
+            </p>
+          </div>
+          <Track stage={j.stage} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Platform() {
   const [view, setView] = useState('Overview');
   const [site, setSite] = useState(null);
@@ -58,11 +105,11 @@ export default function Platform() {
         <Reveal className="pf-head">
           <div>
             <p className="eyebrow">The platform</p>
-            <h2 className="h2">Your compliance record.</h2>
+            <h2 className="h2">One live view. Maintained by Kiwi.</h2>
           </div>
           <p className="lead muted pf-head-copy">
-            A live picture of your sites, assets, inspections, certificates and upcoming requirements —
-            maintained by us, available to you.
+            See what&rsquo;s current, what&rsquo;s coming up, what has been booked, what needs action and
+            where the evidence sits — without maintaining the system yourself.
           </p>
         </Reveal>
       </div>
@@ -138,6 +185,11 @@ export default function Platform() {
                         </li>
                       ))}
                     </ul>
+                  </section>
+
+                  <section className="pf-block">
+                    <h3 className="pf-block-title">Work Kiwi is moving</h3>
+                    <JobList jobs={JOBS.slice(0, 3)} />
                   </section>
 
                   <section className="pf-block">
@@ -282,17 +334,12 @@ export default function Platform() {
 
               {/* ---------------------------------------------------- jobs */}
               {view === 'Jobs' && (
-                <Table head={['Ref', 'Work', 'Site', 'Provider', 'State']} min={720}>
-                  {JOBS.map((j) => (
-                    <tr key={j.ref}>
-                      <td className="mono pf-id">{j.ref}</td>
-                      <td>{j.work}</td>
-                      <td>{j.site}</td>
-                      <td>{j.provider}</td>
-                      <td><Status tone={j.tone}>{j.state}</Status></td>
-                    </tr>
-                  ))}
-                </Table>
+                <>
+                  <p className="pf-lede muted">
+                    Every requirement travels the same route. We move it along; you watch it move.
+                  </p>
+                  <JobList jobs={JOBS} />
+                </>
               )}
 
               {/* ----------------------------------------------- documents */}

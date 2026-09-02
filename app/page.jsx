@@ -1,5 +1,6 @@
 import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
+import Reassurance from '@/components/Reassurance';
 import MessToOrder from '@/components/MessToOrder';
 import HowItWorks from '@/components/HowItWorks';
 import BeforeAfter from '@/components/BeforeAfter';
@@ -20,6 +21,7 @@ export default function Home() {
       <Nav />
       <main id="main">
         <Hero />
+        <Reassurance />
         <MessToOrder />
         <HowItWorks />
         <BeforeAfter />
