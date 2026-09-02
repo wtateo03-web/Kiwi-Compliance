@@ -4,6 +4,7 @@ import Reassurance from '@/components/Reassurance';
 import MessToOrder from '@/components/MessToOrder';
 import HowItWorks from '@/components/HowItWorks';
 import BeforeAfter from '@/components/BeforeAfter';
+import InboxLayer from '@/components/InboxLayer';
 import Platform from '@/components/Platform';
 import OperatingModel from '@/components/OperatingModel';
 import Technology from '@/components/Technology';
@@ -26,6 +27,7 @@ export default function Home() {
         <MessToOrder />
         <HowItWorks />
         <BeforeAfter />
+        <InboxLayer />
         <Platform />
         <OperatingModel />
         <Technology />

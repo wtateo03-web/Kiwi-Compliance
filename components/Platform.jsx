@@ -35,14 +35,24 @@ function Bar() {
   );
 }
 
-function Table({ head, children, min = 620 }) {
+function Table({ head, children, min = 620, rows, exportable = false }) {
   return (
-    <div className="pf-scroll">
-      <table className="pf-table" style={{ minWidth: min }}>
-        <thead><tr>{head.map((h) => <th key={h}>{h}</th>)}</tr></thead>
-        <tbody>{children}</tbody>
-      </table>
-    </div>
+    <>
+      {exportable && (
+        <div className="pf-export">
+          <span className="pf-export-n mono">{rows}</span>
+          <span className="pf-export-l">rows</span>
+          <span className="pf-export-btn">Export CSV</span>
+          <span className="pf-export-btn">Export PDF</span>
+        </div>
+      )}
+      <div className="pf-scroll">
+        <table className="pf-table" style={{ minWidth: min }}>
+          <thead><tr>{head.map((h) => <th key={h}>{h}</th>)}</tr></thead>
+          <tbody>{children}</tbody>
+        </table>
+      </div>
+    </>
   );
 }
 
@@ -155,8 +165,9 @@ function Comms({ open, setOpen }) {
   return (
     <>
       <p className="pf-lede muted">
-        Every message about your estate, written and sent by us. Providers hear from Kiwi; you hear
-        from Kiwi once, when there is something worth telling you.
+        Every message about your estate, written and sent by us. You are not meant to read these —
+        they are the receipts. Providers hear from Kiwi; you hear from Kiwi once, by email, when
+        something genuinely needs you.
       </p>
       <ul className="threads">
         {THREADS.map((t) => (
@@ -427,7 +438,8 @@ function Register({ asset, setAsset }) {
 
       <section className="pf-block">
         <h3 className="pf-block-title">Assets</h3>
-        <Table head={['Asset', 'Type', 'Site', 'Next due', 'Status']}>
+        <Table head={['Asset', 'Type', 'Site', 'Next due', 'Status']}
+               exportable rows={ESTATE.assets.toLocaleString('en-GB')}>
           {ASSETS.map((a) => (
             <tr key={a.id} className="is-clickable" tabIndex={0}
                 onClick={() => setAsset(true)}
@@ -524,11 +536,12 @@ export default function Platform() {
         <Reveal className="pf-head">
           <div>
             <p className="eyebrow">The platform</p>
-            <h2 className="h2">We run it. You watch it.</h2>
+            <h2 className="h2">The platform you don&rsquo;t have to use.</h2>
           </div>
           <p className="lead muted pf-head-copy">
-            The register, the correspondence, the invoices and the evidence — one place, kept current
-            by us. Look at the correspondence and the invoicing: that is the work you stop doing.
+            Everything Kiwi does is recorded here — the register, the correspondence, the invoices,
+            the evidence. You are not expected to live in it. Open it to export something, answer an
+            auditor or look at a detail, then close it again.
           </p>
         </Reveal>
       </div>
@@ -689,7 +702,8 @@ export default function Platform() {
 
               {/* ----------------------------------------------- documents */}
               {view === 'Documents' && (
-                <Table head={['Document', 'Asset', 'Site', 'Completed', 'Next due']} min={720}>
+                <Table head={['Document', 'Asset', 'Site', 'Completed', 'Next due']} min={720}
+                       exportable rows={ESTATE.certificates.toLocaleString('en-GB')}>
                   {DOCUMENTS.map((d) => (
                     <tr key={d.name + d.asset}>
                       <td>{d.name}</td>
@@ -704,7 +718,8 @@ export default function Platform() {
 
               {/* --------------------------------------------------- sites */}
               {view === 'Sites' && !site && (
-                <Table head={['Site', 'Assets', 'Current', 'Due soon', 'Action', 'Status']}>
+                <Table head={['Site', 'Assets', 'Current', 'Due soon', 'Action', 'Status']}
+                       exportable rows={ESTATE.sites}>
                   {SITES.map((s) => (
                     <tr key={s.id} className="is-clickable" tabIndex={0}
                         onClick={() => setSite(s)}
