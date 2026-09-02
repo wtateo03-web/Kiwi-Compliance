@@ -40,7 +40,7 @@ export default function Privacy() {
       <p>
         Under UK data protection law you may ask what personal data we hold about you, ask for it to be
         corrected, or ask for it to be deleted. Write to{' '}
-        <a href="mailto:hello@kiwicompliance.com">hello@kiwicompliance.com</a> and we will respond.
+        <a href="mailto:william@kiwicompliance.com">william@kiwicompliance.com</a> and we will respond.
       </p>
     </LegalPage>
   );

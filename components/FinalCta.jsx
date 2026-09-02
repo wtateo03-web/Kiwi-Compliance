@@ -14,10 +14,10 @@ export default function FinalCta() {
             today. We&rsquo;ll show you where Kiwi could take work off your team.
           </p>
           <div className="btn-row">
-            <a className="btn btn-primary" href="mailto:hello@kiwicompliance.com?subject=Walk%20us%20through%20one%20site">
+            <a className="btn btn-primary" href="mailto:william@kiwicompliance.com?subject=Walk%20us%20through%20one%20site">
               Walk us through one site <span className="arw" aria-hidden="true">→</span>
             </a>
-            <a className="btn btn-ghost" href="mailto:hello@kiwicompliance.com">hello@kiwicompliance.com</a>
+            <a className="btn btn-ghost" href="mailto:william@kiwicompliance.com">william@kiwicompliance.com</a>
           </div>
           <p className="cta-small">
             <PerchedKiwi where="cta" pose="peck" flip tilt={0} />

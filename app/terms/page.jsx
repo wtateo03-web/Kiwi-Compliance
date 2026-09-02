@@ -33,7 +33,7 @@ export default function Terms() {
 
       <h2>Contact</h2>
       <p>
-        Email <a href="mailto:hello@kiwicompliance.com">hello@kiwicompliance.com</a>.
+        Email <a href="mailto:william@kiwicompliance.com">william@kiwicompliance.com</a>.
       </p>
     </LegalPage>
   );

@@ -42,6 +42,7 @@ export default function HowItWorks() {
 
         <ol className="stages">
           <PerchedKiwi where="stages" pose="walk" flip tilt={0} />
+          <PerchedKiwi where="stagesend" pose="lookup" tilt={2} />
           {STAGES.map(({ n, title, body, Visual }) => (
             <Reveal as="li" key={n} className="stage">
               <div className="stage-copy">
@@ -57,7 +58,6 @@ export default function HowItWorks() {
         </ol>
 
         <Reveal className="stages-coda">
-          <PerchedKiwi where="rule" pose="lookup" tilt={2} />
           <p className="statement">
             Not another system for your team to maintain. Kiwi manages the work behind it.
           </p>

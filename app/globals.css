@@ -966,6 +966,7 @@ button { font: inherit; color: inherit; }
 .perch-window  { width: 48px; top: -33px; right: 64px; }
 .perch-pipe    { width: 38px; top: -26px; right: 3%; }
 .perch-stages  { width: 40px; top: -28px; left: 12%; }
+.perch-stagesend { width: 42px; bottom: -2px; right: 7%; }
 .perch-footer  { width: 38px; top: -26px; right: 6px; }
 .perch-map     { width: 40px; bottom: 6px; left: 4px; }
 
@@ -980,7 +981,7 @@ button { font: inherit; color: inherit; }
 @media (max-width: 900px) { .perch-window { display: none; } }
 
 @media (max-width: 720px) {
-  .perch-panel-b, .perch-card, .perch-pipe, .perch-stages { display: none; }
+  .perch-panel-b, .perch-card, .perch-pipe, .perch-stages, .perch-stagesend { display: none; }
   .perch-panel { width: 36px; top: -25px; right: 16px; }
   .perch-rule  { width: 34px; top: -24px; right: 4%; }
 }

@@ -100,7 +100,7 @@ survives each deploy.
 
 ## Still outstanding
 
-- `hello@kiwicompliance.com` needs creating — it is on every call to action.
+- `william@kiwicompliance.com` needs creating — it is on every call to action.
 - Privacy and terms are honest holding pages, not solicitor-drafted documents.
 - "Client login" has no destination yet and points at the contact section.
 - No company number or registered office is stated; add them once incorporated.

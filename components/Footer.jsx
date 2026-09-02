@@ -56,7 +56,7 @@ export default function Footer() {
           <PerchedKiwi where="footer" pose="peck" tilt={0} />
           <p>© {new Date().getFullYear()} Kiwi Compliance</p>
           <p>
-            <a href="mailto:hello@kiwicompliance.com">hello@kiwicompliance.com</a>
+            <a href="mailto:william@kiwicompliance.com">william@kiwicompliance.com</a>
           </p>
         </div>
       </div>

@@ -25,7 +25,7 @@ export default function LegalPage({ title, children }) {
         <div className="container">
           <div className="footer-base">
             <p>© 2026 Kiwi Compliance</p>
-            <p><a href="mailto:hello@kiwicompliance.com">hello@kiwicompliance.com</a></p>
+            <p><a href="mailto:william@kiwicompliance.com">william@kiwicompliance.com</a></p>
           </div>
         </div>
       </footer>
