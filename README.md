@@ -1,115 +1,106 @@
 # Kiwi Compliance — website
 
-A static website hosted free on GitHub Pages. Every push to the deploy branch
-rebuilds and republishes it automatically; there is no server to keep running
-and nothing to pay for, so it stays up on its own.
+A Next.js site exported to static files and hosted free on GitHub Pages. Every
+push to the deploy branch rebuilds and republishes it automatically; there is no
+server to keep running and nothing to pay for, so it stays up on its own.
 
 **Live URL:** https://kiwicompliance.com
+
+## Running it locally
+
+```
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # static export into out/
+```
+
+`npm run build` writes plain HTML/CSS/JS to `out/`. That directory is what gets
+published — there is no server-side rendering at runtime.
 
 ## Layout
 
 ```
-site/                  everything that gets published
-  index.html           the homepage — all sections live here
-  privacy.html         privacy notice
-  terms.html           website terms
-  robots.txt
-  sitemap.xml
-  CNAME                the custom domain — do not delete
-  assets/
-    styles.css         all styling, tokens at the top
-    site.js            reveals, counters, dashboard tabs, mobile menu
-    favicon.svg        the Kiwi mark
-.github/workflows/deploy.yml   the auto-deploy pipeline
-ASSETS.md              what to supply for the multi-site photograph
+app/
+  layout.jsx          document shell, fonts, metadata
+  page.jsx            the homepage — composes the sections in order
+  globals.css         the whole design system: tokens first, then sections
+  privacy/, terms/    legal pages
+components/
+  Nav, Hero, HeroFlow           header and the inputs → Kiwi → outputs visual
+  MessToOrder                   the scroll transformation (section 2)
+  HowItWorks, Diagrams          four stages and their SVGs
+  BeforeAfter                   the tangle vs. the hub
+  Platform, platformData        the interactive product showcase
+  OperatingModel                the defining Kiwi-in-the-middle diagram
+  Technology, Services, MultiSite, Trust, About, FinalCta, Footer
+  Icons                         the line icon set
+  hooks.js                      in-view, scroll progress, count-up
+public/
+  CNAME               the custom domain — do not delete
+  favicon.svg, robots.txt, sitemap.xml
+.github/workflows/deploy.yml    build + publish pipeline
 ```
 
-Only the contents of `site/` are published. Anything outside it stays in the
-repo but never appears on the web.
+## Editing copy
+
+All copy lives in the component that renders it, as plain JSX text. There is no
+CMS. Change the words, commit, push — the deploy runs itself.
+
+The platform demo's data is in one place: `components/platformData.js`. The
+figures reconcile deliberately (2,291 current + 119 due + 28 action = 2,438
+assets, which is the 94.0% headline). If you change one, change the others.
 
 ## Design tokens
 
-Colours, type and spacing are CSS custom properties at the top of
-`styles.css`. Change a brand colour there and it updates everywhere.
+Colours, type and spacing are CSS custom properties at the top of `globals.css`.
 
 ```
-Ink            #10201B    near-black with a green undertone
-Kiwi Green     #2F6B4F    primary
-Fresh Kiwi     #A9D84A    accent — status dots, active tab, small marks only
-Warm White     #F6F7F2    page background
-Stone          #E8EBE4    quiet section background
-Muted Text     #68736D
+Ink            #10201B    primary dark
+Kiwi green     #316B4E    primary
+Fresh accent   #A7D94B    accents only — status marks, active states, one focal block
+Warm           #F6F7F2    page background
+Border         #DEE4DC
+Muted          #69756E
+Dark section   #13241E
 ```
 
-Three functional status colours sit alongside these for the dashboard
-(current / due / action required). They are legibility tools, not brand
-colours, and each has a lighter variant for use on dark backgrounds.
+Three functional status colours (current / due / action) sit alongside these,
+each with a lighter variant for dark backgrounds. Inside the platform window the
+dark-mode tokens are re-pointed to their light values, so the app UI keeps full
+contrast while sitting on a dark section.
 
-Type is Schibsted Grotesk for headings, Inter for body and UI, IBM Plex Mono
-for figures and dates — loaded from Google Fonts.
+Type is Geist, with Geist Mono for figures and dates, loaded from Google Fonts.
 
-## Editing the copy
+## Motion
 
-All page copy is plain HTML in `site/index.html`, in the order it appears on
-the page, with each section commented. There is no build step and no
-framework: edit the text, commit, push.
+Motion explains and then stops: entrance reveals of a few pixels, one count-up
+per figure, connector lines that draw once, and the scroll-linked mess-to-order
+transformation in section 2. Everything is disabled under
+`prefers-reduced-motion`. Scroll-driven values are never also CSS-transitioned —
+that combination lags behind the scroll and shows two states at once.
 
-The compliance dashboard is hand-written HTML in the same file — the hero
-panel near the top, and the five tabbed views under the "COMPLIANCE RECORD"
-comment. Its figures are illustrative and labelled as such on the page.
+## First-time Pages setup (once)
 
-## Making a change
+GitHub does not let a workflow turn Pages on for its own repository:
 
-Edit a file in `site/`, commit, and push. GitHub Actions publishes the new
-version within a minute or two. Progress is visible under the repo's
-**Actions** tab.
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions**
+2. **Settings → Pages → Custom domain:** enter `kiwicompliance.com` and Save.
 
-To preview locally before pushing, open `site/index.html` in a browser, or
-serve the folder:
+Step 2 matters: with an Actions-based deploy the `CNAME` file alone does not
+register the domain. The file still needs to stay in `public/` so the domain
+survives each deploy.
 
-```
-python3 -m http.server -d site 8000    # then visit http://localhost:8000
-```
+## DNS (IONOS)
 
-## First-time setup (required once)
+| Type  | Host  | Value |
+|-------|-------|-------|
+| A     | `@`   | `185.199.108.153`, `.109.153`, `.110.153`, `.111.153` |
+| AAAA  | `@`   | `2606:50c0:8000::153` … `8003::153` |
+| CNAME | `www` | `wtateo03-web.github.io` |
 
-GitHub does not let a workflow turn Pages on for its own repository, so this
-has to be done by hand a single time:
+## Still outstanding
 
-1. Go to **Settings → Pages** in this repo
-   (https://github.com/wtateo03-web/Kiwi-Compliance/settings/pages)
-2. Under **Build and deployment**, set **Source** to **GitHub Actions**
-
-That's it — no branch or folder to choose. The next push deploys
-automatically, or re-run the latest job from the **Actions** tab to publish
-immediately. After that this step never needs repeating.
-
-## Custom domain
-
-The site is served from **https://kiwicompliance.com** (registered at IONOS).
-
-`site/CNAME` holds the domain — GitHub Pages reads that file on every deploy,
-so it must stay in place. Deleting it drops the site back to the
-`wtateo03-web.github.io/Kiwi-Compliance` URL.
-
-DNS records required at IONOS:
-
-| Type  | Host  | Value                                                     |
-|-------|-------|-----------------------------------------------------------|
-| A     | `@`   | `185.199.108.153`                                          |
-| A     | `@`   | `185.199.109.153`                                          |
-| A     | `@`   | `185.199.110.153`                                          |
-| A     | `@`   | `185.199.111.153`                                          |
-| AAAA  | `@`   | `2606:50c0:8000::153`                                      |
-| AAAA  | `@`   | `2606:50c0:8001::153`                                      |
-| AAAA  | `@`   | `2606:50c0:8002::153`                                      |
-| AAAA  | `@`   | `2606:50c0:8003::153`                                      |
-| CNAME | `www` | `wtateo03-web.github.io`                                   |
-
-GitHub issues a free TLS certificate once DNS resolves; tick **Enforce HTTPS**
-in Settings → Pages after that appears.
-
-## Current status
-
-The published page is a placeholder. Real content replaces `site/index.html`
-once the copy and details are supplied.
+- `hello@kiwicompliance.com` needs creating — it is on every call to action.
+- Privacy and terms are honest holding pages, not solicitor-drafted documents.
+- "Client login" has no destination yet and points at the contact section.
+- No company number or registered office is stated; add them once incorporated.
