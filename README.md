@@ -9,14 +9,54 @@ and nothing to pay for, so it stays up on its own.
 ## Layout
 
 ```
-site/            everything that gets published
-  index.html     the home page
-  assets/        images, extra CSS/JS
+site/                  everything that gets published
+  index.html           the homepage — all sections live here
+  privacy.html         privacy notice
+  terms.html           website terms
+  robots.txt
+  sitemap.xml
+  CNAME                the custom domain — do not delete
+  assets/
+    styles.css         all styling, tokens at the top
+    site.js            reveals, counters, dashboard tabs, mobile menu
+    favicon.svg        the Kiwi mark
 .github/workflows/deploy.yml   the auto-deploy pipeline
+ASSETS.md              what to supply for the multi-site photograph
 ```
 
-Only the contents of `site/` are published. Anything outside it (this README,
-the workflow) stays in the repo but never appears on the web.
+Only the contents of `site/` are published. Anything outside it stays in the
+repo but never appears on the web.
+
+## Design tokens
+
+Colours, type and spacing are CSS custom properties at the top of
+`styles.css`. Change a brand colour there and it updates everywhere.
+
+```
+Ink            #10201B    near-black with a green undertone
+Kiwi Green     #2F6B4F    primary
+Fresh Kiwi     #A9D84A    accent — status dots, active tab, small marks only
+Warm White     #F6F7F2    page background
+Stone          #E8EBE4    quiet section background
+Muted Text     #68736D
+```
+
+Three functional status colours sit alongside these for the dashboard
+(current / due / action required). They are legibility tools, not brand
+colours, and each has a lighter variant for use on dark backgrounds.
+
+Type is Schibsted Grotesk for headings, Inter for body and UI, IBM Plex Mono
+for figures and dates — loaded from Google Fonts.
+
+## Editing the copy
+
+All page copy is plain HTML in `site/index.html`, in the order it appears on
+the page, with each section commented. There is no build step and no
+framework: edit the text, commit, push.
+
+The compliance dashboard is hand-written HTML in the same file — the hero
+panel near the top, and the five tabbed views under the "COMPLIANCE RECORD"
+comment. Its figures are illustrative and labelled as such on the page.
 
 ## Making a change
 
