@@ -1248,3 +1248,250 @@ button { font: inherit; color: inherit; }
   margin-top: 32px; padding-left: 16px; border-left: 2px solid var(--kiwi);
   font-size: 0.95rem; line-height: 1.6; color: var(--ink);
 }
+
+/* ==========================================================================
+   Platform — the operating record
+   Comms, invoicing, intake and register reconciliation. These live inside
+   .pf-window, which is a light island in a dark section, so every colour
+   here is stated against the light palette explicitly.
+   ========================================================================== */
+
+/* --- overview: what Kiwi did ------------------------------------------- */
+.week { display: grid; gap: 14px; }
+@media (min-width: 640px) { .week { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; } }
+.week li {
+  display: flex; flex-direction: column; gap: 3px;
+  padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px;
+  background: var(--white);
+}
+.week-n { font-size: 1.32rem; font-weight: 500; letter-spacing: -0.03em; color: var(--ink); }
+.week-l { font-size: 0.76rem; line-height: 1.35; color: var(--muted); }
+.week-needs {
+  margin-top: 16px; display: flex; align-items: baseline; gap: 10px;
+  font-size: 0.9rem; color: var(--ink);
+}
+.week-needs-n {
+  display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 7px;
+  border-radius: 6px; background: var(--kiwi); color: var(--warm);
+  font-size: 0.8rem; position: relative; top: 3px;
+}
+
+/* --- comms: thread list ------------------------------------------------- */
+.threads { display: grid; gap: 12px; }
+.threads > li { min-width: 0; }
+.thread {
+  display: grid; gap: 7px; width: 100%; text-align: left;
+  padding: 18px 20px; border: 1px solid var(--border); border-radius: 12px;
+  background: var(--white); cursor: pointer;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+.thread:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+.thread-top { display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; }
+.thread-subject { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+.thread-meta { font-size: 0.78rem; color: var(--muted); }
+.thread-summary { font-size: 0.9rem; line-height: 1.55; color: var(--muted); }
+.thread-action { font-size: 0.78rem; color: var(--kiwi); }
+.thread-action.is-you { color: var(--action); font-weight: 500; }
+
+/* --- comms: one thread -------------------------------------------------- */
+.th-detail-head {
+  display: flex; gap: 16px; align-items: flex-start; justify-content: space-between;
+  padding-bottom: 16px; border-bottom: 1px solid var(--border);
+}
+.th-detail-subject { font-size: 1.1rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); }
+.th-detail-meta { margin-top: 5px; font-size: 0.8rem; color: var(--muted); }
+.th-detail-summary {
+  margin-top: 16px; padding-left: 14px; border-left: 2px solid var(--kiwi);
+  font-size: 0.92rem; line-height: 1.6; color: var(--ink);
+}
+
+.msgs { margin-top: 24px; display: grid; gap: 14px; }
+.msg {
+  min-width: 0; padding: 16px 18px; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--white);
+}
+/* Outbound from Kiwi is tinted so the mailbox reads at a glance as ours. */
+.msg.is-out { border-color: #CFE0D4; background: var(--kiwi-soft); }
+.msg.is-note { border-left: 3px solid var(--kiwi); }
+.msg.is-call { background: var(--warm-sunk); border-style: dashed; }
+.msg.is-sys { background: transparent; border-style: dashed; }
+
+.msg-head { display: flex; gap: 12px; align-items: baseline; justify-content: space-between; }
+.msg-dir {
+  font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--kiwi); font-weight: 500;
+}
+.msg.is-in .msg-dir, .msg.is-sys .msg-dir { color: var(--muted); }
+.msg-time { font-size: 0.72rem; color: var(--muted); }
+.msg-people { margin-top: 7px; font-size: 0.8rem; color: var(--ink); }
+.msg-arrow { margin: 0 7px; color: var(--muted); }
+.msg-to { color: var(--muted); }
+.msg-body {
+  margin-top: 10px; font-size: 0.9rem; line-height: 1.62; color: var(--ink);
+  white-space: pre-wrap;
+}
+.msg.is-sys .msg-body { color: var(--muted); font-size: 0.86rem; }
+.msg-foot { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.msg-tag {
+  font-size: 0.68rem; letter-spacing: 0.03em; padding: 3px 8px; border-radius: 5px;
+  background: rgba(16, 32, 27, 0.06); color: var(--muted);
+}
+.msg-attach { font-size: 0.72rem; color: var(--kiwi); }
+
+/* --- invoicing ---------------------------------------------------------- */
+.inv-quarter { margin-top: 10px; font-size: 0.75rem; color: var(--muted); }
+
+.inv-checks { display: grid; gap: 10px; }
+.inv-checks li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 12px; align-items: start; }
+.inv-check-n {
+  display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid var(--border-strong); font-size: 0.7rem; color: var(--kiwi);
+}
+.inv-check-body { display: grid; gap: 2px; min-width: 0; }
+.inv-check-label { font-size: 0.9rem; font-weight: 500; color: var(--ink); }
+.inv-check-note { font-size: 0.82rem; color: var(--muted); }
+
+.invoices { display: grid; gap: 12px; }
+.invoices > li {
+  min-width: 0; padding: 16px 18px; border: 1px solid var(--border);
+  border-radius: 12px; background: var(--white);
+}
+.inv-top { display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; }
+.inv-ref { font-size: 0.76rem; color: var(--muted); }
+.inv-provider { margin-top: 3px; font-size: 0.98rem; font-weight: 500; color: var(--ink); }
+.inv-meta { margin-top: 3px; font-size: 0.78rem; color: var(--muted); }
+.inv-right { text-align: right; display: grid; gap: 4px; justify-items: end; }
+.inv-amount { font-size: 1.06rem; font-weight: 500; letter-spacing: -0.02em; color: var(--ink); }
+.inv-quoted { font-size: 0.72rem; color: var(--due); text-decoration: line-through; }
+.inv-flag {
+  margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);
+  font-size: 0.84rem; line-height: 1.55; color: var(--muted);
+}
+
+/* The commercial model, restated where a finance reader will look for it. */
+.inv-fee {
+  display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;
+  padding: 20px 22px; border-radius: 12px;
+  background: var(--kiwi-soft); border: 1px solid #CFE0D4;
+}
+.inv-fee-n { font-size: 1.9rem; font-weight: 500; letter-spacing: -0.035em; color: var(--kiwi); }
+.inv-fee-l { font-size: 0.95rem; font-weight: 500; color: var(--ink); }
+.inv-fee-note { margin-top: 7px; max-width: 52ch; font-size: 0.85rem; line-height: 1.6; color: var(--muted); }
+
+/* --- intake ------------------------------------------------------------- */
+.intake-drop {
+  margin-bottom: 22px; padding: 30px 24px; text-align: center;
+  border: 2px dashed var(--border-strong); border-radius: 14px;
+  background: var(--warm-sunk);
+}
+.intake-drop-mark {
+  display: inline-grid; place-items: center; width: 34px; height: 34px;
+  border-radius: 50%; background: var(--kiwi); color: var(--warm); font-size: 1rem;
+}
+.intake-drop-title { margin-top: 12px; font-size: 1.06rem; font-weight: 600; color: var(--ink); }
+.intake-drop-sub { margin-top: 6px; font-size: 0.82rem; color: var(--muted); }
+
+.intake-flow { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.intake-flow li {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.88rem; color: var(--ink);
+}
+.intake-flow-n {
+  display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--kiwi); color: var(--warm); font-size: 0.68rem;
+}
+
+.intake-list { display: grid; gap: 12px; }
+.intake-list > li {
+  min-width: 0; padding: 15px 18px; border: 1px solid var(--border);
+  border-radius: 12px; background: var(--white);
+}
+.intake-top { display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; }
+.intake-id { min-width: 0; }
+.intake-file { font-size: 0.86rem; color: var(--ink); word-break: break-word; }
+.intake-meta { margin-top: 4px; font-size: 0.76rem; color: var(--muted); }
+.intake-right { display: grid; gap: 5px; justify-items: end; flex: 0 0 auto; }
+.intake-elapsed { font-size: 0.78rem; color: var(--muted); }
+.intake-outcome {
+  margin-top: 11px; padding-top: 11px; border-top: 1px solid var(--border);
+  font-size: 0.84rem; line-height: 1.55; color: var(--muted);
+}
+
+/* --- register reconciliation -------------------------------------------- */
+.recon { width: 100%; max-width: 680px; border-collapse: collapse; }
+.recon th, .recon td {
+  text-align: left; padding: 12px 0; border-bottom: 1px solid var(--border);
+  vertical-align: baseline;
+}
+.recon th { font-weight: 400; font-size: 0.92rem; color: var(--ink); }
+.recon-label { display: block; }
+.recon-note {
+  display: block; margin-top: 3px; max-width: 52ch;
+  font-size: 0.79rem; line-height: 1.5; color: var(--muted);
+}
+.recon-v { text-align: right; font-size: 0.98rem; color: var(--ink); white-space: nowrap; }
+.recon-sign { display: inline-block; width: 1em; color: var(--muted); }
+.recon tr.is-action .recon-v, .recon tr.is-action .recon-sign { color: var(--action); }
+.recon tr.is-due .recon-v, .recon tr.is-due .recon-sign { color: var(--due); }
+.recon-total th, .recon-total td { border-bottom: 0; padding-top: 16px; font-weight: 600; }
+.recon-total .recon-v { font-size: 1.2rem; letter-spacing: -0.02em; }
+
+/* --- provider records --------------------------------------------------- */
+.prv-list { display: grid; gap: 14px; }
+.prv-list > li {
+  min-width: 0; padding: 20px 22px; border: 1px solid var(--border);
+  border-radius: 12px; background: var(--white);
+}
+.prv-top { display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; }
+.prv-name { font-size: 1.02rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); }
+.prv-field { margin-top: 3px; font-size: 0.84rem; color: var(--muted); }
+.prv-sourced {
+  flex: 0 0 auto; font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 4px 9px; border-radius: 5px; white-space: nowrap;
+}
+.prv-sourced.is-yours { background: rgba(16,32,27,0.06); color: var(--muted); }
+.prv-sourced.is-kiwi { background: var(--kiwi-soft); color: var(--kiwi); }
+.prv-sourced.is-insurer { background: rgba(176,125,34,0.12); color: var(--due); }
+
+.prv-facts {
+  margin-top: 18px; display: grid; gap: 12px 24px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+.prv-facts dt { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.prv-facts dd { margin-top: 3px; font-size: 0.88rem; color: var(--ink); }
+.prv-wrap { overflow-wrap: anywhere; }
+.prv-role { display: block; font-size: 0.78rem; color: var(--muted); }
+
+.prv-metrics {
+  margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border);
+  display: flex; flex-wrap: wrap; gap: 14px 30px;
+}
+.prv-metric { display: flex; flex-direction: column; gap: 2px; }
+.prv-metric-n { font-size: 1.14rem; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); }
+.prv-metric-n.is-due { color: var(--due); }
+.prv-metric-n.is-action { color: var(--action); }
+.prv-metric-l { font-size: 0.72rem; color: var(--muted); }
+.prv-note { margin-top: 14px; font-size: 0.85rem; line-height: 1.58; color: var(--muted); }
+
+/* The rail carries one more line now that it names who operates the thing. */
+.pf-rail-foot { display: none; }
+@media (min-width: 860px) {
+  .pf-rail { display: flex; flex-direction: column; }
+  .pf-rail-foot {
+    display: block; margin-top: auto; padding: 20px 18px 4px;
+    font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted-dark);
+  }
+}
+
+/* Below the tablet breakpoint these head rows have nowhere to put a right
+   column, so they stack rather than squeezing names into a two-word gutter. */
+@media (max-width: 620px) {
+  .inv-top, .intake-top, .prv-top, .th-detail-head { flex-direction: column; gap: 10px; }
+  .inv-right { text-align: left; justify-items: start; }
+  .intake-right { justify-items: start; }
+  .inv-right, .intake-right { flex-direction: row; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .thread-top { flex-direction: column; gap: 8px; }
+  .inv-fee { gap: 12px; }
+  .week { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
