@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiwi Compliance</title>
+<meta name="description" content="Kiwi Compliance — site coming soon.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥝</text></svg>">
+<style>
+  :root {
+    --bg: #fbfaf7;
+    --surface: #ffffff;
+    --text: #1c1d1a;
+    --muted: #63665f;
+    --line: #e3e1d9;
+    --accent: #2f6b3f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141614;
+      --surface: #1c1f1c;
+      --text: #f0efe9;
+      --muted: #9b9f96;
+      --line: #2e322d;
+      --accent: #7fc08d;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+  }
+  main {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 40px 36px;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+  }
+  .mark { font-size: 40px; line-height: 1; }
+  h1 {
+    font-size: clamp(1.6rem, 5vw, 2.1rem);
+    letter-spacing: -0.02em;
+    margin: 16px 0 8px;
+  }
+  p { color: var(--muted); margin: 0 auto; max-width: 40ch; }
+  .status {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 6px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  footer {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+  <main>
+    <div class="mark" aria-hidden="true">🥝</div>
+    <h1>Kiwi Compliance</h1>
+    <p>This site is being built. Hosting is live and the deployment pipeline is running — content is on its way.</p>
+    <span class="status">Placeholder</span>
+    <footer>Hosted on GitHub Pages</footer>
+  </main>
+</body>
+</html>
