@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Reveal from './Reveal';
+import { PerchedKiwi } from './KiwiMarks';
+import { FruitCorner } from './Decor';
 import { useInView } from './hooks';
 import {
   ESTATE, STATUS_SPLIT, SITES, ASSETS, UPCOMING, JOBS,
@@ -51,6 +53,7 @@ export default function Platform() {
 
   return (
     <section className="section dark pf-section" id="platform">
+      <FruitCorner where="platform" />
       <div className="container">
         <Reveal className="pf-head">
           <div>
@@ -65,6 +68,8 @@ export default function Platform() {
       </div>
 
       <div className="container-wide">
+        <div className="pf-stage">
+        <PerchedKiwi where="window" pose="oneleg" tilt={-3} />
         <Reveal className="pf-window">
           {/* ------------------------------------------------------- rail */}
           <nav className="pf-rail" aria-label="Platform demo views">
@@ -350,6 +355,8 @@ export default function Platform() {
             </div>
           </div>
         </Reveal>
+
+        </div>
 
         <p className="pf-note">Illustrative interface. Sites, assets and dates are examples, not customer records.</p>
       </div>

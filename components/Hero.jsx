@@ -1,9 +1,12 @@
 import HeroFlow from './HeroFlow';
+import { PerchedKiwi } from './KiwiMarks';
+import { FruitCorner } from './Decor';
 import Reveal from './Reveal';
 
 export default function Hero() {
   return (
     <section className="hero" id="top">
+      <FruitCorner where="hero" />
       <div className="container hero-grid">
         <Reveal className="hero-copy">
           <p className="eyebrow">Physical compliance, managed</p>
@@ -25,7 +28,10 @@ export default function Hero() {
             </a>
           </div>
 
-          <p className="hero-strap">One schedule. One record. One accountable partner.</p>
+          <p className="hero-strap">
+            <PerchedKiwi where="strap" pose="walk" flip tilt={0} />
+            One schedule. One record. One accountable partner.
+          </p>
         </Reveal>
 
         <div className="hero-visual">

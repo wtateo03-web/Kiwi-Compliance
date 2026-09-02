@@ -1,4 +1,5 @@
 import Reveal from './Reveal';
+import { PerchedKiwi } from './KiwiMarks';
 import { Certificate, Layers, Spreadsheet, Clock, Engineer, Tick } from './Icons';
 
 const PIPELINE = [
@@ -29,6 +30,7 @@ export default function Technology() {
         </Reveal>
 
         <Reveal>
+          <PerchedKiwi where="pipe" pose="alert" flip tilt={0} />
           <ol className="pipe">
             {PIPELINE.map(({ Icon, label, note, by }, i) => (
               <li key={label} className={`pipe-step is-${by}`}>

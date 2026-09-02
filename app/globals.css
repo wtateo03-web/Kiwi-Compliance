@@ -868,65 +868,129 @@ button { font: inherit; color: inherit; }
 }
 
 /* ==========================================================================
-   Brand marks — kiwi bird and kiwi fruit
-   Small, occasional, and always doing a job: the logo, a few perches, and
-   list markers. Nothing loops; the hops only happen on hover or focus.
+   Brand marks — kiwi birds and kiwi fruit
+   Birds stand on edges and rules; fruit drifts in from corners and piles up
+   in the closing panel. Everything decorative is aria-hidden and sits behind
+   the content. Nothing loops.
    ========================================================================== */
-.kiwi-bird { display: block; width: 100%; height: auto; }
-.kiwi-slice { display: block; width: 1em; height: 1em; flex-shrink: 0; }
+.kiwi { display: block; width: 100%; height: auto; }
+.kiwi-eye { fill: var(--kiwi-eye, #F6F7F2); }
+.dark { --kiwi-eye: #13241E; }
+.kiwi-fruit { display: block; width: 100%; height: auto; }
 
-.logo-mark { width: 30px; height: auto; color: var(--ink); }
+/* --- logo --------------------------------------------------------------- */
+.logo-mark { width: 34px; color: var(--ink); }
 .dark .logo-mark { color: var(--warm); }
 .logo:hover .logo-mark { animation: kiwi-hop .62s var(--ease); }
 
 /* --- perches ------------------------------------------------------------ */
-.perch { position: absolute; z-index: 2; pointer-events: auto; line-height: 0; }
-.perch-bird {
-  width: 100%;
-  color: var(--ink);
-  transform: rotate(var(--tilt, 0deg));
-  transform-origin: 60% 100%;
-}
+/* Feet sit at 87.8% of the drawing's height, so the offset that lands them
+   on a line is width * 0.694. Every value below is that figure. */
+.perch { position: absolute; z-index: 3; line-height: 0; }
+.perch-bird { width: 100%; color: var(--ink); transform: rotate(var(--tilt, 0deg)); transform-origin: 55% 92%; }
 .dark .perch-bird { color: var(--warm); }
-.perch:hover .perch-bird,
-.perch:focus-visible .perch-bird { animation: kiwi-hop .62s var(--ease); }
+.perch:hover .perch-bird { animation: kiwi-hop .62s var(--ease); }
 
 @keyframes kiwi-hop {
   0%   { transform: translateY(0)    rotate(var(--tilt, 0deg)); }
-  26%  { transform: translateY(-7px) rotate(calc(var(--tilt, 0deg) - 8deg)); }
+  26%  { transform: translateY(-8px) rotate(calc(var(--tilt, 0deg) - 7deg)); }
   52%  { transform: translateY(0)    rotate(var(--tilt, 0deg)); }
-  72%  { transform: translateY(-2px) rotate(calc(var(--tilt, 0deg) - 2deg)); }
+  74%  { transform: translateY(-3px) rotate(calc(var(--tilt, 0deg) - 2deg)); }
   100% { transform: translateY(0)    rotate(var(--tilt, 0deg)); }
 }
 
-/* Standing on the top edge of the hero panel. */
-.perch-panel { top: -22px; right: 34px; width: 30px; }
+.perch-panel   { width: 46px; top: -32px; right: 40px; }
+.perch-panel-b { width: 32px; top: -22px; left: 30px; }
+.perch-rule    { width: 42px; top: -29px; right: 7%; }
+.perch-card    { width: 38px; top: -26px; right: 18px; }
+.perch-window  { width: 48px; top: -33px; right: 64px; }
+.perch-pipe    { width: 38px; top: -26px; right: 3%; }
+.perch-stages  { width: 40px; top: -28px; left: 12%; }
+.perch-footer  { width: 38px; top: -26px; right: 6px; }
+.perch-map     { width: 40px; bottom: 6px; left: 4px; }
 
-/* Standing on a section rule — the parent supplies the border it stands on. */
-.perch-rule { top: -21px; right: 8%; width: 28px; }
+/* Two that walk along a line of type rather than a rule. */
+.perch-strap, .perch-cta {
+  position: relative; display: inline-block; width: 26px;
+  margin-right: 9px; top: 5px;
+}
 
-/* Down in the footer, on the base rule. */
-.perch-footer { top: -20px; right: 2px; width: 27px; }
+/* The platform copy stacks under the heading here, which is exactly where
+   this bird stands — so it steps aside first. */
+@media (max-width: 900px) { .perch-window { display: none; } }
 
-/* --- fruit as a marker -------------------------------------------------- */
-.kiwi-slice { transition: transform .5s var(--ease); }
-.ms-points li:hover .kiwi-slice,
-.svc-row:hover .kiwi-slice,
-.ab-question:hover .kiwi-slice { transform: rotate(180deg); }
+@media (max-width: 720px) {
+  .perch-panel-b, .perch-card, .perch-pipe, .perch-stages { display: none; }
+  .perch-panel { width: 36px; top: -25px; right: 16px; }
+  .perch-rule  { width: 34px; top: -24px; right: 4%; }
+}
+
+/* --- fruit drifting in from a corner ------------------------------------ */
+.fruit-corner { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.fruit-corner .kiwi-fruit { position: absolute; }
+
+.fruit-corner-hero { color: rgba(49, 107, 78, 0.19); }
+.fruit-corner-hero .fc-a { width: 260px; top: -78px; right: -74px; transform: rotate(-12deg); }
+.fruit-corner-hero .fc-b { width: 132px; top: 132px; right: -58px; transform: rotate(16deg); }
+.fruit-corner-hero .fc-c { width: 104px; top: 44px; right: 128px; transform: rotate(-24deg); }
+
+.fruit-corner-ba { color: rgba(49, 107, 78, 0.17); }
+.fruit-corner-ba .fc-a { width: 220px; bottom: -74px; left: -68px; transform: rotate(14deg); }
+.fruit-corner-ba .fc-b { width: 116px; bottom: 44px; left: 96px; transform: rotate(-20deg); }
+.fruit-corner-ba .fc-c { width: 92px;  bottom: -30px; left: 150px; transform: rotate(8deg); }
+
+.fruit-corner-platform { color: rgba(167, 217, 75, 0.16); }
+.fruit-corner-platform .fc-a { width: 300px; top: -96px; left: -128px; transform: rotate(18deg); }
+.fruit-corner-platform .fc-b { width: 140px; top: 190px; left: -70px; transform: rotate(-14deg); }
+.fruit-corner-platform .fc-c { width: 110px; top: 66px; left: 128px; transform: rotate(26deg); }
+
+@media (max-width: 900px) {
+  .fruit-corner-hero .fc-c, .fruit-corner-ba .fc-b, .fruit-corner-platform .fc-c { display: none; }
+}
+
+/* --- the pile in the closing panel -------------------------------------- */
+.fruit-pile {
+  position: absolute; right: -18px; bottom: -22px;
+  width: 430px; height: 260px; pointer-events: none; z-index: 0;
+  color: rgba(246, 247, 242, 0.5);
+}
+.fruit-pile .kiwi-fruit { position: absolute; filter: drop-shadow(0 12px 24px rgba(0,0,0,.4)); }
+.fruit-pile .fp-1 { width: 88px;  bottom: 118px; right: 268px; transform: rotate(-12deg); }
+.fruit-pile .fp-2 { width: 132px; bottom: 60px;  right: 96px;  transform: rotate(12deg); }
+.fruit-pile .fp-3 { width: 120px; bottom: 18px;  right: 168px; transform: rotate(-16deg); }
+.fruit-pile .fp-4 { width: 104px; bottom: 122px; right: 12px;  transform: rotate(22deg); }
+.fruit-pile .fp-5 { width: 92px;  bottom: 36px;  right: 282px; transform: rotate(6deg); }
+.fruit-pile .fp-6 { width: 118px; bottom: 6px;   right: 22px;  transform: rotate(-4deg); }
+
+@media (max-width: 1000px) { .fruit-pile { opacity: .55; right: -120px; } }
+@media (max-width: 700px)  { .fruit-pile { display: none; } }
+
+/* --- fruit as a small marker -------------------------------------------- */
+.kiwi-fruit { transition: transform .6s var(--ease); }
+.ms-points li:hover .kiwi-fruit,
+.svc-row:hover .kiwi-fruit,
+.ab-question:hover .kiwi-fruit { transform: rotate(180deg); }
 
 .ms-points li::before { content: none; }
-.ms-points .kiwi-slice { width: 15px; height: 15px; }
-
-.svc-icon-kiwi { color: inherit; }
-.svc-icon-kiwi .kiwi-slice { width: 21px; height: 21px; }
-
+.ms-points .kiwi-fruit { width: 17px; }
+.svc-icon-kiwi .kiwi-fruit { width: 22px; }
 .ab-question { display: flex; align-items: baseline; gap: 14px; }
-.ab-question .kiwi-slice { width: 20px; height: 20px; position: relative; top: 3px; }
+.ab-question .kiwi-fruit { width: 22px; position: relative; top: 4px; }
 
-/* The perch containers need a positioned ancestor to sit against. */
-.stages-coda, .tr-item, .footer-base { position: relative; }
+/* --- the sections the decoration lives in ------------------------------- */
+.hero, .ba-section, .pf-section, .cta { position: relative; overflow: hidden; }
+.hero > .container,
+.ba-section > .container,
+.pf-section > .container,
+.pf-section > .container-wide,
+.cta > .container { position: relative; z-index: 1; }
+
+.stages-coda, .tr-item, .footer-base, .svc-list, .ba-panel,
+.pf-stage, .ms-map, .stages, .pipe { position: relative; }
+/* The window clips its own corners, so the bird stands on this wrapper. */
+.pf-stage { position: relative; }
 
 @media (prefers-reduced-motion: reduce) {
   .perch:hover .perch-bird, .logo:hover .logo-mark { animation: none; }
-  .kiwi-slice { transition: none; }
+  .kiwi-fruit { transition: none; }
 }

@@ -152,7 +152,8 @@ export default function HeroFlow() {
         updates the compliance record.
       </figcaption>
 
-      <PerchedKiwi where="panel" tilt={-4} />
+      <PerchedKiwi where="panel" pose="peck" tilt={-3} />
+      <PerchedKiwi where="panel-b" pose="walk" flip tilt={2} />
 
       <svg className="flow-links" ref={svgRef} aria-hidden="true">
         <defs>

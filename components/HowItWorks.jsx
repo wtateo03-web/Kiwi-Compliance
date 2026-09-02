@@ -39,6 +39,7 @@ export default function HowItWorks() {
         </Reveal>
 
         <ol className="stages">
+          <PerchedKiwi where="stages" pose="walk" flip tilt={0} />
           {STAGES.map(({ n, title, body, Visual }) => (
             <Reveal as="li" key={n} className="stage">
               <div className="stage-copy">
@@ -54,7 +55,7 @@ export default function HowItWorks() {
         </ol>
 
         <Reveal className="stages-coda">
-          <PerchedKiwi where="rule" tilt={3} />
+          <PerchedKiwi where="rule" pose="lookup" tilt={2} />
           <p className="statement">You don&rsquo;t need another system to operate. Kiwi operates it for you.</p>
         </Reveal>
       </div>

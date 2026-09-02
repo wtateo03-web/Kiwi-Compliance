@@ -1,4 +1,6 @@
 import Reveal from './Reveal';
+import { PerchedKiwi } from './KiwiMarks';
+import { FruitCorner } from './Decor';
 
 /* Deliberately tangled: eight relationships, one person in the middle. */
 const BEFORE_NODES = [
@@ -101,7 +103,8 @@ function WithKiwiDiagram() {
 
 export default function BeforeAfter() {
   return (
-    <section className="section sunk">
+    <section className="section sunk ba-section">
+      <FruitCorner where="ba" />
       <div className="container">
         <Reveal>
           <p className="eyebrow">Before / with Kiwi</p>
@@ -118,6 +121,7 @@ export default function BeforeAfter() {
           <Reveal className="ba-panel ba-panel-good" delay={90}>
             <h3 className="ba-title">With Kiwi</h3>
             <div className="ba-visual"><WithKiwiDiagram /></div>
+            <PerchedKiwi where="card" pose="alert" flip tilt={0} />
             <p className="ba-note ba-note-good">One relationship. You send us what&rsquo;s due, we send back what&rsquo;s done.</p>
           </Reveal>
         </div>

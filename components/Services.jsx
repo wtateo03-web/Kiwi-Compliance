@@ -1,5 +1,6 @@
 import Reveal from './Reveal';
 import { KiwiSlice } from './KiwiMarks';
+import { PerchedKiwi } from './KiwiMarks';
 import { Lift, Ventilation, PressureVessel, Electrical, Flame, Droplet } from './Icons';
 
 const SERVICES = [
@@ -21,6 +22,7 @@ export default function Services() {
         </Reveal>
 
         <Reveal className="svc-list">
+          <PerchedKiwi where="rule" pose="walk" tilt={0} />
           {SERVICES.map(({ Icon, name, desc }) => (
             <div key={name} className="svc-row">
               <span className="svc-icon"><Icon width="21" height="21" /></span>
@@ -29,7 +31,7 @@ export default function Services() {
             </div>
           ))}
           <div className="svc-row svc-row-more">
-            <span className="svc-icon svc-icon-kiwi"><KiwiSlice /></span>
+            <span className="svc-icon svc-icon-kiwi"><KiwiSlice tone="simple" /></span>
             <h3 className="svc-name">And other physical compliance requirements.</h3>
             <p className="svc-desc">Tell us what you look after and we&rsquo;ll tell you what we can cover.</p>
           </div>

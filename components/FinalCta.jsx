@@ -1,8 +1,11 @@
 import Reveal from './Reveal';
+import { FruitPile } from './Decor';
+import { PerchedKiwi } from './KiwiMarks';
 
 export default function FinalCta() {
   return (
     <section className="section cta dark" id="contact">
+      <FruitPile />
       <div className="container">
         <Reveal className="cta-inner">
           <h2 className="h2 cta-head">Show us the mess.</h2>
@@ -16,7 +19,10 @@ export default function FinalCta() {
             </a>
             <a className="btn btn-ghost" href="mailto:hello@kiwicompliance.com">hello@kiwicompliance.com</a>
           </div>
-          <p className="cta-small">No perfect asset register required.</p>
+          <p className="cta-small">
+            <PerchedKiwi where="cta" pose="peck" flip tilt={0} />
+            No perfect asset register required.
+          </p>
         </Reveal>
       </div>
     </section>

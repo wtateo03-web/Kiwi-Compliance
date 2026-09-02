@@ -1,5 +1,5 @@
 import Reveal from './Reveal';
-import { KiwiSlice } from './KiwiMarks';
+import { KiwiSlice, PerchedKiwi } from './KiwiMarks';
 
 /* Real UK coordinates, projected. The faint points trace the landmass by
    where places actually are — no hand-drawn coastline to get wrong. */
@@ -58,7 +58,7 @@ export default function MultiSite() {
               'Records held to one consistent standard',
             ].map((t) => (
               <li key={t}>
-                <KiwiSlice />
+                <KiwiSlice tone="simple" />
                 {t}
               </li>
             ))}
@@ -71,6 +71,7 @@ export default function MultiSite() {
         </Reveal>
 
         <Reveal className="ms-map" delay={80}>
+          <PerchedKiwi where="map" pose="alert" flip tilt={0} />
           <svg viewBox={`0 0 ${W} ${H}`} role="img"
                aria-label="Twelve estate sites spread across the United Kingdom, each connected back to Kiwi.">
             {PLACES.map(([lat, lon], i) => (
