@@ -1,4 +1,5 @@
 import Reveal from './Reveal';
+import { KiwiSlice } from './KiwiMarks';
 
 export default function About() {
   return (
@@ -13,7 +14,7 @@ export default function About() {
             The people responsible for buildings and equipment should be able to answer one question
             quickly:
           </p>
-          <p className="ab-question">Are we compliant?</p>
+          <p className="ab-question"><KiwiSlice />Are we compliant?</p>
           <p className="muted">
             Kiwi combines specialist field services with modern technology to make physical compliance
             easier to organise, easier to track and easier to prove.

@@ -1,4 +1,5 @@
 import Reveal from './Reveal';
+import { PerchedKiwi } from './KiwiMarks';
 import { IntakeDiagram, StructureDiagram, RoutingDiagram, RecordDiagram } from './Diagrams';
 
 const STAGES = [
@@ -53,6 +54,7 @@ export default function HowItWorks() {
         </ol>
 
         <Reveal className="stages-coda">
+          <PerchedKiwi where="rule" tilt={3} />
           <p className="statement">You don&rsquo;t need another system to operate. Kiwi operates it for you.</p>
         </Reveal>
       </div>

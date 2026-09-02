@@ -1,4 +1,5 @@
 import Reveal from './Reveal';
+import { KiwiSlice } from './KiwiMarks';
 
 /* Real UK coordinates, projected. The faint points trace the landmass by
    where places actually are — no hand-drawn coastline to get wrong. */
@@ -51,9 +52,16 @@ export default function MultiSite() {
             what is due and what needs attention.
           </p>
           <ul className="ms-points">
-            <li>Central visibility of every site</li>
-            <li>Work routed to local specialists</li>
-            <li>Records held to one consistent standard</li>
+            {[
+              'Central visibility of every site',
+              'Work routed to local specialists',
+              'Records held to one consistent standard',
+            ].map((t) => (
+              <li key={t}>
+                <KiwiSlice />
+                {t}
+              </li>
+            ))}
           </ul>
           <p className="btn-row">
             <a className="link-arrow" href="#contact">

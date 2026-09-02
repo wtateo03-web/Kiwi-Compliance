@@ -1,4 +1,5 @@
 import Logo from './Logo';
+import { PerchedKiwi } from './KiwiMarks';
 
 const COLUMNS = [
   {
@@ -50,6 +51,7 @@ export default function Footer() {
         {/* Add "Ltd", the registered company number and registered office here
             once incorporated — not before. */}
         <div className="footer-base">
+          <PerchedKiwi where="footer" tilt={4} />
           <p>© {new Date().getFullYear()} Kiwi Compliance</p>
           <p>
             <a href="mailto:hello@kiwicompliance.com">hello@kiwicompliance.com</a>

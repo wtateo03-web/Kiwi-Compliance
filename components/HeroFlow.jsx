@@ -3,6 +3,7 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useInView, useCountUp } from './hooks';
 import { Spreadsheet, Certificate, Email, Calendar, Invoice, Tick } from './Icons';
+import { PerchedKiwi } from './KiwiMarks';
 
 const INPUTS = [
   { Icon: Spreadsheet, label: 'Site Register.xlsx', kind: 'Spreadsheet' },
@@ -150,6 +151,8 @@ export default function HeroFlow() {
         into Kiwi, which arranges the inspection, stores the certificate, sets the next due date and
         updates the compliance record.
       </figcaption>
+
+      <PerchedKiwi where="panel" tilt={-4} />
 
       <svg className="flow-links" ref={svgRef} aria-hidden="true">
         <defs>

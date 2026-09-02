@@ -93,38 +93,49 @@ export function StructureDiagram() {
   );
 }
 
-/* 03 — Kiwi routing work out to the right specialist, and results back. */
+/* 03 — Kiwi routing work out to the right specialist, and the report coming
+   back to the middle. The two-way exchange with the estate is the point:
+   we take the due, we return the done. */
 export function RoutingDiagram() {
   const specialists = [
-    { label: 'LOLER examiner', y: 26 },
-    { label: 'LEV examiner', y: 88 },
-    { label: 'Water specialist', y: 150 },
+    { label: 'LOLER examiner', y: 22 },
+    { label: 'LEV examiner', y: 84 },
+    { label: 'Water specialist', y: 146 },
   ];
   return (
-    <svg viewBox="0 0 400 210" className="dg" role="img" aria-label="A requirement passes from the customer to Kiwi, which routes it to the appropriate specialist and returns the completed record.">
+    <svg viewBox="0 0 400 226" className="dg" role="img" aria-label="Work that falls due passes from the estate to Kiwi. Kiwi routes it to the appropriate specialist, the report comes back to Kiwi, and the completed record returns to the estate.">
       <defs><Arrow id="ar3" /></defs>
 
       <rect x="6" y="80" width="94" height="50" rx="5" {...NODE} />
       <text x="53" y="101" textAnchor="middle" {...TEXT}>Your estate</text>
       <text x="53" y="115" textAnchor="middle" {...LABEL}>14 sites</text>
 
-      <path d="M104 96 H 148" {...LINE} markerEnd="url(#ar3)" />
+      {/* we take the due… */}
+      <path d="M104 94 H 148" {...LINE} markerEnd="url(#ar3)" />
+      <text x="126" y="86" textAnchor="middle" fontSize="10" fill="var(--kiwi)" fontFamily="var(--sans)">due</text>
+      {/* …and return the done */}
       <path d="M148 118 H 104" {...LINE} markerEnd="url(#ar3)" />
-      <text x="126" y="88" textAnchor="middle" {...LABEL}>due</text>
-      <text x="126" y="136" textAnchor="middle" {...LABEL}>done</text>
+      <text x="126" y="134" textAnchor="middle" fontSize="10" fill="var(--kiwi)" fontFamily="var(--sans)">done</text>
 
       <KiwiBlock x="152" y="72" w="86" h="66" sub="routing" />
 
       {specialists.map((s) => (
         <g key={s.label}>
-          {/* two-way: the job goes out, the report comes back */}
-          <path d={`M242 ${107} C 268 ${107} 272 ${s.y + 17} 296 ${s.y + 17}`} {...LINE}
-                markerStart="url(#ar3)" markerEnd="url(#ar3)" />
+          <path d={`M242 ${100} C 268 ${100} 272 ${s.y + 17} 296 ${s.y + 17}`} {...LINE} markerEnd="url(#ar3)" />
           <rect x="300" y={s.y} width="94" height="34" rx="5" {...NODE} />
           <text x="347" y={s.y + 21} textAnchor="middle" fontSize="9.5" fill="var(--ink)" fontFamily="var(--sans)">{s.label}</text>
         </g>
       ))}
-      <text x="269" y="200" textAnchor="middle" fontSize="9" fill="var(--kiwi)" fontFamily="var(--sans)">work out, report back</text>
+
+      {/* the report comes back into the middle */}
+      <path d="M347 182 C 344 206 260 208 238 144"
+            stroke="var(--kiwi)" strokeWidth="1" fill="none" markerEnd="url(#ar3g)" />
+      <defs>
+        <marker id="ar3g" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0.5 1 L7 4 L0.5 7" fill="none" stroke="var(--kiwi)" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+        </marker>
+      </defs>
+      <text x="286" y="218" textAnchor="middle" fontSize="9" fill="var(--kiwi)" fontFamily="var(--sans)">report returned</text>
     </svg>
   );
 }

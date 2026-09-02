@@ -1,4 +1,5 @@
 import Reveal from './Reveal';
+import { KiwiSlice } from './KiwiMarks';
 import { Lift, Ventilation, PressureVessel, Electrical, Flame, Droplet } from './Icons';
 
 const SERVICES = [
@@ -28,7 +29,7 @@ export default function Services() {
             </div>
           ))}
           <div className="svc-row svc-row-more">
-            <span className="svc-icon" aria-hidden="true" />
+            <span className="svc-icon svc-icon-kiwi"><KiwiSlice /></span>
             <h3 className="svc-name">And other physical compliance requirements.</h3>
             <p className="svc-desc">Tell us what you look after and we&rsquo;ll tell you what we can cover.</p>
           </div>

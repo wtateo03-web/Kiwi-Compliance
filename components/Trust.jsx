@@ -1,4 +1,5 @@
 import Reveal from './Reveal';
+import { PerchedKiwi } from './KiwiMarks';
 
 const PRINCIPLES = [
   {
@@ -29,6 +30,7 @@ export default function Trust() {
         <div className="tr-grid">
           {PRINCIPLES.map((p, i) => (
             <Reveal key={p.n} className="tr-item" delay={i * 80}>
+              {i === 2 && <PerchedKiwi where="rule" tilt={-5} />}
               <span className="tr-n mono">{p.n}</span>
               <h3 className="h3 tr-title">{p.title}</h3>
               <p className="muted tr-body">{p.body}</p>
