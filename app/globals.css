@@ -639,6 +639,9 @@ button { font: inherit; color: inherit; }
 .pf-headline { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
 .pf-headline-n { font-size: clamp(2rem, 4vw, 2.9rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1; }
 .pf-headline-l { font-size: 0.95rem; color: var(--muted); }
+.pf-headline-sep { width: 1px; align-self: stretch; background: var(--border); margin: 0 6px; }
+.pf-headline-warn { color: var(--action); }
+.pf-window .pf-headline-warn { color: var(--action); }
 
 .pf-cards { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
 @media (min-width: 700px) { .pf-cards { grid-template-columns: repeat(4, minmax(0,1fr)); } }
@@ -850,10 +853,19 @@ button { font: inherit; color: inherit; }
   display: flex; flex-direction: column; gap: 1px;
 }
 .svc-cover span { color: var(--muted); }
-@media (max-width: 819px) {
-  .svc-cover { flex-direction: row; gap: 6px; margin-top: 4px; }
-  .svc-cover span::before { content: '· '; }
+/* The regulation each row sits under. An engineer reading this is checking
+   whether we speak their language; the label is small but it must be right. */
+.svc-cover .svc-reg {
+  color: var(--ink); opacity: 0.55; letter-spacing: 0.02em;
+  font-size: 0.7rem; text-transform: none;
 }
+@media (max-width: 819px) {
+  .svc-cover { flex-direction: row; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .svc-cover span::before { content: '· '; }
+  .svc-cover .svc-reg::before { content: none; }
+  .svc-cover .svc-reg { width: 100%; }
+}
+.svc-note-strong { color: var(--ink); font-weight: 500; }
 
 /* ==========================================================================
    Section 9 — multi-site
@@ -871,10 +883,11 @@ button { font: inherit; color: inherit; }
    Section 10 — principles
    ========================================================================== */
 .tr-grid { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: clamp(36px, 4.5vw, 56px); }
-@media (min-width: 860px) { .tr-grid { grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 4vw, 56px); } }
+@media (min-width: 700px) { .tr-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 4vw, 48px); } }
+@media (min-width: 1080px) { .tr-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(24px, 3vw, 40px); } }
 .tr-item { padding-top: 24px; border-top: 1px solid var(--border-strong); }
 .tr-item + .tr-item { margin-top: 32px; }
-@media (min-width: 860px) { .tr-item + .tr-item { margin-top: 0; } }
+@media (min-width: 700px) { .tr-item + .tr-item { margin-top: 0; } }
 .tr-n { font-size: 0.72rem; color: var(--kiwi); letter-spacing: 0.08em; }
 .tr-title { margin: 18px 0 10px; }
 .tr-body { font-size: 0.98rem; }
@@ -1032,6 +1045,11 @@ button { font: inherit; color: inherit; }
 .fruit-corner-about .fc-b { width: 108px; bottom: -34px; right: 96px; transform: rotate(14deg); }
 .fruit-corner-about .fc-c { width: 82px;  top: 122px;  right: 128px; transform: rotate(28deg); }
 
+.fruit-corner-paid { color: rgba(167, 217, 75, 0.17); }
+.fruit-corner-paid .fc-a { width: 236px; top: -80px; left: -84px; transform: rotate(20deg); }
+.fruit-corner-paid .fc-b { width: 114px; bottom: -38px; left: 108px; transform: rotate(-16deg); }
+.fruit-corner-paid .fc-c { width: 90px;  top: 132px; left: -34px; transform: rotate(12deg); }
+
 .fruit-corner-trust { color: rgba(49, 107, 78, 0.12); }
 .fruit-corner-trust .fc-a { width: 176px; bottom: -58px; left: -54px; transform: rotate(18deg); }
 .fruit-corner-trust .fc-b { width: 96px;  top: -34px;    left: 128px; transform: rotate(-10deg); }
@@ -1128,3 +1146,105 @@ button { font: inherit; color: inherit; }
 .reassure-sub { margin-top: 8px; font-size: 0.95rem; }
 .perch-reassure { width: 34px; top: -23px; right: 2%; }
 @media (max-width: 720px) { .perch-reassure { display: none; } }
+
+/* --- the commercial model ------------------------------------------------
+   Three questions in the order a buyer forms them. The third answers the
+   conflict-of-interest question that a paid-by-the-provider model invites,
+   so it is given the same weight as the other two rather than a footnote. */
+.paid-lede { margin-top: 14px; max-width: 46ch; }
+
+.paid-grid {
+  position: relative;
+  margin-top: clamp(38px, 4.4vw, 60px);
+  padding-top: 34px;
+  border-top: 1px solid var(--border);
+  display: grid;
+  gap: clamp(28px, 3.4vw, 44px);
+}
+@media (min-width: 900px) { .paid-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.paid-item { min-width: 0; }
+.paid-n {
+  display: block; font-size: 0.76rem; letter-spacing: 0.09em;
+  color: var(--kiwi);
+}
+.paid-q { margin-top: 12px; font-size: 0.98rem; color: var(--muted); }
+.paid-a {
+  margin-top: 2px;
+  font-size: clamp(1.16rem, 1.7vw, 1.42rem);
+  font-weight: 600; letter-spacing: -0.015em;
+}
+.paid-body { margin-top: 12px; font-size: 0.95rem; line-height: 1.62; }
+
+.paid-foot { margin-top: clamp(30px, 3.4vw, 44px); }
+.paid-note {
+  max-width: 62ch; font-size: 0.92rem; line-height: 1.6;
+  padding-left: 16px; border-left: 2px solid var(--border);
+}
+
+/* Candour line closing the About block — being early is stated, not implied. */
+.ab-candid {
+  margin-top: 20px; padding-left: 16px;
+  border-left: 2px solid var(--kiwi);
+  font-size: 0.95rem; line-height: 1.6; color: var(--ink);
+}
+.dark .ab-candid { border-left-color: var(--fresh); color: var(--warm); }
+
+/* ==========================================================================
+   Manufacturing & industrial page
+   The main site speaks to multi-site estates generally; this one speaks to
+   asset density, continuous process and an audit calendar set by customers
+   and insurers as much as by the regulator.
+   ========================================================================== */
+.mfg-hero { padding-bottom: clamp(56px, 7vw, 92px); }
+.mfg-lede { max-width: 44em; }
+.mfg-lede .lead { font-size: clamp(1.05rem, 1.6vw, 1.24rem); }
+.mfg-lede .hero-sub { margin-top: 18px; }
+.mfg-lede .btn-row { margin-top: 30px; }
+
+.mfg-grid {
+  position: relative;
+  margin-top: clamp(38px, 4.4vw, 58px);
+  padding-top: 34px;
+  border-top: 1px solid var(--border-strong);
+  display: grid; gap: clamp(28px, 3.4vw, 44px);
+}
+@media (min-width: 760px)  { .mfg-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1180px) { .mfg-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.mfg-item { min-width: 0; }
+.mfg-n { display: block; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--kiwi); }
+.mfg-title { margin: 14px 0 10px; font-size: clamp(1.06rem, 1.5vw, 1.2rem); }
+.mfg-body { font-size: 0.95rem; line-height: 1.62; }
+
+.mfg-regimes {
+  margin-top: clamp(38px, 4.4vw, 56px);
+  display: grid; gap: clamp(26px, 3vw, 40px);
+}
+@media (min-width: 720px)  { .mfg-regimes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .mfg-regimes { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.mfg-regime {
+  min-width: 0; padding-top: 22px; border-top: 1px solid var(--border);
+}
+.mfg-regime .svc-icon { display: inline-block; color: var(--kiwi); }
+.mfg-regime .svc-name { margin-top: 12px; }
+.mfg-reg {
+  margin-top: 4px; font-size: 0.72rem; letter-spacing: 0.03em;
+  color: var(--ink); opacity: 0.5;
+}
+.mfg-regime-body { margin-top: 12px; font-size: 0.94rem; line-height: 1.62; }
+
+.mfg-start { max-width: 44em; margin-top: clamp(30px, 3.6vw, 46px); }
+.mfg-steps { margin-top: 30px; list-style: none; display: grid; gap: 18px; }
+.mfg-steps li {
+  display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 14px;
+  align-items: start; font-size: 0.98rem; line-height: 1.6; color: var(--muted);
+}
+.mfg-step-n {
+  display: grid; place-items: center; width: 24px; height: 24px;
+  border: 1px solid var(--border-strong); border-radius: 50%;
+  font-size: 0.75rem; color: var(--kiwi);
+}
+.mfg-candid {
+  margin-top: 32px; padding-left: 16px; border-left: 2px solid var(--kiwi);
+  font-size: 0.95rem; line-height: 1.6; color: var(--ink);
+}

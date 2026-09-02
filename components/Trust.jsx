@@ -15,8 +15,13 @@ const PRINCIPLES = [
   },
   {
     n: '03',
-    title: 'We chase the loose ends',
-    body: 'Unconfirmed attendance, certificates that never arrived, actions left open. The follow-up that eats your week is ours, not yours.',
+    title: 'Defects tracked to closure',
+    body: 'An examination that raises a defect starts a clock, and that clock is the part that carries real liability. Every action gets an owner, a date and a piece of evidence that it was done.',
+  },
+  {
+    n: '04',
+    title: 'Nothing quietly falls off the register',
+    body: 'The failure that hurts is not a late inspection — it is an asset nobody knew was there. We reconcile what we are told against what we find, and tell you where the gaps are.',
   },
 ];
 
@@ -33,7 +38,7 @@ export default function Trust() {
           {PRINCIPLES.map((p, i) => (
             <Reveal key={p.n} className="tr-item" delay={i * 80}>
               {i === 0 && <PerchedKiwi where="rule" pose="tuck" flip tilt={0} />}
-              {i === 2 && <PerchedKiwi where="rule" pose="oneleg" tilt={-2} />}
+              {i === 3 && <PerchedKiwi where="rule" pose="oneleg" tilt={-2} />}
               <span className="tr-n mono">{p.n}</span>
               <h3 className="h3 tr-title">{p.title}</h3>
               <p className="muted tr-body">{p.body}</p>

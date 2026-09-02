@@ -7,6 +7,11 @@ export const ESTATE = {
   due90: 119,
   actions: 28,
   current: 2291,
+  /* Stock figures, not annual: every tracked asset carries at least its last
+     certificate, plus the history behind it. Providers spans the six
+     disciplines across all fourteen sites. */
+  providers: 23,
+  certificates: 6140,
 };
 
 export const STATUS_SPLIT = [

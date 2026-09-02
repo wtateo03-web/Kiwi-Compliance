@@ -5,12 +5,42 @@ import { FruitCorner } from './Decor';
 import { Lift, Ventilation, PressureVessel, Electrical, Flame, Droplet } from './Icons';
 
 const SERVICES = [
-  { Icon: Lift,           name: 'Lifting equipment',        desc: 'LOLER examinations and associated requirements.' },
-  { Icon: Ventilation,    name: 'Local exhaust ventilation', desc: 'LEV examination and testing.' },
-  { Icon: PressureVessel, name: 'Pressure systems',         desc: 'PSSR examination and related records.' },
-  { Icon: Electrical,     name: 'Electrical',               desc: 'Periodic inspection and testing.' },
-  { Icon: Flame,          name: 'Fire & life safety',       desc: 'Testing, assessment and ongoing compliance.' },
-  { Icon: Droplet,        name: 'Water hygiene',            desc: 'Scheduled water-system compliance activity.' },
+  {
+    Icon: Lift,
+    name: 'Lifting equipment',
+    desc: 'Thorough examination under LOLER, at the interval the equipment calls for.',
+    reg: 'LOLER 1998',
+  },
+  {
+    Icon: Ventilation,
+    name: 'Local exhaust ventilation',
+    desc: 'Thorough examination and testing at intervals of no more than 14 months.',
+    reg: 'COSHH reg. 9',
+  },
+  {
+    Icon: PressureVessel,
+    name: 'Pressure systems',
+    desc: 'Examination against the written scheme, and the scheme itself kept live.',
+    reg: 'PSSR 2000',
+  },
+  {
+    Icon: Electrical,
+    name: 'Electrical',
+    desc: 'Periodic inspection and testing, including rolling fixed-wire programmes and EICR remedials.',
+    reg: 'EAWR 1989',
+  },
+  {
+    Icon: Flame,
+    name: 'Fire & life safety',
+    desc: 'Alarm and suppression servicing, damper testing and fire risk assessment review.',
+    reg: 'RRO 2005',
+  },
+  {
+    Icon: Droplet,
+    name: 'Water hygiene',
+    desc: 'Monitoring, sampling and risk assessment review across the water system.',
+    reg: 'ACoP L8',
+  },
 ];
 
 export default function Services() {
@@ -29,12 +59,12 @@ export default function Services() {
 
         <Reveal className="svc-list">
           <PerchedKiwi where="rule" pose="walk" tilt={0} />
-          {SERVICES.map(({ Icon, name, desc }) => (
+          {SERVICES.map(({ Icon, name, desc, reg }) => (
             <div key={name} className="svc-row">
               <span className="svc-icon"><Icon width="21" height="21" /></span>
               <h3 className="svc-name">{name}</h3>
               <p className="svc-desc">{desc}</p>
-              <p className="svc-cover">Your provider <span>or Kiwi-sourced</span></p>
+              <p className="svc-cover"><span className="svc-reg mono">{reg}</span>Your provider <span>or Kiwi-sourced</span></p>
             </div>
           ))}
           <div className="svc-row svc-row-more">
@@ -46,8 +76,13 @@ export default function Services() {
         </Reveal>
 
         <Reveal className="svc-note muted">
-          Requirements vary by site, asset and use. Kiwi helps establish the appropriate programme for
-          your estate rather than applying a fixed annual cycle to everything.
+          <span className="svc-note-strong">
+            Where your thorough examinations come through your engineering insurer&rsquo;s inspection
+            body, that arrangement stays exactly where it is.
+          </span>{' '}
+          We coordinate around it. Requirements vary by site, asset and use, so Kiwi helps establish
+          the programme your estate actually needs rather than applying a fixed annual cycle to
+          everything.
         </Reveal>
       </div>
     </section>

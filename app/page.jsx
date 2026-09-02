@@ -9,6 +9,7 @@ import OperatingModel from '@/components/OperatingModel';
 import Technology from '@/components/Technology';
 import Services from '@/components/Services';
 import MultiSite from '@/components/MultiSite';
+import HowPaid from '@/components/HowPaid';
 import Trust from '@/components/Trust';
 import About from '@/components/About';
 import FinalCta from '@/components/FinalCta';
@@ -30,6 +31,7 @@ export default function Home() {
         <Technology />
         <Services />
         <MultiSite />
+        <HowPaid />
         <Trust />
         <About />
         <FinalCta />

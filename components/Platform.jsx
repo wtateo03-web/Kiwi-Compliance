@@ -155,16 +155,19 @@ export default function Platform() {
               {view === 'Overview' && !site && (
                 <>
                   <div className="pf-headline">
-                    <span className="pf-headline-n mono">{pct(ESTATE.current)}%</span>
-                    <span className="pf-headline-l">of assets current</span>
+                    <span className="pf-headline-n mono">{ESTATE.due90}</span>
+                    <span className="pf-headline-l">items due in the next 90 days</span>
+                    <span className="pf-headline-sep" aria-hidden="true" />
+                    <span className="pf-headline-n mono pf-headline-warn">{ESTATE.actions}</span>
+                    <span className="pf-headline-l">actions open</span>
                   </div>
 
                   <div className="pf-cards">
                     {[
-                      [ESTATE.assets.toLocaleString('en-GB'), 'Assets'],
+                      [ESTATE.assets.toLocaleString('en-GB'), 'Assets tracked'],
                       [ESTATE.sites, 'Sites'],
-                      [ESTATE.due90, 'Due within 90 days'],
-                      [ESTATE.actions, 'Actions required'],
+                      [ESTATE.providers, 'Providers coordinated'],
+                      [ESTATE.certificates.toLocaleString('en-GB'), 'Certificates on file'],
                     ].map(([n, l]) => (
                       <div key={l} className="pf-card">
                         <span className="pf-card-n mono">{n}</span>
