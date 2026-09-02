@@ -4,7 +4,7 @@ A static website hosted free on GitHub Pages. Every push to the deploy branch
 rebuilds and republishes it automatically; there is no server to keep running
 and nothing to pay for, so it stays up on its own.
 
-**Live URL:** https://wtateo03-web.github.io/Kiwi-Compliance/
+**Live URL:** https://kiwicompliance.com
 
 ## Layout
 
@@ -44,14 +44,30 @@ That's it — no branch or folder to choose. The next push deploys
 automatically, or re-run the latest job from the **Actions** tab to publish
 immediately. After that this step never needs repeating.
 
-## Using a custom domain later
+## Custom domain
 
-1. Add a file `site/CNAME` containing just the domain, e.g. `kiwicompliance.co.nz`
-2. At your domain registrar, point the domain at GitHub Pages:
-   - apex domain (`kiwicompliance.co.nz`) → A records to
-     `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - `www` subdomain → CNAME to `wtateo03-web.github.io`
-3. In **Settings → Pages**, enter the domain and tick **Enforce HTTPS**.
+The site is served from **https://kiwicompliance.com** (registered at IONOS).
+
+`site/CNAME` holds the domain — GitHub Pages reads that file on every deploy,
+so it must stay in place. Deleting it drops the site back to the
+`wtateo03-web.github.io/Kiwi-Compliance` URL.
+
+DNS records required at IONOS:
+
+| Type  | Host  | Value                                                     |
+|-------|-------|-----------------------------------------------------------|
+| A     | `@`   | `185.199.108.153`                                          |
+| A     | `@`   | `185.199.109.153`                                          |
+| A     | `@`   | `185.199.110.153`                                          |
+| A     | `@`   | `185.199.111.153`                                          |
+| AAAA  | `@`   | `2606:50c0:8000::153`                                      |
+| AAAA  | `@`   | `2606:50c0:8001::153`                                      |
+| AAAA  | `@`   | `2606:50c0:8002::153`                                      |
+| AAAA  | `@`   | `2606:50c0:8003::153`                                      |
+| CNAME | `www` | `wtateo03-web.github.io`                                   |
+
+GitHub issues a free TLS certificate once DNS resolves; tick **Enforce HTTPS**
+in Settings → Pages after that appears.
 
 ## Current status
 
