@@ -16,16 +16,21 @@ function Arrow({ id }) {
 }
 
 function KiwiBlock({ x, y, w = 108, h = 70, label = 'KIWI', sub }) {
+  // Coerce: callers pass these as attribute strings.
+  const bx = Number(x);
+  const by = Number(y);
+  const bw = Number(w);
+  const bh = Number(h);
   return (
     <g>
-      <rect x={x} y={y} width={w} height={h} rx="6" fill="var(--ink)" />
-      <text x={x + w / 2} y={y + (sub ? h / 2 - 4 : h / 2 + 4)} textAnchor="middle"
+      <rect x={bx} y={by} width={bw} height={bh} rx="6" fill="var(--ink)" />
+      <text x={bx + bw / 2} y={by + (sub ? bh / 2 - 2 : bh / 2 + 4)} textAnchor="middle"
             fontSize="12" fontWeight="700" letterSpacing="1.6" fill="var(--warm)" fontFamily="var(--sans)">
         {label}
       </text>
       {sub && (
-        <text x={x + w / 2} y={y + h / 2 + 12} textAnchor="middle" fontSize="8.5"
-              fill="var(--muted-dark)" fontFamily="var(--sans)">
+        <text x={bx + bw / 2} y={by + bh / 2 + 13} textAnchor="middle" fontSize="8.5"
+              fill="#97A69D" fontFamily="var(--sans)">
           {sub}
         </text>
       )}
@@ -110,15 +115,16 @@ export function RoutingDiagram() {
 
       <KiwiBlock x="152" y="72" w="86" h="66" sub="routing" />
 
-      {specialists.map((s, i) => (
+      {specialists.map((s) => (
         <g key={s.label}>
-          <path d={`M242 ${96} C 268 ${96} 272 ${s.y + 17} 296 ${s.y + 17}`} {...LINE} markerEnd="url(#ar3)" />
+          {/* two-way: the job goes out, the report comes back */}
+          <path d={`M242 ${107} C 268 ${107} 272 ${s.y + 17} 296 ${s.y + 17}`} {...LINE}
+                markerStart="url(#ar3)" markerEnd="url(#ar3)" />
           <rect x="300" y={s.y} width="94" height="34" rx="5" {...NODE} />
           <text x="347" y={s.y + 21} textAnchor="middle" fontSize="9.5" fill="var(--ink)" fontFamily="var(--sans)">{s.label}</text>
         </g>
       ))}
-      <path d="M296 190 C 260 190 250 150 242 140" {...LINE} markerEnd="url(#ar3)" />
-      <text x="300" y="196" fontSize="9" fill="var(--kiwi)" fontFamily="var(--sans)">report returned</text>
+      <text x="269" y="200" textAnchor="middle" fontSize="9" fill="var(--kiwi)" fontFamily="var(--sans)">work out, report back</text>
     </svg>
   );
 }
