@@ -1,9 +1,11 @@
 import Reveal from './Reveal';
 import { KiwiSlice } from './KiwiMarks';
+import { FruitCorner } from './Decor';
 
 export default function About() {
   return (
-    <section className="section sunk" id="about">
+    <section className="section sunk has-fruit" id="about">
+      <FruitCorner where="about" />
       <div className="container ab-grid">
         <Reveal>
           <p className="eyebrow">About Kiwi</p>

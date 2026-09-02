@@ -1,5 +1,6 @@
 import Reveal from './Reveal';
 import { PerchedKiwi } from './KiwiMarks';
+import { FruitCorner } from './Decor';
 import { IntakeDiagram, StructureDiagram, RoutingDiagram, RecordDiagram } from './Diagrams';
 
 const STAGES = [
@@ -31,7 +32,8 @@ const STAGES = [
 
 export default function HowItWorks() {
   return (
-    <section className="section" id="how">
+    <section className="section has-fruit" id="how">
+      <FruitCorner where="how" />
       <div className="container">
         <Reveal>
           <p className="eyebrow">How Kiwi works</p>

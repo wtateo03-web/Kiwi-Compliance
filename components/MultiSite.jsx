@@ -1,5 +1,6 @@
 import Reveal from './Reveal';
 import { KiwiSlice, PerchedKiwi } from './KiwiMarks';
+import { FruitCorner } from './Decor';
 
 /* Real UK coordinates, projected. The faint points trace the landmass by
    where places actually are — no hand-drawn coastline to get wrong. */
@@ -42,7 +43,8 @@ const HUB = [162, 468];
 
 export default function MultiSite() {
   return (
-    <section className="section dark">
+    <section className="section dark has-fruit ms-section">
+      <FruitCorner where="multisite" />
       <div className="container ms-grid">
         <Reveal className="ms-copy">
           <p className="eyebrow">Multi-site</p>

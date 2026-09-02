@@ -1,6 +1,7 @@
 import Reveal from './Reveal';
 import { KiwiSlice } from './KiwiMarks';
 import { PerchedKiwi } from './KiwiMarks';
+import { FruitCorner } from './Decor';
 import { Lift, Ventilation, PressureVessel, Electrical, Flame, Droplet } from './Icons';
 
 const SERVICES = [
@@ -14,7 +15,8 @@ const SERVICES = [
 
 export default function Services() {
   return (
-    <section className="section sunk" id="services">
+    <section className="section sunk has-fruit" id="services">
+      <FruitCorner where="services" />
       <div className="container">
         <Reveal>
           <p className="eyebrow">Services</p>

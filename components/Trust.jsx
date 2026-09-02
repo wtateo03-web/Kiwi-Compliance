@@ -1,5 +1,6 @@
 import Reveal from './Reveal';
 import { PerchedKiwi } from './KiwiMarks';
+import { FruitCorner } from './Decor';
 
 const PRINCIPLES = [
   {
@@ -21,7 +22,8 @@ const PRINCIPLES = [
 
 export default function Trust() {
   return (
-    <section className="section">
+    <section className="section has-fruit">
+      <FruitCorner where="trust" />
       <div className="container">
         <Reveal>
           <p className="eyebrow">How we work</p>

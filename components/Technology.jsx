@@ -1,5 +1,6 @@
 import Reveal from './Reveal';
 import { PerchedKiwi } from './KiwiMarks';
+import { FruitCorner } from './Decor';
 import { Certificate, Layers, Spreadsheet, Clock, Engineer, Tick } from './Icons';
 
 const PIPELINE = [
@@ -13,7 +14,8 @@ const PIPELINE = [
 
 export default function Technology() {
   return (
-    <section className="section">
+    <section className="section has-fruit tech-section">
+      <FruitCorner where="tech" />
       <div className="container">
         <Reveal className="tech-head">
           <div>

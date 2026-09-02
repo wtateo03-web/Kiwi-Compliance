@@ -1,5 +1,6 @@
 import Logo from './Logo';
 import { PerchedKiwi } from './KiwiMarks';
+import { FruitCorner } from './Decor';
 
 const COLUMNS = [
   {
@@ -24,7 +25,8 @@ const COLUMNS = [
 
 export default function Footer() {
   return (
-    <footer className="footer dark">
+    <footer className="footer dark has-fruit">
+      <FruitCorner where="footer" />
       <div className="container">
         <div className="footer-grid">
           <div>
