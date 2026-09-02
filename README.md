@@ -31,14 +31,18 @@ serve the folder:
 python3 -m http.server -d site 8000    # then visit http://localhost:8000
 ```
 
-## First-time setup
+## First-time setup (required once)
 
-The workflow enables GitHub Pages itself on its first successful run. If it
-fails with a permissions error instead, enable it manually once:
+GitHub does not let a workflow turn Pages on for its own repository, so this
+has to be done by hand a single time:
 
-**Settings → Pages → Build and deployment → Source: GitHub Actions**
+1. Go to **Settings → Pages** in this repo
+   (https://github.com/wtateo03-web/Kiwi-Compliance/settings/pages)
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**
 
-then re-run the failed job from the Actions tab.
+That's it — no branch or folder to choose. The next push deploys
+automatically, or re-run the latest job from the **Actions** tab to publish
+immediately. After that this step never needs repeating.
 
 ## Using a custom domain later
 
