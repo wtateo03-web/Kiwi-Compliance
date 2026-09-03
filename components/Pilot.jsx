@@ -64,7 +64,7 @@ const TERMS = [
 
 export default function Pilot() {
   return (
-    <section className="section sunk has-fruit" id="pilot">
+    <section className="section has-fruit" id="pilot">
       <FruitCorner where="pilot" />
       <div className="container">
         <Reveal className="pl-head">

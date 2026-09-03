@@ -885,18 +885,6 @@ button { font: inherit; color: inherit; }
 .ms-map { display: flex; justify-content: center; }
 .ms-map svg { width: 100%; max-width: 330px; height: auto; }
 
-/* ==========================================================================
-   Section 10 — principles
-   ========================================================================== */
-.tr-grid { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: clamp(36px, 4.5vw, 56px); }
-@media (min-width: 700px) { .tr-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 4vw, 48px); } }
-@media (min-width: 1080px) { .tr-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(24px, 3vw, 40px); } }
-.tr-item { padding-top: 24px; border-top: 1px solid var(--border-strong); }
-.tr-item + .tr-item { margin-top: 32px; }
-@media (min-width: 700px) { .tr-item + .tr-item { margin-top: 0; } }
-.tr-n { font-size: 0.72rem; color: var(--kiwi); letter-spacing: 0.08em; }
-.tr-title { margin: 18px 0 10px; }
-.tr-body { font-size: 0.98rem; }
 
 /* ==========================================================================
    Section 11 — about
@@ -1066,11 +1054,6 @@ button { font: inherit; color: inherit; }
 .fruit-corner-pilot .fc-b { width: 112px; bottom: -36px; right: 104px; transform: rotate(16deg); }
 .fruit-corner-pilot .fc-c { width: 86px;  top: 140px;  right: 132px; transform: rotate(-8deg); }
 
-.fruit-corner-trust { color: rgba(49, 107, 78, 0.12); }
-.fruit-corner-trust .fc-a { width: 176px; bottom: -58px; left: -54px; transform: rotate(18deg); }
-.fruit-corner-trust .fc-b { width: 96px;  top: -34px;    left: 128px; transform: rotate(-10deg); }
-.fruit-corner-trust .fc-c { width: 70px;  bottom: 62px;  left: 108px; transform: rotate(24deg); }
-
 .fruit-corner-footer { color: rgba(246, 247, 242, 0.09); }
 .fruit-corner-footer .fc-a { width: 250px; bottom: -96px; left: -86px; transform: rotate(12deg); }
 .fruit-corner-footer .fc-b { width: 114px; top: -42px;    left: 168px; transform: rotate(-20deg); }
@@ -1121,7 +1104,7 @@ button { font: inherit; color: inherit; }
 .pf-section > .container-wide,
 .cta > .container { position: relative; z-index: 1; }
 
-.stages-coda, .tr-item, .footer-base, .svc-list, .ba-panel,
+.stages-coda, .footer-base, .svc-list, .ba-panel,
 .pf-stage, .ms-map, .stages, .pipe { position: relative; }
 /* The window clips its own corners, so the bird stands on this wrapper. */
 .pf-stage { position: relative; }

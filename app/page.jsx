@@ -13,7 +13,6 @@ import Services from '@/components/Services';
 import MultiSite from '@/components/MultiSite';
 import HowPaid from '@/components/HowPaid';
 import Pilot from '@/components/Pilot';
-import Trust from '@/components/Trust';
 import About from '@/components/About';
 import FinalCta from '@/components/FinalCta';
 import Footer from '@/components/Footer';
@@ -37,9 +36,8 @@ export default function Home() {
         <Services />
         <MultiSite />
         <HowPaid />
-        <Pilot />
-        <Trust />
         <About />
+        <Pilot />
         <FinalCta />
       </main>
       <Footer />
