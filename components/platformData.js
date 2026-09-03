@@ -536,3 +536,140 @@ export const KIWI_WEEK = {
   ],
   needsYou: 1,
 };
+
+/* ==========================================================================
+   Dense views
+   The platform is a data manager, so the record is shown the way an estates
+   team already reads records: a grid with row numbers and column letters, and
+   a case file with the severity, the clock and the owners on one screen.
+   ========================================================================== */
+
+/* --- the register, as a sheet ------------------------------------------- */
+export const SHEET_COLS = ['Asset', 'Type', 'Site', 'Regime', 'Last', 'Next due', 'Status'];
+export const SHEET_ROWS = [
+  ['LEV-0148', 'Local exhaust ventilation', 'Birmingham — Unit 4', 'COSHH r.9', '06 Jul 2026', '06 Sep 2027', 'Current'],
+  ['LIFT-008', 'Passenger lift', 'Manchester DC', 'LOLER', '14 Mar 2026', '14 Sep 2026', 'Due soon'],
+  ['GL-04', 'Goods lift', 'Manchester DC', 'LOLER', '29 Aug 2026', '29 Feb 2027', 'Action required'],
+  ['PV-0102', 'Pressure vessel', 'Chester Manufacturing', 'PSSR', '02 Dec 2025', '02 Dec 2026', 'Current'],
+  ['PV-0119', 'Air receiver', 'Chester Manufacturing', 'PSSR', '26 Aug 2026', '26 Aug 2027', 'Current'],
+  ['EICR-0130', 'Distribution board', 'Shrewsbury Depot', 'EAWR', '24 Oct 2023', '24 Oct 2026', 'Action required'],
+  ['FIRE-0021', 'Fire alarm system', 'Bristol Office', 'RRO 2005', '12 Aug 2026', '12 Feb 2027', 'Current'],
+  ['WH-0017', 'Water system', 'Bristol Office', 'ACoP L8', '03 Oct 2024', '03 Oct 2026', 'Due soon'],
+  ['LEV-0203', 'Dust extraction', 'Birmingham — Unit 9', 'COSHH r.9', '—', '19 Sep 2026', 'Due soon'],
+  ['LIFT-011', 'Goods lift', 'Manchester DC', 'LOLER', '—', 'Query open', 'Action required'],
+  ['PV-0088', 'Steam boiler', 'Chester Manufacturing', 'PSSR', '11 Jan 2026', '11 Jan 2027', 'Current'],
+  ['FIRE-0044', 'Sprinkler system', 'Manchester DC', 'RRO 2005', '02 Jun 2026', '02 Jun 2027', 'Current'],
+];
+export const SHEET_NOTE =
+  'Full register reconciled against certificates and provider records. 2,438 assets, 0 unmatched.';
+
+/* --- a case file, in the shape a defect actually arrives ---------------- */
+export const CASE = {
+  title: 'Suspension gear defect — GL-04',
+  ref: 'ACT-0361',
+  kind: 'Remedial',
+  severity: 'High severity',
+  asset: 'GL-04 · Goods lift · Manchester Distribution Centre',
+  stages: ['Raised', 'Verified', 'Quoted', 'Approved', 'Scheduled', 'Closed'],
+  stage: 3,
+  owner: 'Marie Okonjo · Pennine Lift Services',
+  ownerRole: 'Repair booked for 16 September',
+  status: 'In remediation',
+  details: [
+    ['Failed attribute', 'Suspension ropes examined for wear, corrosion and broken wires under LOLER Sch. 1.'],
+    ['Finding', 'Broken wires exceeding the discard criteria on two ropes. Examiner has not condemned the unit; repair required within 28 days of examination.'],
+    ['Root cause', 'Rope set beyond recommended service life. Last replacement not recorded on the inherited register.'],
+    ['Raised by', 'Competent person, Pennine Lift Services, 29 Aug 2026'],
+  ],
+  dates: [['Identified', '29 Aug 2026'], ['Remedy deadline', '26 Sep 2026'], ['Booked', '16 Sep 2026']],
+  people: [
+    ['Competent person', 'Pennine Lift Services', 'Examined and certified'],
+    ['Asset owner', 'Rob Nayler · Site Engineering', 'Manchester DC'],
+    ['Repair provider', 'Pennine Lift Services', 'Quoted £1,840 + VAT'],
+    ['Kiwi', 'Estate desk', 'Driving to closure'],
+  ],
+  plan: [
+    { t: 'Quote obtained and slot held', done: true },
+    { t: 'Client approval received', done: true },
+    { t: 'Repair attended and re-examined', done: false },
+  ],
+};
+
+/* --- providers, as a sheet rather than cards ---------------------------- */
+export const PROVIDER_COLS =
+  ['Provider', 'Discipline', 'Contact', 'Accreditation', 'Sites', 'Open', 'Reply', 'Evidence', 'Source'];
+export const PROVIDER_ROWS = [
+  ['Northwest Extraction Testing', 'LEV', 'Dave Hollins', 'BOHS P601', '3', '2', '4h', '6d', 'Yours'],
+  ['Pennine Lift Services', 'Lifting', 'Marie Okonjo', 'LEEA', '5', '1', '9h', '3d', 'Yours'],
+  ['Vale Inspection Services', 'Lifting · Pressure', 'Helen Dacre', 'UKAS body', '6', '3', '26h', '11d', 'Insurer'],
+  ['Severn Fire Systems', 'Fire', 'Ian Pritchard', 'BAFE SP203-1', '4', '0', '2h', '2d', 'Kiwi'],
+  ['Marches Water Hygiene', 'Water', 'Kath Reilly', 'LCA registered', '6', '1', '7h', '5d', 'Yours'],
+  ['Midlands Electrical Testing', 'Electrical', 'Sanjay Bhatt', 'NICEIC', '7', '3', '14h', '16d', 'Yours'],
+  ['Trent Valley Lifting', 'Lifting', 'Erin Moss', 'LEEA', '2', '0', '5h', '4d', 'Kiwi'],
+  ['Peak Pressure Services', 'Pressure', 'Gareth Ellis', 'UKAS body', '3', '1', '11h', '7d', 'Kiwi'],
+  ['Wrekin Fire & Security', 'Fire', 'Nadia Rahman', 'BAFE SP203-1', '5', '2', '6h', '3d', 'Yours'],
+  ['Clwyd Extraction Ltd', 'LEV', 'Owen Pritchard', 'BOHS P601', '2', '0', '8h', '5d', 'Yours'],
+  ['Anglian Water Compliance', 'Water', 'Priya Shah', 'LCA registered', '4', '1', '13h', '6d', 'Kiwi'],
+  ['Border Electrical Services', 'Electrical', 'Tom Wardle', 'NICEIC', '3', '0', '4h', '4d', 'Kiwi'],
+  ['Cheshire Thermographic', 'Electrical · survey', 'Lucy Fenn', 'BINDT Level 2', '4', '1', '9h', '8d', 'Yours'],
+  ['Mersey Dampers & Ductwork', 'Fire · dampers', 'Alan Duff', 'BESA member', '3', '2', '18h', '9d', 'Yours'],
+  ['Shropshire Legionella', 'Water', 'Beth Cotterill', 'LCA registered', '2', '0', '3h', '2d', 'Kiwi'],
+  ['National Lifting Inspection', 'Lifting', 'Craig Sutherland', 'UKAS body', '8', '4', '31h', '14d', 'Insurer'],
+];
+
+/* --- the evidence library ----------------------------------------------- */
+export const DOC_COLS = ['Document', 'Type', 'Asset', 'Site', 'Issued', 'Valid to', 'File'];
+export const DOC_ROWS = [
+  ['LOLER Thorough Examination', 'Certificate', 'LIFT-008', 'Manchester DC', '14 Mar 2026', '14 Sep 2026', '1.2 MB'],
+  ['LOLER Thorough Examination', 'Report', 'GL-04', 'Manchester DC', '29 Aug 2026', '29 Feb 2027', '2.4 MB'],
+  ['LEV Examination Report', 'Report', 'LEV-0148', 'Birmingham — Unit 4', '06 Jul 2026', '06 Sep 2027', '3.1 MB'],
+  ['Written Scheme of Examination', 'Scheme', 'PV-0102', 'Chester Manufacturing', '02 Dec 2025', '02 Dec 2028', '860 KB'],
+  ['PSSR Thorough Examination', 'Certificate', 'PV-0119', 'Chester Manufacturing', '26 Aug 2026', '26 Aug 2027', '1.1 MB'],
+  ['Fire Alarm Inspection', 'Certificate', 'FIRE-0021', 'Bristol Office', '12 Aug 2026', '12 Feb 2027', '740 KB'],
+  ['Water Risk Assessment', 'Assessment', 'WH-0017', 'Bristol Office', '21 Feb 2026', '21 Feb 2028', '4.6 MB'],
+  ['EICR — Fixed Wire', 'Certificate', 'EICR-0130', 'Shrewsbury Depot', '24 Oct 2023', '24 Oct 2026', '2.9 MB'],
+  ['Remedial Completion Record', 'Evidence', 'LEV-0091', 'Shrewsbury Depot', '05 Sep 2026', '—', '520 KB'],
+  ['Sprinkler Service Record', 'Certificate', 'FIRE-0044', 'Manchester DC', '02 Jun 2026', '02 Jun 2027', '1.4 MB'],
+  ['Thermographic Survey', 'Report', 'DB-0212', 'Chester Manufacturing', '18 Apr 2026', '18 Apr 2027', '6.2 MB'],
+  ['Fire Damper Test Record', 'Report', 'FD-0077', 'Manchester DC', '11 May 2026', '11 May 2027', '2.2 MB'],
+];
+
+/* --- report packs, and what is inside one ------------------------------- */
+export const REPORTS_LIST = [
+  { id: 'RPT-2026-Q3', name: 'Estate compliance pack', period: 'Q3 2026', built: '01 Sep 2026', items: 2438, size: '18.4 MB', tone: 'current' },
+  { id: 'RPT-BRC-MAN', name: 'BRCGS audit evidence — Manchester DC', period: 'Aug 2026', built: '22 Aug 2026', items: 412, size: '31.0 MB', tone: 'current' },
+  { id: 'RPT-INS-2026', name: 'Engineering insurer return', period: 'H1 2026', built: '14 Jul 2026', items: 268, size: '9.8 MB', tone: 'current' },
+  { id: 'RPT-LOLER-09', name: 'LOLER register and certificates', period: 'Rolling', built: '02 Sep 2026', items: 187, size: '12.1 MB', tone: 'current' },
+  { id: 'RPT-ACT-OPEN', name: 'Open remedial actions', period: 'Live', built: '02 Sep 2026', items: 28, size: '1.9 MB', tone: 'due' },
+  { id: 'RPT-EXC-REG', name: 'Register exceptions', period: 'Live', built: '02 Sep 2026', items: 5, size: '340 KB', tone: 'action' },
+];
+
+export const REPORT_OPEN = {
+  id: 'RPT-BRC-MAN',
+  name: 'BRCGS audit evidence — Manchester DC',
+  built: '22 August 2026, 09:14',
+  by: 'Built by Kiwi · requested by Sarah Whitfield',
+  cols: ['Ref', 'Requirement', 'Asset', 'Evidence', 'Date', 'Status'],
+  rows: [
+    ['4.11.1', 'Lifting equipment thorough examination', 'LIFT-008', 'LOLER cert', '14 Mar 2026', 'Current'],
+    ['4.11.1', 'Lifting equipment thorough examination', 'GL-04', 'LOLER report', '29 Aug 2026', 'Action open'],
+    ['4.7.4', 'Fire detection and suppression', 'FIRE-0044', 'Service record', '02 Jun 2026', 'Current'],
+    ['4.7.4', 'Fire damper integrity', 'FD-0077', 'Test record', '11 May 2026', 'Current'],
+    ['4.9.3', 'Water system risk control', 'WH-0031', 'Risk assessment', '19 Sep 2026', 'Booked'],
+    ['4.11.6', 'Extraction and dust control', 'LEV-0148', 'Exam report', '06 Jul 2026', 'Current'],
+    ['4.6.1', 'Fixed electrical installation', 'EICR-0130', 'EICR', '24 Oct 2023', 'Action open'],
+  ],
+};
+
+/* --- what actually happened, for the overview --------------------------- */
+export const ACTIVITY_COLS = ['Time', 'Event', 'Asset', 'Party', 'Outcome'];
+export const ACTIVITY_ROWS = [
+  ['02 Sep 09:11', 'Booking confirmed', 'GL-02 … GL-05', 'Pennine Lift Services', 'Booked 24 Sep'],
+  ['02 Sep 08:44', 'Repair approved', 'GL-04', 'Pennine Lift Services', 'Scheduled 16 Sep'],
+  ['02 Sep 07:30', 'Chase sent — day 7', 'LEV-0091', 'Northwest Extraction', 'Awaiting report'],
+  ['01 Sep 16:20', 'Certificate filed', 'FIRE-0044', 'Severn Fire Systems', 'Next due 02 Jun 2027'],
+  ['01 Sep 11:05', 'Invoice queried', 'EICR-0130', 'Midlands Electrical', '£180 over quote'],
+  ['29 Aug 16:51', 'Defect extracted', 'GL-04', 'Kiwi', 'ACT-0361 raised'],
+  ['27 Aug 09:40', 'Asset added', 'PV-0119', 'Vale Inspection', 'Examined, no defects'],
+  ['26 Aug 14:02', 'Access arranged', 'PV-0119', 'Dan Ackroyd · Chester', 'Confirmed 19 Sep'],
+];

@@ -107,25 +107,19 @@ function Mail({ mail }) {
 
       <p className="mb-body">{mail.body}</p>
 
-      {mail.reply ? (
-        <>
-          <div className="mb-reply">
+      <div className="mb-reply">
             <p className="mb-reply-label">
               <span className="mb-reply-tag">Your reply</span>
               <span className="mono mb-reply-time">{mail.replyTime}</span>
             </p>
-            <p className="mb-reply-text">{mail.reply}</p>
-          </div>
-          <div className="mb-close">
-            <p className="mb-close-label">
-              <span className="mb-close-tag">Kiwi, {mail.closeTime}</span>
-            </p>
-            <p className="mb-close-text">{mail.close}</p>
-          </div>
-        </>
-      ) : (
-        <p className="mb-noreply">Nothing to do. Filed on your record either way.</p>
-      )}
+        <p className="mb-reply-text">{mail.reply}</p>
+      </div>
+      <div className="mb-close">
+        <p className="mb-close-label">
+          <span className="mb-close-tag">Kiwi, {mail.closeTime}</span>
+        </p>
+        <p className="mb-close-text">{mail.close}</p>
+      </div>
     </div>
   );
 }
@@ -145,8 +139,9 @@ export default function InboxLayer() {
           </div>
           <p className="lead muted ib-head-copy">
             There is nothing for your team to log into, learn or administer. Kiwi works the estate
-            in the background and writes to you only when something genuinely needs a person. When
-            it does, it arrives as an email you can answer in one line.
+            Kiwi works the estate in the background and writes to you only when the answer is
+            genuinely yours to give. No digests, no notifications, no copies for information — if an
+            email arrives, one line settles it.
           </p>
         </Reveal>
 
@@ -160,14 +155,17 @@ export default function InboxLayer() {
             </div>
             <div className="ib-stat is-mid">
               <span className="mono ib-stat-n">{WEEK.reached}</span>
-              <span className="ib-stat-l">emails that reached you</span>
+              <span className="ib-stat-l">emails sent to you, both needing one line back</span>
             </div>
             <div className="ib-stat is-you">
-              <span className="mono ib-stat-n">{WEEK.replied}</span>
-              <span className="ib-stat-l">needed a reply</span>
+              <span className="mono ib-stat-n">{WEEK.fyi}</span>
+              <span className="ib-stat-l">updates, digests or notifications</span>
             </div>
           </div>
-          <p className="ib-ratio-note muted">{WEEK.label}. A normal week.</p>
+          <p className="ib-ratio-note muted">
+            {WEEK.label}. We do not send updates. If Kiwi emails you, it is because the answer is
+            only in your head.
+          </p>
         </Reveal>
       </div>
 
@@ -195,9 +193,19 @@ export default function InboxLayer() {
           <Reveal className="ib-front">
             <div className="mb">
               <header className="mb-top">
-                <span className="mb-title">Inbox</span>
-                <span className="mb-who">Sarah Whitfield · Head of Estates</span>
+                <span className="mb-crumb">
+                  Inbox <span className="mb-crumb-sep" aria-hidden="true">›</span>
+                  <span className="mb-label">Kiwi Compliance</span>
+                </span>
+                <span className="mb-search" aria-hidden="true">Search mail</span>
+                <span className="mb-who">Sarah Whitfield</span>
               </header>
+              <div className="mb-tools" aria-hidden="true">
+                <span className="mb-tool">Archive</span>
+                <span className="mb-tool">Snooze</span>
+                <span className="mb-tool">Label</span>
+                <span className="mb-count mono">{EMAILS.length} of {EMAILS.length}</span>
+              </div>
 
               <div className="mb-split">
                 <ul className="mb-list" role="tablist" aria-label="Emails from Kiwi this week">
@@ -209,14 +217,14 @@ export default function InboxLayer() {
                         className={`mb-item${e.id === open ? ' is-on' : ''}`}
                         onClick={() => setOpen(e.id)}
                       >
-                        <span className="mb-item-top">
-                          <span className={`mb-dot is-${e.tone}`} aria-hidden="true" />
-                          <span className="mb-item-from">{e.from}</span>
-                          <span className="mono mb-item-time">{e.day}</span>
+                        <span className="mb-check" aria-hidden="true" />
+                        <span className="mb-star" aria-hidden="true">☆</span>
+                        <span className="mb-item-from">{e.from}</span>
+                        <span className="mb-item-line">
+                          <span className="mb-item-subject">{e.subject}</span>
+                          <span className="mb-item-snip"> — {e.snippet}</span>
                         </span>
-                        <span className="mb-item-subject">{e.subject}</span>
-                        <span className="mb-item-snip">{e.snippet}</span>
-                        <span className={`mb-item-flag${e.needsReply ? ' is-you' : ''}`}>{e.flag}</span>
+                        <span className="mono mb-item-date">{e.date}</span>
                       </button>
                     </li>
                   ))}

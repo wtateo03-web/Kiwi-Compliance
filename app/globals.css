@@ -1790,3 +1790,238 @@ button { font: inherit; color: inherit; }
   font-size: clamp(1.06rem, 1.7vw, 1.28rem);
   font-weight: 600; letter-spacing: -0.02em; color: var(--ink);
 }
+
+/* ==========================================================================
+   Dense platform
+   Kiwi is a data manager, so the record looks like a record: a grid with row
+   numbers and column letters, a case file with the clock across the middle,
+   and an overview that fits on one screen instead of scrolling.
+   ========================================================================== */
+
+/* --- the sheet ---------------------------------------------------------- */
+.sheet { border: 1px solid var(--border-strong); border-radius: var(--r); overflow: hidden; background: var(--white); }
+.sheet-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 12px; border-bottom: 1px solid var(--border); background: var(--warm);
+  font-size: 0.75rem;
+}
+.sheet-ref {
+  min-width: 42px; padding: 2px 7px; border: 1px solid var(--border-strong);
+  border-radius: 4px; background: var(--white); color: var(--ink);
+}
+.sheet-fx { color: var(--muted); font-style: italic; padding-right: 8px; border-right: 1px solid var(--border); }
+.sheet-val { color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.sheet-scroll { overflow-x: auto; }
+.sheet-grid { border-collapse: collapse; width: 100%; min-width: 780px; font-size: 0.78rem; }
+.sheet-grid th, .sheet-grid td {
+  border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 6px 10px; text-align: left; white-space: nowrap;
+}
+.sheet-grid tr > *:first-child {
+  width: 34px; padding: 6px 0; text-align: center;
+  background: var(--warm); position: sticky; left: 0;
+}
+.sheet-letters th {
+  background: var(--warm); color: var(--muted); font-weight: 400;
+  font-size: 0.68rem; text-align: center; letter-spacing: 0.04em;
+}
+.sheet-head th { background: var(--warm-sunk); color: var(--ink); font-weight: 600; font-size: 0.73rem; }
+.sheet-n { color: var(--muted); font-size: 0.68rem; }
+.sheet-key { color: var(--ink); }
+.sheet-grid tbody td { color: var(--muted); }
+.sheet-grid tbody tr:hover td { background: var(--warm); }
+.sheet-grid tr.is-live td { background: var(--kiwi-soft); color: var(--ink); }
+.sheet-grid tr.is-live td:first-of-type { box-shadow: inset 2px 0 0 var(--kiwi); }
+
+.sheet-note {
+  display: flex; gap: 9px; align-items: baseline;
+  padding: 10px 14px; border-top: 1px solid var(--border);
+  background: var(--warm); font-size: 0.8rem; color: var(--muted);
+}
+.sheet-tick { color: var(--kiwi); font-size: 0.8rem; }
+.sheet-note.is-due .sheet-tick { color: var(--due); }
+
+/* --- the case file ------------------------------------------------------ */
+.case { border: 1px solid var(--border-strong); border-radius: var(--r-lg); background: var(--white); overflow: hidden; }
+.case-top {
+  display: flex; gap: 16px; align-items: flex-start; justify-content: space-between;
+  padding: 18px 20px; border-bottom: 1px solid var(--border);
+}
+.case-title { font-size: 1.06rem; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); }
+.case-sub { margin-top: 4px; font-size: 0.8rem; color: var(--muted); }
+.case-chips { display: flex; gap: 7px; flex-wrap: wrap; flex: 0 0 auto; }
+.case-chip {
+  font-size: 0.7rem; padding: 4px 9px; border-radius: 5px;
+  background: var(--warm-sunk); color: var(--muted); white-space: nowrap;
+}
+.case-chip.is-sev { background: rgba(168, 80, 58, 0.12); color: var(--action); font-weight: 500; }
+
+.case-rail {
+  display: flex; gap: 4px; padding: 16px 20px;
+  border-bottom: 1px solid var(--border); background: var(--warm); overflow-x: auto;
+}
+.case-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; min-width: 84px; position: relative; }
+.case-step::before {
+  content: ''; position: absolute; top: 9px; left: -50%; width: 100%; height: 1.5px;
+  background: var(--border-strong);
+}
+.case-step:first-child::before { display: none; }
+.case-step.is-done::before, .case-step.is-now::before { background: var(--kiwi); }
+.case-dot {
+  position: relative; z-index: 1;
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1.5px solid var(--border-strong); background: var(--white);
+  display: grid; place-items: center; font-size: 0.6rem; color: var(--warm);
+}
+.case-step.is-done .case-dot { background: var(--kiwi); border-color: var(--kiwi); }
+.case-step.is-now .case-dot { border-color: var(--kiwi); border-style: dashed; background: var(--white); }
+.case-step-l { font-size: 0.7rem; color: var(--muted); text-align: center; white-space: nowrap; }
+.case-step.is-now .case-step-l { color: var(--ink); font-weight: 600; }
+
+.case-body { display: grid; gap: 24px; padding: 20px; }
+@media (min-width: 820px) { .case-body { grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: 32px; } }
+.case-h { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.case-dl { margin-top: 12px; display: grid; gap: 12px; }
+.case-dl dt { font-size: 0.72rem; color: var(--muted); }
+.case-dl dd { margin-top: 3px; font-size: 0.85rem; line-height: 1.55; color: var(--ink); }
+.case-dates { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px 26px; padding-top: 14px; border-top: 1px solid var(--border); }
+.case-date { display: flex; flex-direction: column; gap: 2px; }
+.case-date-k { font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.case-date-v { font-size: 0.86rem; color: var(--ink); }
+
+.case-people { margin-top: 12px; display: grid; gap: 12px; }
+.case-people li { display: grid; gap: 1px; }
+.case-role { font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.case-who { font-size: 0.86rem; color: var(--ink); font-weight: 500; }
+.case-note { font-size: 0.78rem; color: var(--muted); }
+
+.case-foot {
+  display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+  padding: 14px 20px; border-top: 1px solid var(--border); background: var(--warm);
+}
+.case-plan { display: flex; gap: 8px 20px; flex-wrap: wrap; }
+.case-plan li { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; color: var(--muted); }
+.case-plan li.is-done { color: var(--ink); }
+.case-plan-dot {
+  width: 15px; height: 15px; border-radius: 50%; display: grid; place-items: center;
+  border: 1.5px solid var(--border-strong); font-size: 0.55rem; color: var(--warm);
+}
+.case-plan li.is-done .case-plan-dot { background: var(--kiwi); border-color: var(--kiwi); }
+.case-state {
+  font-size: 0.72rem; letter-spacing: 0.04em; padding: 5px 11px; border-radius: 5px;
+  background: var(--kiwi-soft); color: var(--kiwi); font-weight: 500; white-space: nowrap;
+}
+
+/* --- a track that fits in a table cell ---------------------------------- */
+.mtrack { display: inline-flex; align-items: center; gap: 2px; }
+.mtrack-seg { width: 12px; height: 3px; border-radius: 2px; background: var(--border-strong); }
+.mtrack-seg.is-done, .mtrack-seg.is-now { background: var(--kiwi); }
+.mtrack-l { margin-left: 8px; font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+.co-own { display: block; font-size: 0.68rem; color: var(--muted); }
+.co-next { font-size: 0.76rem; color: var(--muted); }
+
+/* --- a working overview ------------------------------------------------- */
+.ov-strip {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; background: var(--white);
+}
+@media (min-width: 760px) { .ov-strip { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.ov-cell {
+  display: flex; flex-direction: column; gap: 2px; padding: 12px 14px;
+  border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.ov-n { font-size: 1.2rem; font-weight: 500; letter-spacing: -0.03em; color: var(--ink); }
+.ov-n.is-warn { color: var(--action); }
+.ov-l { font-size: 0.7rem; color: var(--muted); }
+
+.ov-split { margin-top: 18px; display: grid; gap: 22px; }
+@media (min-width: 980px) { .ov-split { grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.75fr); gap: 26px; } }
+.ov-main, .ov-side { min-width: 0; }
+.ov-h2 { margin-top: 22px; }
+.ov-time { font-size: 0.74rem; color: var(--muted); }
+.ov-out { font-size: 0.78rem; color: var(--kiwi); }
+.ov-none {
+  margin-top: 10px; display: flex; gap: 9px; align-items: baseline;
+  font-size: 0.84rem; line-height: 1.5; color: var(--muted);
+}
+.ov-none-n {
+  display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px;
+  border-radius: 5px; background: var(--action); color: var(--warm); font-size: 0.76rem;
+}
+.ov-week { margin-top: 10px; display: grid; gap: 7px; }
+.ov-week li { display: flex; gap: 9px; align-items: baseline; font-size: 0.8rem; color: var(--muted); }
+.ov-week-n { color: var(--ink); min-width: 30px; }
+
+/* --- reports ------------------------------------------------------------ */
+.rp-name { display: block; color: var(--ink); }
+.rp-id { display: block; font-size: 0.7rem; color: var(--muted); }
+.rp-head { display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; margin-bottom: 14px; }
+.rp-title { font-size: 1.04rem; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); }
+.rp-meta { margin-top: 4px; font-size: 0.74rem; color: var(--muted); }
+.rp-by { margin-top: 2px; font-size: 0.78rem; color: var(--muted); }
+.rp-export { margin-bottom: 0; }
+
+/* --- the mailbox, as a real mail client --------------------------------- */
+.mb-top { gap: 14px; }
+.mb-crumb { font-size: 0.84rem; color: var(--muted); }
+.mb-crumb-sep { margin: 0 6px; color: var(--border-strong); }
+.mb-label {
+  padding: 2px 8px; border-radius: 4px;
+  background: var(--kiwi-soft); color: var(--kiwi); font-weight: 500; font-size: 0.78rem;
+}
+.mb-search {
+  flex: 1; max-width: 260px; padding: 5px 12px; border-radius: 999px;
+  background: var(--warm-sunk); color: var(--muted); font-size: 0.76rem;
+}
+.mb-tools {
+  display: flex; align-items: center; gap: 16px;
+  padding: 8px 20px; border-bottom: 1px solid var(--border); background: var(--white);
+}
+.mb-tool { font-size: 0.74rem; color: var(--muted); }
+.mb-count { margin-left: auto; font-size: 0.72rem; color: var(--muted); }
+
+/* Sender, one-line subject and snippet, date right — the mail-client tell. */
+.mb-item {
+  display: grid; align-items: baseline; gap: 0 10px;
+  grid-template-columns: 16px 14px minmax(0, 1fr) auto;
+  padding: 11px 18px;
+}
+.mb-check { width: 12px; height: 12px; border: 1px solid var(--border-strong); border-radius: 3px; }
+.mb-star { font-size: 0.8rem; color: var(--border-strong); line-height: 1; }
+.mb-item-from { font-size: 0.82rem; font-weight: 600; color: var(--ink); grid-column: 3; }
+.mb-item-date { font-size: 0.72rem; color: var(--muted); grid-column: 4; grid-row: 1; }
+.mb-item-line {
+  grid-column: 3 / 5; margin-top: 3px; min-width: 0;
+  display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 0.82rem;
+}
+.mb-item-subject { color: var(--ink); font-weight: 500; }
+.mb-item-snip { color: var(--muted); font-weight: 400; }
+@media (max-width: 879px) {
+  .mb-item-line { white-space: normal; }
+  .mb-item-snip { display: block; }
+}
+
+/* Invoicing, condensed: the five checks read as a rule rather than a list. */
+.inv-row {
+  display: flex; flex-wrap: wrap; gap: 8px 22px;
+  margin: 16px 0; padding: 12px 14px;
+  border: 1px solid var(--border); border-radius: var(--r); background: var(--white);
+}
+.inv-row li { display: flex; align-items: center; gap: 8px; font-size: 0.79rem; color: var(--muted); }
+.inv-row-n {
+  display: grid; place-items: center; width: 17px; height: 17px; border-radius: 50%;
+  background: var(--kiwi-soft); color: var(--kiwi); font-size: 0.62rem;
+}
+.inv-note { display: block; font-size: 0.72rem; color: var(--muted); max-width: 46ch; line-height: 1.45; }
+.inv-fee-line {
+  margin-top: 16px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap;
+  padding: 14px 16px; border-radius: var(--r);
+  background: var(--kiwi-soft); border: 1px solid #CFE0D4;
+  font-size: 0.86rem; line-height: 1.55; color: var(--muted);
+}
+.inv-fee-n { font-size: 1.2rem; font-weight: 500; color: var(--kiwi); letter-spacing: -0.02em; }
+
+/* The snippet needs a few pixels to put its ellipsis in. */
+.mb-item-line { padding-right: 6px; }

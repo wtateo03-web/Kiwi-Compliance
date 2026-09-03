@@ -9,14 +9,137 @@ import {
   ESTATE, STATUS_SPLIT, SITES, ASSETS, UPCOMING, JOBS,
   DOCUMENTS, CATEGORIES, ASSET_DETAIL, STAGES,
   PROVIDER_DETAIL, THREADS, INVOICE_SUMMARY, INVOICE_CHECKS, INVOICES,
-  INTAKE_SLA, INTAKE, INTAKE_STATES, REGISTER_RECON, REGISTER_EXCEPTIONS,
-  KIWI_WEEK,
+  REGISTER_RECON, REGISTER_EXCEPTIONS, KIWI_WEEK,
+  SHEET_COLS, SHEET_ROWS, SHEET_NOTE, CASE,
+  PROVIDER_COLS, PROVIDER_ROWS, DOC_COLS, DOC_ROWS,
+  REPORTS_LIST, REPORT_OPEN, ACTIVITY_COLS, ACTIVITY_ROWS,
 } from './platformData';
 
 const NAV = [
   'Overview', 'Register', 'Coordination', 'Comms', 'Invoicing',
-  'Intake', 'Documents', 'Sites', 'Providers', 'Reports',
+  'Documents', 'Sites', 'Providers', 'Reports',
 ];
+
+const COL_LETTER = (i) => String.fromCharCode(65 + i);
+
+/* The record shown the way an estates team already reads a record: row
+   numbers, column letters, a live cell and a reconciliation line underneath. */
+function Sheet({ cols, rows, selected = 1, cell, note, tone }) {
+  return (
+    <div className="sheet">
+      <div className="sheet-bar">
+        <span className="sheet-ref mono">A{selected + 1}</span>
+        <span className="sheet-fx mono">fx</span>
+        <span className="sheet-val mono">{cell ?? rows[selected]?.[0]}</span>
+      </div>
+      <div className="sheet-scroll">
+        <table className="sheet-grid">
+          <thead>
+            <tr className="sheet-letters">
+              <th />
+              {cols.map((_, i) => <th key={i}>{COL_LETTER(i)}</th>)}
+            </tr>
+            <tr className="sheet-head">
+              <th><span className="sheet-n mono">1</span></th>
+              {cols.map((c) => <th key={c}>{c}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r, ri) => (
+              <tr key={ri} className={ri === selected ? 'is-live' : undefined}>
+                <th><span className="sheet-n mono">{ri + 2}</span></th>
+                {r.map((v, ci) => (
+                  <td key={ci} className={ci === 0 ? 'sheet-key mono' : undefined}>{v}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {note && (
+        <p className={`sheet-note${tone ? ` is-${tone}` : ''}`}>
+          <span className="sheet-tick" aria-hidden="true">✓</span>{note}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* A case file. Severity and reference top right, the clock across the middle,
+   the finding and the owners side by side, the plan along the foot. */
+function CaseFile({ onBack }) {
+  return (
+    <>
+      <button className="pf-back" onClick={onBack}>← All work</button>
+      <div className="case">
+        <header className="case-top">
+          <div>
+            <h3 className="case-title">{CASE.title}</h3>
+            <p className="case-sub">{CASE.asset}</p>
+          </div>
+          <div className="case-chips">
+            <span className="case-chip mono">{CASE.ref}</span>
+            <span className="case-chip">{CASE.kind}</span>
+            <span className="case-chip is-sev">{CASE.severity}</span>
+          </div>
+        </header>
+
+        <ol className="case-rail">
+          {CASE.stages.map((label, i) => (
+            <li key={label}
+                className={`case-step${i < CASE.stage ? ' is-done' : ''}${i === CASE.stage ? ' is-now' : ''}`}>
+              <span className="case-dot" aria-hidden="true">{i < CASE.stage ? '✓' : ''}</span>
+              <span className="case-step-l">{label}</span>
+            </li>
+          ))}
+        </ol>
+
+        <div className="case-body">
+          <section className="case-col">
+            <h4 className="case-h">Finding</h4>
+            <dl className="case-dl">
+              {CASE.details.map(([k, v]) => (
+                <div key={k}><dt>{k}</dt><dd>{v}</dd></div>
+              ))}
+            </dl>
+            <div className="case-dates">
+              {CASE.dates.map(([k, v]) => (
+                <span key={k} className="case-date">
+                  <span className="case-date-k">{k}</span>
+                  <span className="case-date-v mono">{v}</span>
+                </span>
+              ))}
+            </div>
+          </section>
+
+          <section className="case-col">
+            <h4 className="case-h">Who is on it</h4>
+            <ul className="case-people">
+              {CASE.people.map(([role, who, note]) => (
+                <li key={role}>
+                  <span className="case-role">{role}</span>
+                  <span className="case-who">{who}</span>
+                  <span className="case-note">{note}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+
+        <footer className="case-foot">
+          <ol className="case-plan">
+            {CASE.plan.map((s) => (
+              <li key={s.t} className={s.done ? 'is-done' : undefined}>
+                <span className="case-plan-dot" aria-hidden="true">{s.done ? '✓' : ''}</span>{s.t}
+              </li>
+            ))}
+          </ol>
+          <span className="case-state">{CASE.status}</span>
+        </footer>
+      </div>
+    </>
+  );
+}
 
 const pct = (n) => ((n / ESTATE.assets) * 100).toFixed(1);
 
@@ -80,6 +203,19 @@ function Track({ stage }) {
         {stage < STAGES.length - 1 && <span className="track-label-next">next: {STAGES[stage + 1]}</span>}
       </p>
     </div>
+  );
+}
+
+function MiniTrack({ stage }) {
+  return (
+    <span className="mtrack" role="img"
+          aria-label={`Stage ${stage + 1} of ${STAGES.length}: ${STAGES[stage]}`}>
+      {STAGES.map((label, i) => (
+        <span key={label}
+              className={`mtrack-seg${i < stage ? ' is-done' : ''}${i === stage ? ' is-now' : ''}`} />
+      ))}
+      <span className="mtrack-l">{STAGES[stage]}</span>
+    </span>
   );
 }
 
@@ -199,144 +335,51 @@ function Invoicing() {
   return (
     <>
       <p className="pf-lede muted">
-        Provider invoices come to us first. Nothing is put in front of you until the job, the
-        evidence and the amount agree.
+        Provider invoices come to us first. Nothing reaches you until the job, the evidence and the
+        amount agree.
       </p>
 
-      <div className="pf-cards">
+      <div className="ov-strip">
         {[
-          [INVOICE_SUMMARY.received, 'Invoices received'],
-          [INVOICE_SUMMARY.matched, 'Matched automatically'],
-          [INVOICE_SUMMARY.queried, 'Queried by Kiwi'],
+          [INVOICE_SUMMARY.received, 'Received'],
+          [INVOICE_SUMMARY.matched, 'Matched'],
+          [INVOICE_SUMMARY.queried, 'Queried', 'warn'],
           [INVOICE_SUMMARY.recovered, 'Recovered'],
-        ].map(([n, l]) => (
-          <div key={l} className="pf-card">
-            <span className="pf-card-n mono">{n}</span>
-            <span className="pf-card-l">{l}</span>
+          [INVOICE_SUMMARY.kiwiCharged, 'Charged by Kiwi'],
+        ].map(([n, l, tone]) => (
+          <div key={l} className="ov-cell">
+            <span className={`mono ov-n${tone ? ' is-warn' : ''}`}>{n}</span>
+            <span className="ov-l">{l}</span>
           </div>
         ))}
       </div>
-      <p className="inv-quarter mono">{INVOICE_SUMMARY.quarter}</p>
 
-      <section className="pf-block">
-        <h3 className="pf-block-title">Every invoice passes five checks</h3>
-        <ol className="inv-checks">
-          {INVOICE_CHECKS.map((c, i) => (
-            <li key={c.label}>
-              <span className="inv-check-n mono">{i + 1}</span>
-              <span className="inv-check-body">
-                <span className="inv-check-label">{c.label}</span>
-                <span className="inv-check-note">{c.note}</span>
-              </span>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <ol className="inv-row">
+        {INVOICE_CHECKS.map((c, i) => (
+          <li key={c.label}>
+            <span className="inv-row-n mono">{i + 1}</span>{c.label}
+          </li>
+        ))}
+      </ol>
 
-      <section className="pf-block">
-        <h3 className="pf-block-title">Recent invoices</h3>
-        <ul className="invoices">
-          {INVOICES.map((v) => (
-            <li key={v.ref}>
-              <div className="inv-top">
-                <div>
-                  <p className="inv-ref mono">{v.ref}</p>
-                  <p className="inv-provider">{v.provider}</p>
-                  <p className="inv-meta"><span className="mono">{v.job}</span> · {v.site}</p>
-                </div>
-                <div className="inv-right">
-                  <p className="inv-amount mono">{v.amount}</p>
-                  {v.amount !== v.quoted && <p className="inv-quoted mono">quoted {v.quoted}</p>}
-                  <span className={`pill is-${v.tone}`}>{v.state}</span>
-                </div>
-              </div>
-              <p className="inv-flag">{v.flag}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <Table head={['Invoice', 'Provider', 'Job · site', 'Quoted', 'Amount', 'State']} min={880}>
+        {INVOICES.map((v) => (
+          <tr key={v.ref}>
+            <td className="mono pf-id">{v.ref}</td>
+            <td>{v.provider}<span className="inv-note">{v.flag}</span></td>
+            <td><span className="mono">{v.job}</span> · {v.site}</td>
+            <td className="mono">{v.quoted}</td>
+            <td className="mono">{v.amount}</td>
+            <td><span className={`pill is-${v.tone}`}>{v.state}</span></td>
+          </tr>
+        ))}
+      </Table>
 
-      <section className="pf-block">
-        <div className="inv-fee">
-          <p className="inv-fee-n mono">{INVOICE_SUMMARY.kiwiCharged}</p>
-          <div>
-            <p className="inv-fee-l">Charged to you by Kiwi this quarter</p>
-            <p className="inv-fee-note">
-              Our fee is agreed with the provider and comes out of their rate, not on top of it. It
-              does not appear on anything you are invoiced, and it does not change with the outcome
-              of an examination.
-            </p>
-          </div>
-        </div>
-      </section>
-    </>
-  );
-}
-
-/* -------------------------------------------------------------- intake --- */
-
-function Intake() {
-  return (
-    <>
-      <p className="pf-lede muted">
-        Send it in whatever state it is in. Spreadsheets, scans, a folder export, a photograph of a
-        certificate on a wall, a forwarded email chain. We read it, structure it and file it.
+      <p className="inv-fee-line">
+        <span className="mono inv-fee-n">{INVOICE_SUMMARY.kiwiCharged}</span>
+        charged to you by Kiwi this quarter. Our fee is agreed with the provider and comes out of
+        their rate, not on top of it.
       </p>
-
-      <div className="intake-drop" role="img" aria-label="File intake area">
-        <span className="intake-drop-mark" aria-hidden="true">↓</span>
-        <p className="intake-drop-title">Drop anything here</p>
-        <p className="intake-drop-sub">
-          .xlsx · .csv · .pdf · .zip · .msg · photographs · scans · whatever your predecessor left behind
-        </p>
-      </div>
-
-      <div className="pf-cards">
-        {[
-          [INTAKE_SLA.promise, 'Filed within'],
-          [INTAKE_SLA.median, 'Median so far'],
-          [INTAKE_SLA.processed.toLocaleString('en-GB'), 'Items processed'],
-          [INTAKE_SLA.breached, 'Missed'],
-        ].map(([n, l]) => (
-          <div key={l} className="pf-card">
-            <span className="pf-card-n mono">{n}</span>
-            <span className="pf-card-l">{l}</span>
-          </div>
-        ))}
-      </div>
-
-      <section className="pf-block">
-        <h3 className="pf-block-title">What happens to it</h3>
-        <ol className="intake-flow">
-          {INTAKE_STATES.map((s, i) => (
-            <li key={s}>
-              <span className="intake-flow-n mono">{i + 1}</span>
-              {s}
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="pf-block">
-        <h3 className="pf-block-title">Recently received</h3>
-        <ul className="intake-list">
-          {INTAKE.map((f) => (
-            <li key={f.file}>
-              <div className="intake-top">
-                <div className="intake-id">
-                  <p className="intake-file mono">{f.file}</p>
-                  <p className="intake-meta">{f.kind} · {f.size} · {f.from}</p>
-                </div>
-                <div className="intake-right">
-                  <span className="intake-elapsed mono">{f.elapsed}</span>
-                  <span className={`pill is-${f.tone}`}>{f.state}</span>
-                </div>
-              </div>
-              <p className="intake-outcome">{f.outcome}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
     </>
   );
 }
@@ -437,21 +480,15 @@ function Register({ asset, setAsset }) {
       </section>
 
       <section className="pf-block">
-        <h3 className="pf-block-title">Assets</h3>
-        <Table head={['Asset', 'Type', 'Site', 'Next due', 'Status']}
-               exportable rows={ESTATE.assets.toLocaleString('en-GB')}>
-          {ASSETS.map((a) => (
-            <tr key={a.id} className="is-clickable" tabIndex={0}
-                onClick={() => setAsset(true)}
-                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), setAsset(true))}>
-              <td className="mono pf-id">{a.id}</td>
-              <td>{a.type}</td>
-              <td>{a.site}</td>
-              <td className="mono">{a.due}</td>
-              <td><Status tone={a.tone}>{a.status}</Status></td>
-            </tr>
-          ))}
-        </Table>
+        <h3 className="pf-block-title">Register</h3>
+        <div className="pf-export">
+          <span className="pf-export-n mono">{ESTATE.assets.toLocaleString('en-GB')}</span>
+          <span className="pf-export-l">rows · filtered to 12</span>
+          <span className="pf-export-btn">Export CSV</span>
+          <span className="pf-export-btn">Export PDF</span>
+        </div>
+        <Sheet cols={SHEET_COLS} rows={SHEET_ROWS} selected={2}
+               cell="GL-04" note={SHEET_NOTE} />
       </section>
     </>
   );
@@ -459,62 +496,20 @@ function Register({ asset, setAsset }) {
 
 /* ----------------------------------------------------------- providers --- */
 
-const SOURCED = {
-  yours: 'Your provider',
-  kiwi: 'Kiwi-sourced',
-  insurer: 'Insurer appointed',
-};
-
 function Providers() {
   return (
     <>
       <p className="pf-lede muted">
-        Who does the work on your estate, how quickly they answer us, and how long the evidence
-        takes to arrive after the visit. We hold these relationships so you do not have to.
+        Who does the work, how fast they answer us, and how long evidence takes after the visit.
+        We hold these relationships so you do not have to.
       </p>
-      <ul className="prv-list">
-        {PROVIDER_DETAIL.map((p) => (
-          <li key={p.id}>
-            <div className="prv-top">
-              <div>
-                <p className="prv-name">{p.name}</p>
-                <p className="prv-field">{p.field}</p>
-              </div>
-              <span className={`prv-sourced is-${p.sourced}`}>{SOURCED[p.sourced]}</span>
-            </div>
-
-            <dl className="prv-facts">
-              <div><dt>Contact</dt><dd>{p.contact}<span className="prv-role">{p.role}</span></dd></div>
-              <div><dt>Email</dt><dd className="mono prv-wrap">{p.email}</dd></div>
-              <div><dt>Telephone</dt><dd className="mono">{p.phone}</dd></div>
-              <div><dt>Accreditation</dt><dd>{p.accred}</dd></div>
-              <div><dt>Relationship</dt><dd>{p.since}</dd></div>
-              <div><dt>Sites covered</dt><dd className="mono">{p.sites}</dd></div>
-            </dl>
-
-            <div className="prv-metrics">
-              <span className="prv-metric">
-                <span className="mono prv-metric-n">{p.respondHrs}h</span>
-                <span className="prv-metric-l">Median reply to us</span>
-              </span>
-              <span className="prv-metric">
-                <span className={`mono prv-metric-n is-${p.evidenceTone}`}>{p.evidenceDays}d</span>
-                <span className="prv-metric-l">Visit to evidence</span>
-              </span>
-              <span className="prv-metric">
-                <span className="mono prv-metric-n">{p.open}</span>
-                <span className="prv-metric-l">Open jobs</span>
-              </span>
-              <span className="prv-metric">
-                <span className="mono prv-metric-n">{p.completed}</span>
-                <span className="prv-metric-l">Completed</span>
-              </span>
-            </div>
-
-            <p className="prv-note">{p.note}</p>
-          </li>
-        ))}
-      </ul>
+      <div className="pf-export">
+        <span className="pf-export-n mono">{ESTATE.providers}</span>
+        <span className="pf-export-l">providers · 16 shown</span>
+        <span className="pf-export-btn">Export CSV</span>
+      </div>
+      <Sheet cols={PROVIDER_COLS} rows={PROVIDER_ROWS} selected={5} cell="Midlands Electrical Testing"
+             note="Evidence return over 10 days on 3 providers. Raised and under review." tone="due" />
     </>
   );
 }
@@ -526,8 +521,13 @@ export default function Platform() {
   const [site, setSite] = useState(null);
   const [asset, setAsset] = useState(false);
   const [thread, setThread] = useState(null);
+  const [caseOpen, setCaseOpen] = useState(false);
+  const [report, setReport] = useState(null);
 
-  const go = (v) => { setView(v); setSite(null); setAsset(false); setThread(null); };
+  const go = (v) => {
+    setView(v); setSite(null); setAsset(false);
+    setThread(null); setCaseOpen(false); setReport(null);
+  };
 
   return (
     <section className="section dark pf-section" id="platform">
@@ -588,80 +588,65 @@ export default function Platform() {
               {/* ------------------------------------------------ overview */}
               {view === 'Overview' && (
                 <>
-                  <div className="pf-headline">
-                    <span className="pf-headline-n mono">{ESTATE.due90}</span>
-                    <span className="pf-headline-l">items due in the next 90 days</span>
-                    <span className="pf-headline-sep" aria-hidden="true" />
-                    <span className="pf-headline-n mono pf-headline-warn">{ESTATE.actions}</span>
-                    <span className="pf-headline-l">actions open</span>
-                  </div>
-
-                  <div className="pf-cards">
+                  <div className="ov-strip">
                     {[
-                      [ESTATE.assets.toLocaleString('en-GB'), 'Assets tracked'],
+                      [ESTATE.assets.toLocaleString('en-GB'), 'Assets'],
                       [ESTATE.sites, 'Sites'],
-                      [ESTATE.providers, 'Providers coordinated'],
-                      [ESTATE.certificates.toLocaleString('en-GB'), 'Certificates on file'],
-                    ].map(([n, l]) => (
-                      <div key={l} className="pf-card">
-                        <span className="pf-card-n mono">{n}</span>
-                        <span className="pf-card-l">{l}</span>
+                      [ESTATE.providers, 'Providers'],
+                      [ESTATE.due90, 'Due in 90 days'],
+                      [ESTATE.actions, 'Actions open', 'warn'],
+                      [ESTATE.certificates.toLocaleString('en-GB'), 'Certificates'],
+                    ].map(([n, l, tone]) => (
+                      <div key={l} className="ov-cell">
+                        <span className={`mono ov-n${tone ? ' is-warn' : ''}`}>{n}</span>
+                        <span className="ov-l">{l}</span>
                       </div>
                     ))}
                   </div>
 
-                  <section className="pf-block">
-                    <h3 className="pf-block-title">What Kiwi did this week</h3>
-                    <ul className="week">
-                      {KIWI_WEEK.stats.map((s) => (
-                        <li key={s.l}>
-                          <span className="mono week-n">{s.n}</span>
-                          <span className="week-l">{s.l}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="week-needs">
-                      <span className="mono week-needs-n">{KIWI_WEEK.needsYou}</span>
-                      thing needs a decision from you. Everything else is in hand.
-                    </p>
-                  </section>
+                  <div className="ov-split">
+                    <section className="ov-main">
+                      <h3 className="pf-block-title">What happened on your estate</h3>
+                      <Table head={ACTIVITY_COLS} min={720}>
+                        {ACTIVITY_ROWS.map((r, i2) => (
+                          <tr key={i2}>
+                            <td className="mono ov-time">{r[0]}</td>
+                            <td>{r[1]}</td>
+                            <td className="mono pf-id">{r[2]}</td>
+                            <td>{r[3]}</td>
+                            <td className="ov-out">{r[4]}</td>
+                          </tr>
+                        ))}
+                      </Table>
+                    </section>
 
-                  <section className="pf-block">
-                    <h3 className="pf-block-title">Estate status</h3>
-                    <Bar />
-                    <ul className="pf-legend">
-                      {STATUS_SPLIT.map((s) => (
-                        <li key={s.key}>
-                          <span className={`dot is-${s.tone}`} />
-                          {s.label}
-                          <span className="mono pf-legend-n">{s.value.toLocaleString('en-GB')}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
-
-                  <section className="pf-block">
-                    <h3 className="pf-block-title">Work Kiwi is moving</h3>
-                    <JobList jobs={JOBS.slice(0, 3)} />
-                  </section>
-
-                  <section className="pf-block">
-                    <h3 className="pf-block-title">Upcoming work</h3>
-                    <ul className="pf-upcoming">
-                      {UPCOMING.slice(0, 3).map((u) => (
-                        <li key={u.title}>
-                          <div>
-                            <p className="pf-up-title">{u.title}</p>
-                            <p className="pf-up-site">{u.site}</p>
-                          </div>
-                          <div className="pf-up-right">
-                            <span className="mono pf-up-due">{u.due}</span>
-                            <span className={`pill is-${u.tone}`}>{u.state}</span>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
+                    <aside className="ov-side">
+                      <h3 className="pf-block-title">Needs you</h3>
+                      <p className="ov-none">
+                        <span className="mono ov-none-n">{KIWI_WEEK.needsYou}</span>
+                        item. It has been emailed to you and is waiting on a reply.
+                      </p>
+                      <h3 className="pf-block-title ov-h2">Estate status</h3>
+                      <Bar />
+                      <ul className="pf-legend">
+                        {STATUS_SPLIT.map((st) => (
+                          <li key={st.key}>
+                            <span className={`dot is-${st.tone}`} />{st.label}
+                            <span className="mono pf-legend-n">{st.value.toLocaleString('en-GB')}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <h3 className="pf-block-title ov-h2">This week, Kiwi</h3>
+                      <ul className="ov-week">
+                        {KIWI_WEEK.stats.map((st) => (
+                          <li key={st.l}>
+                            <span className="mono ov-week-n">{st.n}</span>
+                            <span className="ov-week-l">{st.l}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </aside>
+                  </div>
                 </>
               )}
 
@@ -669,27 +654,32 @@ export default function Platform() {
               {view === 'Register' && <Register asset={asset} setAsset={setAsset} />}
 
               {/* -------------------------------------------- coordination */}
-              {view === 'Coordination' && (
+              {view === 'Coordination' && !caseOpen && (
                 <>
                   <p className="pf-lede muted">
-                    Every requirement travels the same route. We move it along; you watch it move.
+                    Every requirement travels the same route. We move it; you can watch it.
                   </p>
-                  <JobList jobs={JOBS} />
-                  <section className="pf-block">
-                    <h3 className="pf-block-title">Upcoming</h3>
-                    <Table head={['Requirement', 'Site', 'Due', 'State']}>
-                      {UPCOMING.map((u) => (
-                        <tr key={u.title}>
-                          <td>{u.title}</td>
-                          <td>{u.site}</td>
-                          <td className="mono">{u.due.replace('Due ', '')}</td>
-                          <td><Status tone={u.tone}>{u.state}</Status></td>
-                        </tr>
-                      ))}
-                    </Table>
-                  </section>
+                  <Table head={['Ref', 'Work', 'Asset · site', 'Provider', 'Stage', 'Next']} min={860}>
+                    {JOBS.map((j) => (
+                      <tr key={j.ref} className="is-clickable" tabIndex={0}
+                          onClick={() => setCaseOpen(true)}
+                          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), setCaseOpen(true))}>
+                        <td className="mono pf-id">{j.ref}</td>
+                        <td>{j.work}</td>
+                        <td>{j.site}</td>
+                        <td>
+                          {j.provider}
+                          <span className="co-own">{j.owned ? 'yours' : 'Kiwi-sourced'}</span>
+                        </td>
+                        <td><MiniTrack stage={j.stage} /></td>
+                        <td className="co-next">{STAGES[Math.min(j.stage + 1, STAGES.length - 1)]}</td>
+                      </tr>
+                    ))}
+                  </Table>
                 </>
               )}
+
+              {view === 'Coordination' && caseOpen && <CaseFile onBack={() => setCaseOpen(false)} />}
 
               {/* --------------------------------------------------- comms */}
               {view === 'Comms' && <Comms open={thread} setOpen={setThread} />}
@@ -697,23 +687,22 @@ export default function Platform() {
               {/* ----------------------------------------------- invoicing */}
               {view === 'Invoicing' && <Invoicing />}
 
-              {/* -------------------------------------------------- intake */}
-              {view === 'Intake' && <Intake />}
 
               {/* ----------------------------------------------- documents */}
               {view === 'Documents' && (
-                <Table head={['Document', 'Asset', 'Site', 'Completed', 'Next due']} min={720}
-                       exportable rows={ESTATE.certificates.toLocaleString('en-GB')}>
-                  {DOCUMENTS.map((d) => (
-                    <tr key={d.name + d.asset}>
-                      <td>{d.name}</td>
-                      <td className="mono pf-id">{d.asset}</td>
-                      <td>{d.site}</td>
-                      <td className="mono">{d.done}</td>
-                      <td className="mono">{d.next}</td>
-                    </tr>
-                  ))}
-                </Table>
+                <>
+                  <p className="pf-lede muted">
+                    Every certificate, report and scheme, filed against the asset it belongs to.
+                  </p>
+                  <div className="pf-export">
+                    <span className="pf-export-n mono">{ESTATE.certificates.toLocaleString('en-GB')}</span>
+                    <span className="pf-export-l">documents · 12 shown</span>
+                    <span className="pf-export-btn">Export index</span>
+                    <span className="pf-export-btn">Download all</span>
+                  </div>
+                  <Sheet cols={DOC_COLS} rows={DOC_ROWS} selected={1} cell="LOLER Thorough Examination"
+                         note="Every document is attached to an asset on the register. None are orphaned." />
+                </>
               )}
 
               {/* --------------------------------------------------- sites */}
@@ -768,34 +757,49 @@ export default function Platform() {
               {view === 'Providers' && <Providers />}
 
               {/* ------------------------------------------------- reports */}
-              {view === 'Reports' && (
+              {view === 'Reports' && !report && (
                 <>
                   <p className="pf-lede muted">
-                    The pack an auditor, an insurer or a customer asks for, ready before they ask.
+                    The pack an auditor, an insurer or a customer asks for, built and kept current.
+                    Open one to see what is in it.
                   </p>
-                  <section className="pf-block">
-                    <h3 className="pf-block-title">Estate compliance</h3>
-                    <Bar />
-                    <ul className="pf-legend">
-                      {STATUS_SPLIT.map((s) => (
-                        <li key={s.key}>
-                          <span className={`dot is-${s.tone}`} />{s.label}
-                          <span className="mono pf-legend-n">{s.value.toLocaleString('en-GB')}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
-                  <section className="pf-block">
-                    <h3 className="pf-block-title">By category</h3>
-                    <Table head={['Category', 'Assets', 'Current', 'Due soon', 'Action']} min={520}>
-                      {CATEGORIES.map((c) => (
-                        <tr key={c.label}>
-                          <td>{c.label}</td><td className="mono">{c.total}</td>
-                          <td className="mono">{c.current}</td><td className="mono">{c.due}</td><td className="mono">{c.action}</td>
-                        </tr>
-                      ))}
-                    </Table>
-                  </section>
+                  <Table head={['Report', 'Period', 'Built', 'Items', 'Size', '']} min={720}>
+                    {REPORTS_LIST.map((r) => (
+                      <tr key={r.id} className="is-clickable" tabIndex={0}
+                          onClick={() => setReport(r)}
+                          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), setReport(r))}>
+                        <td>
+                          <span className="rp-name">{r.name}</span>
+                          <span className="rp-id mono">{r.id}</span>
+                        </td>
+                        <td>{r.period}</td>
+                        <td className="mono">{r.built}</td>
+                        <td className="mono">{r.items.toLocaleString('en-GB')}</td>
+                        <td className="mono">{r.size}</td>
+                        <td><span className={`pill is-${r.tone}`}>Open</span></td>
+                      </tr>
+                    ))}
+                  </Table>
+                </>
+              )}
+
+              {view === 'Reports' && report && (
+                <>
+                  <button className="pf-back" onClick={() => setReport(null)}>← All reports</button>
+                  <div className="rp-head">
+                    <div>
+                      <h3 className="rp-title">{REPORT_OPEN.name}</h3>
+                      <p className="rp-meta mono">{REPORT_OPEN.id} · built {REPORT_OPEN.built}</p>
+                      <p className="rp-by">{REPORT_OPEN.by}</p>
+                    </div>
+                    <div className="pf-export rp-export">
+                      <span className="pf-export-btn">Export PDF</span>
+                      <span className="pf-export-btn">Export CSV</span>
+                    </div>
+                  </div>
+                  <Sheet cols={REPORT_OPEN.cols} rows={REPORT_OPEN.rows} selected={1}
+                         cell="4.11.1"
+                         note="Two requirements have an open action. Evidence for the rest is current and attached." tone="due" />
                 </>
               )}
             </div>
