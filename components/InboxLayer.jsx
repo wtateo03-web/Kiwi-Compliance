@@ -187,7 +187,7 @@ export default function InboxLayer() {
           <div className="ib-behind" aria-hidden="true">
             <div className="ib-behind-rail">
               <span className="ib-behind-brand">KIWI</span>
-              {['Overview', 'Register', 'Coordination', 'Comms', 'Invoicing', 'Intake'].map((n) => (
+              {['Overview', 'Register', 'Coordination', 'Comms', 'Invoicing', 'Documents'].map((n) => (
                 <span key={n} className="ib-behind-nav">{n}</span>
               ))}
             </div>

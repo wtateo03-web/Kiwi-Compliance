@@ -1,17 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Reveal from './Reveal';
 import { PerchedKiwi } from './KiwiMarks';
 import { FruitCorner } from './Decor';
 import { useInView } from './hooks';
 import {
-  ESTATE, STATUS_SPLIT, SITES, ASSETS, UPCOMING, JOBS,
-  DOCUMENTS, CATEGORIES, ASSET_DETAIL, STAGES,
-  PROVIDER_DETAIL, THREADS, INVOICE_SUMMARY, INVOICE_CHECKS, INVOICES,
-  REGISTER_RECON, REGISTER_EXCEPTIONS, KIWI_WEEK,
+  ESTATE, STATUS_SPLIT, SITES, CATEGORIES, ASSET_DETAIL, STAGES, JOBS,
+  THREADS, KIWI_WEEK,
+  MONEY, MONEY_RECON, PAY_CHECKS, STATEMENT, STATEMENT_HISTORY,
+  STATEMENT_LINES, STATEMENT_HELD,
+  REGISTER_RECON, REGISTER_EXCEPTIONS,
   SHEET_COLS, SHEET_ROWS, SHEET_NOTE, CASE,
-  PROVIDER_COLS, PROVIDER_ROWS, DOC_COLS, DOC_ROWS,
+  PROVIDER_COLS, PROVIDER_ROWS, FILING,
   REPORTS_LIST, REPORT_OPEN, ACTIVITY_COLS, ACTIVITY_ROWS,
 } from './platformData';
 
@@ -158,7 +159,7 @@ function Bar() {
   );
 }
 
-function Table({ head, children, min = 620, rows, exportable = false }) {
+function Table({ head, children, min = 620, rows, exportable = false, tight = false }) {
   return (
     <>
       {exportable && (
@@ -170,7 +171,7 @@ function Table({ head, children, min = 620, rows, exportable = false }) {
         </div>
       )}
       <div className="pf-scroll">
-        <table className="pf-table" style={{ minWidth: min }}>
+        <table className={`pf-table${tight ? ' is-tight' : ''}`} style={{ minWidth: min }}>
           <thead><tr>{head.map((h) => <th key={h}>{h}</th>)}</tr></thead>
           <tbody>{children}</tbody>
         </table>
@@ -242,143 +243,298 @@ function JobList({ jobs }) {
 }
 
 /* --------------------------------------------------------------- comms ---
-   The mailbox is the product. Showing it is the fastest way to make the
-   point that the chasing, the objections and the escalation happen on our
-   side of the wall rather than the customer's. */
+   Correspondence is shown as correspondence. The customer's own mailbox is
+   the section above this one; this is the same shape, holding the traffic
+   we keep off it. List on the left, thread on the right, nothing between
+   the two but a hairline. */
 
-const DIR_LABEL = {
-  out: 'Kiwi → provider',
-  in: 'Provider → Kiwi',
-  note: 'Kiwi → you',
-  call: 'Call logged',
-  sys: 'System',
+const DIR = {
+  out:  { label: 'Kiwi', side: 'kiwi', init: 'K' },
+  in:   { label: 'Provider', side: 'them', init: 'P' },
+  note: { label: 'Kiwi', side: 'kiwi', init: 'K' },
+  call: { label: 'Kiwi', side: 'kiwi', init: 'K' },
+  sys:  { label: 'System', side: 'sys', init: '·' },
 };
 
+const initials = (name) =>
+  name.split('·')[0].trim().split(/\s+/).filter(Boolean).slice(0, 2)
+      .map((w) => w[0]).join('').toUpperCase().slice(0, 2) || 'K';
+
 function Message({ m }) {
+  const d = DIR[m.dir];
+  if (m.dir === 'sys') {
+    return (
+      <li className="cmm is-sys">
+        <span className="cmm-sys-time mono">{m.time}</span>
+        <span className="cmm-sys-body">{m.body}</span>
+      </li>
+    );
+  }
   return (
-    <li className={`msg is-${m.dir}`}>
-      <div className="msg-head">
-        <span className="msg-dir">{DIR_LABEL[m.dir]}</span>
-        <span className="msg-time mono">{m.time}</span>
-      </div>
-      {m.dir !== 'sys' && (
-        <p className="msg-people">
-          <span className="msg-from">{m.from}</span>
-          {m.to && <><span className="msg-arrow" aria-hidden="true">→</span><span className="msg-to">{m.to}</span></>}
+    <li className={`cmm is-${d.side}`}>
+      <span className={`cmm-av is-${d.side}`} aria-hidden="true">
+        {m.dir === 'in' ? initials(m.from) : 'K'}
+      </span>
+      <div className="cmm-main">
+        <p className="cmm-line">
+          <span className="cmm-who">{m.from}</span>
+          {m.to && <span className="cmm-to">to {m.to}</span>}
+          <span className="mono cmm-time">{m.time}</span>
         </p>
-      )}
-      <p className="msg-body">{m.body}</p>
-      <p className="msg-foot">
-        <span className="msg-tag">{m.tag}</span>
-        {m.attach && <span className="msg-attach mono">{m.attach}</span>}
-      </p>
+        <p className="cmm-body">{m.body}</p>
+        <p className="cmm-foot">
+          <span className="cmm-tag">{m.dir === 'call' ? 'Call logged' : m.tag}</span>
+          {m.attach && <span className="cmm-attach mono">▤ {m.attach}</span>}
+        </p>
+      </div>
     </li>
   );
 }
 
 function Comms({ open, setOpen }) {
-  if (open) {
-    return (
-      <>
-        <button className="pf-back" onClick={() => setOpen(null)}>← All correspondence</button>
-        <div className="th-detail-head">
-          <div>
-            <h3 className="th-detail-subject">{open.subject}</h3>
-            <p className="th-detail-meta">
-              <span className="mono">{open.id}</span> · {open.provider} · {open.site}
-            </p>
-          </div>
-          <span className={`pill is-${open.tone}`}>{open.state}</span>
-        </div>
-        <p className="th-detail-summary">{open.summary}</p>
-        <ol className="msgs">
-          {open.messages.map((m, i) => <Message key={i} m={m} />)}
-        </ol>
-      </>
-    );
-  }
+  const thread = open ?? THREADS[0];
 
   return (
-    <>
-      <p className="pf-lede muted">
-        Every message about your estate, written and sent by us. You are not meant to read these —
-        they are the receipts. Providers hear from Kiwi; you hear from Kiwi once, by email, when
-        something genuinely needs you.
-      </p>
-      <ul className="threads">
-        {THREADS.map((t) => (
-          <li key={t.id}>
-            <button className="thread" onClick={() => setOpen(t)}>
-              <span className="thread-top">
-                <span className="thread-subject">{t.subject}</span>
-                <span className={`pill is-${t.tone}`}>{t.state}</span>
-              </span>
-              <span className="thread-meta">
-                <span className="mono">{t.id}</span> · {t.provider} · {t.site} ·{' '}
-                <span className="mono">{t.messages.length} messages</span>
-              </span>
-              <span className="thread-summary">{t.summary}</span>
-              <span className={`thread-action${t.clientAction ? ' is-you' : ''}`}>
-                {t.clientAction ? 'Needs a decision from you' : 'Handled by Kiwi — nothing needed from you'}
-              </span>
-            </button>
-          </li>
-        ))}
-      </ul>
-    </>
+    <div className="cm">
+      <div className="cm-list">
+        <div className="cm-list-top">
+          <span className="cm-list-h">All correspondence</span>
+          <span className="mono cm-list-n">{THREADS.length} threads</span>
+        </div>
+        <ul>
+          {THREADS.map((t) => (
+            <li key={t.id}>
+              <button
+                className={`cm-item${t.id === thread.id ? ' is-on' : ''}`}
+                aria-current={t.id === thread.id ? 'true' : undefined}
+                onClick={() => setOpen(t)}
+              >
+                <span className="cm-item-top">
+                  <span className="cm-item-who">{t.provider}</span>
+                  <span className="mono cm-item-n">{t.messages.length}</span>
+                </span>
+                <span className="cm-item-subject">{t.subject}</span>
+                <span className="cm-item-foot">
+                  <span className={`cm-item-state is-${t.tone}`}>{t.state}</span>
+                  <span className="cm-item-site">{t.site}</span>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <p className="cm-list-note">
+          None of this reaches you. {THREADS.filter((t) => t.clientAction).length} of these four
+          needed a line back — it was emailed, and it is above.
+        </p>
+      </div>
+
+      <div className="cm-read">
+        <header className="cm-read-head">
+          <div className="cm-read-headmain">
+            <h3 className="cm-read-subject">{thread.subject}</h3>
+            <p className="cm-read-meta">
+              <span className="mono">{thread.id}</span> · {thread.provider} · {thread.site}
+            </p>
+          </div>
+          <span className={`pill is-${thread.tone}`}>{thread.state}</span>
+        </header>
+        <p className="cm-read-sum">{thread.summary}</p>
+        <ol className="cmms">
+          {thread.messages.map((m, i) => <Message key={i} m={m} />)}
+        </ol>
+        <div className="cm-actions">
+          <span className="cm-act is-primary">Reply</span>
+          <span className="cm-act">Escalate</span>
+          <span className="cm-act">Attach to job</span>
+          <span className="mono cm-act-note">Sent and received by Kiwi on your behalf</span>
+        </div>
+      </div>
+    </div>
   );
 }
 
-/* ----------------------------------------------------------- invoicing --- */
+/* ----------------------------------------------------------- invoicing ---
+   Kiwi is the only compliance supplier on the customer's purchase ledger.
+   Provider invoices arrive here, are checked line by line against the quote
+   and the evidence, and what survives is raised as one itemised statement.
+   The customer pays us; we settle with all nineteen providers behind it.
+   Approval and payment dates are columns, not footnotes, because those are
+   the two facts a finance team asks for first. */
+
+function MoneyStrip() {
+  return (
+    <div className="mflow">
+      <div className="mflow-node">
+        <span className="mflow-node-t">Your providers</span>
+        <span className="mflow-node-s">{MONEY.providersPaid} specialist firms</span>
+      </div>
+      <div className="mflow-gap">
+        <span className="mflow-arrow is-doc">{MONEY.received} invoices in <i aria-hidden="true">→</i></span>
+        <span className="mflow-arrow is-cash"><i aria-hidden="true">←</i> {MONEY.providersPaid} providers paid</span>
+      </div>
+      <div className="mflow-node is-kiwi">
+        <span className="mflow-node-t">KIWI</span>
+        <span className="mflow-node-s">checks, consolidates, settles</span>
+      </div>
+      <div className="mflow-gap">
+        <span className="mflow-arrow is-doc">1 invoice out <i aria-hidden="true">→</i></span>
+        <span className="mflow-arrow is-cash"><i aria-hidden="true">←</i> 1 payment</span>
+      </div>
+      <div className="mflow-node is-you">
+        <span className="mflow-node-t">You</span>
+        <span className="mflow-node-s">one supplier, one payment</span>
+      </div>
+    </div>
+  );
+}
 
 function Invoicing() {
+  const s = STATEMENT;
   return (
     <>
       <p className="pf-lede muted">
-        Provider invoices come to us first. Nothing reaches you until the job, the evidence and the
-        amount agree.
+        We are the only compliance supplier on your ledger. Every provider invoice comes to us, is
+        checked against the quote and the evidence, and what survives becomes one itemised statement.
+        You pay us; we pay all {MONEY.providersPaid} providers behind it.
       </p>
 
-      <div className="ov-strip">
-        {[
-          [INVOICE_SUMMARY.received, 'Received'],
-          [INVOICE_SUMMARY.matched, 'Matched'],
-          [INVOICE_SUMMARY.queried, 'Queried', 'warn'],
-          [INVOICE_SUMMARY.recovered, 'Recovered'],
-          [INVOICE_SUMMARY.kiwiCharged, 'Charged by Kiwi'],
-        ].map(([n, l, tone]) => (
-          <div key={l} className="ov-cell">
-            <span className={`mono ov-n${tone ? ' is-warn' : ''}`}>{n}</span>
-            <span className="ov-l">{l}</span>
+      <MoneyStrip />
+
+      {/* ---------------------------------------------- this month's bill */}
+      <section className="pf-block">
+        <h3 className="pf-block-title">Your statement</h3>
+        <div className="st">
+          <div className="st-head">
+            <div>
+              <p className="st-ref mono">{s.ref}</p>
+              <p className="st-from">Invoice from Kiwi Compliance to</p>
+              <p className="st-to">{s.to}</p>
+              <p className="st-period">{s.period} · {s.lines} lines · {s.providers} providers · {s.po}</p>
+            </div>
+            <div className="st-money">
+              <span className="mono st-gross">{s.gross}</span>
+              <span className="st-split mono">{s.net} net · {s.vat} VAT</span>
+              <span className={`pill is-${s.tone}`}>{s.state}</span>
+            </div>
           </div>
-        ))}
-      </div>
+          <dl className="st-dates">
+            <div><dt>Raised</dt><dd className="mono">{s.raised}</dd></div>
+            <div><dt>Approved</dt><dd className="mono">{s.approvedOn} · {s.approvedBy}</dd></div>
+            <div><dt>Terms</dt><dd className="mono">{s.terms}</dd></div>
+            <div><dt>Payment due</dt><dd className="mono">{s.due}</dd></div>
+            <div className="is-fee"><dt>Kiwi fee added</dt><dd className="mono">{MONEY.kiwiCharged}</dd></div>
+          </dl>
+        </div>
+      </section>
 
-      <ol className="inv-row">
-        {INVOICE_CHECKS.map((c, i) => (
-          <li key={c.label}>
-            <span className="inv-row-n mono">{i + 1}</span>{c.label}
-          </li>
-        ))}
-      </ol>
+      {/* -------------------------------------- claimed against billed */}
+      <section className="pf-block">
+        <h3 className="pf-block-title">Claimed by providers, against what you were asked to pay</h3>
+        <table className="recon is-money">
+          <tbody>
+            {MONEY_RECON.rows.map((r) => (
+              <tr key={r.label} className={r.tone ? `is-${r.tone}` : undefined}>
+                <th scope="row">
+                  <span className="recon-label">{r.label}</span>
+                  {r.note && <span className="recon-note">{r.note}</span>}
+                </th>
+                <td className="mono recon-c">{r.count}</td>
+                <td className="mono recon-v"><span className="recon-sign">{r.sign}</span>{r.value}</td>
+              </tr>
+            ))}
+            <tr className="recon-total">
+              <th scope="row">{MONEY_RECON.total.label}</th>
+              <td className="mono recon-c">{MONEY_RECON.total.count}</td>
+              <td className="mono recon-v">{MONEY_RECON.total.value}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p className="st-stopped">
+          <span className="mono st-stopped-n">{MONEY.stopped}</span> of the {MONEY.receivedValue}{' '}
+          claimed this month was wrong. It never reached your ledger, and none of it was your
+          team&rsquo;s to argue about.
+        </p>
+      </section>
 
-      <Table head={['Invoice', 'Provider', 'Job · site', 'Quoted', 'Amount', 'State']} min={880}>
-        {INVOICES.map((v) => (
-          <tr key={v.ref}>
-            <td className="mono pf-id">{v.ref}</td>
-            <td>{v.provider}<span className="inv-note">{v.flag}</span></td>
-            <td><span className="mono">{v.job}</span> · {v.site}</td>
-            <td className="mono">{v.quoted}</td>
-            <td className="mono">{v.amount}</td>
-            <td><span className={`pill is-${v.tone}`}>{v.state}</span></td>
-          </tr>
-        ))}
-      </Table>
+      {/* ------------------------------------------------------- the lines */}
+      <section className="pf-block">
+        <h3 className="pf-block-title">Lines behind the {s.ref} statement</h3>
+        <div className="pf-export">
+          <span className="pf-export-n mono">{s.lines}</span>
+          <span className="pf-export-l">lines · 7 shown</span>
+          <span className="pf-export-btn">Export CSV</span>
+          <span className="pf-export-btn">Export to Coupa</span>
+          <span className="pf-export-btn">Download PDF</span>
+        </div>
+        <Table
+          head={['Line', 'Provider', 'Work · asset', 'Quoted', 'Invoiced', 'Variance', 'Evidence', 'Provider paid']}
+          min={980}
+          tight
+        >
+          {STATEMENT_LINES.map((l) => (
+            <tr key={l.ref}>
+              <td className="mono pf-id">{l.ref}</td>
+              <td>{l.provider}<span className="st-site">{l.site}</span></td>
+              <td>
+                {l.work}
+                <span className="mono st-asset">{l.asset}</span>
+                {l.note && <span className="st-note">{l.note}</span>}
+              </td>
+              <td className="mono st-num">{l.quoted}</td>
+              <td className="mono st-num">{l.invoiced}</td>
+              <td className={`mono st-num st-delta${l.deltaTone ? ` is-${l.deltaTone}` : ''}`}>{l.delta}</td>
+              <td className="mono st-eviq">{l.evidence}</td>
+              <td className="mono st-paid">{l.paid}</td>
+            </tr>
+          ))}
+        </Table>
+      </section>
+
+      {/* ------------------------------------------------ what was stopped */}
+      <section className="pf-block">
+        <h3 className="pf-block-title">Held back — not on your statement</h3>
+        <Table head={['Invoice', 'Provider', 'Work · asset', 'Claimed', 'Billed', 'State', 'Stopped because']} min={920} tight>
+          {STATEMENT_HELD.map((h) => (
+            <tr key={h.ref}>
+              <td className="mono pf-id">{h.ref}</td>
+              <td>{h.provider}<span className="st-site">{h.site}</span></td>
+              <td>{h.work}<span className="mono st-asset">{h.asset}</span></td>
+              <td className="mono st-num">{h.claimed}</td>
+              <td className="mono st-num st-zero">{h.billed}</td>
+              <td><span className={`pill is-${h.tone}`}>{h.state}</span></td>
+              <td><span className="st-why">{h.reason}</span></td>
+            </tr>
+          ))}
+        </Table>
+        <ol className="inv-row">
+          {PAY_CHECKS.map((c, i) => (
+            <li key={c}><span className="inv-row-n mono">{i + 1}</span>{c}</li>
+          ))}
+        </ol>
+      </section>
+
+      {/* ------------------------------------------------- payment history */}
+      <section className="pf-block">
+        <h3 className="pf-block-title">Statement history</h3>
+        <Table head={['Statement', 'Period', 'Net', 'Raised', 'Approved', 'Paid', 'State']} min={820} tight>
+          {STATEMENT_HISTORY.map((h) => (
+            <tr key={h.ref}>
+              <td className="mono pf-id">{h.ref}</td>
+              <td>{h.period}</td>
+              <td className="mono st-num">{h.net}</td>
+              <td className="mono st-eviq">{h.raised}</td>
+              <td className="mono st-eviq">{h.approved}</td>
+              <td className="mono st-paid">{h.paid}</td>
+              <td><Status tone={h.tone}>{h.state}</Status></td>
+            </tr>
+          ))}
+        </Table>
+      </section>
 
       <p className="inv-fee-line">
-        <span className="mono inv-fee-n">{INVOICE_SUMMARY.kiwiCharged}</span>
-        charged to you by Kiwi this quarter. Our fee is agreed with the provider and comes out of
-        their rate, not on top of it.
+        <span className="mono inv-fee-n">{MONEY.kiwiCharged}</span>
+        added by Kiwi to any of it. We are paid an agreed share of the work we place with each
+        provider, out of their rate — never on top of yours.
       </p>
     </>
   );
@@ -491,6 +647,133 @@ function Register({ asset, setAsset }) {
                cell="GL-04" note={SHEET_NOTE} />
       </section>
     </>
+  );
+}
+
+/* ------------------------------------------------------------- filing ---
+   Evidence is a hierarchy, not a list: site, then asset, then the documents
+   that belong to it. Shown as a column browser because that is how the
+   people who ask for this evidence already navigate a filing system — walk
+   down to the certificate, and the certificate knows its way back up. */
+
+function Filing() {
+  const [si, setSi] = useState(0);
+  const [ai, setAi] = useState(0);
+  const [di, setDi] = useState(0);
+  const cols = useRef(null);
+
+  /* On a narrow screen the columns scroll sideways, as they do in a real
+     column browser. Walking down should carry the view with it. */
+  const slide = (to) => {
+    const el = cols.current;
+    if (!el || el.scrollWidth <= el.clientWidth) return;
+    el.scrollTo({ left: to === 'end' ? el.scrollWidth : 0, behavior: 'smooth' });
+  };
+
+  const site = FILING[si];
+  const asset = site.kids[ai] ?? site.kids[0];
+  const doc = asset.kids[di] ?? asset.kids[0];
+
+  const openSite = (i) => { setSi(i); setAi(0); setDi(0); slide('start'); };
+  const openAsset = (i) => { setAi(i); setDi(0); };
+  const openDoc = (i) => { setDi(i); slide('end'); };
+
+  return (
+    <div className="fx">
+      <div className="fx-cols" ref={cols}>
+        <div className="fx-col">
+          <p className="fx-col-h">Sites<span className="mono fx-col-n">{FILING.length}</span></p>
+          <ul>
+            {FILING.map((s, i) => (
+              <li key={s.id}>
+                <button className={`fx-row${i === si ? ' is-on' : ''}`} onClick={() => openSite(i)}>
+                  <span className={`fx-dot is-${s.tone}`} aria-hidden="true" />
+                  <span className="fx-row-main">
+                    <span className="fx-row-t">{s.name}</span>
+                    <span className="fx-row-s">{s.meta}</span>
+                  </span>
+                  <span className="fx-chev" aria-hidden="true">›</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="fx-col">
+          <p className="fx-col-h">Assets<span className="mono fx-col-n">{site.kids.length}</span></p>
+          <ul>
+            {site.kids.map((a, i) => (
+              <li key={a.id}>
+                <button className={`fx-row${i === ai ? ' is-on' : ''}`} onClick={() => openAsset(i)}>
+                  <span className={`fx-dot is-${a.tone}`} aria-hidden="true" />
+                  <span className="fx-row-main">
+                    <span className="fx-row-t mono">{a.name}</span>
+                    <span className="fx-row-s">{a.sub}</span>
+                  </span>
+                  <span className="fx-chev" aria-hidden="true">›</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="fx-col">
+          <p className="fx-col-h">Documents<span className="mono fx-col-n">{asset.kids.length}</span></p>
+          <ul>
+            {asset.kids.map((d, i) => (
+              <li key={d.id}>
+                <button className={`fx-row${i === di ? ' is-on' : ''}`} onClick={() => openDoc(i)}>
+                  <span className="fx-file" aria-hidden="true">▤</span>
+                  <span className="fx-row-main">
+                    <span className="fx-row-t">{d.name}</span>
+                    <span className="fx-row-s">{d.kind} · {d.issued}</span>
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="fx-col is-preview">
+          <p className="fx-col-h">Preview</p>
+          <div className="fx-prev">
+            <div className="fx-page" aria-hidden="true">
+              <span className="fx-page-brand">{doc.kind.toUpperCase()}</span>
+              {Array.from({ length: 9 }).map((_, i) => (
+                <span key={i} className="fx-page-line" style={{ '--w': `${96 - (i % 4) * 16}%` }} />
+              ))}
+              <span className="fx-page-seal" />
+            </div>
+            <h4 className="fx-prev-t">{doc.name}</h4>
+            <p className="fx-prev-s">{doc.kind} · {doc.pages} pages · {doc.size}</p>
+            <dl className="fx-facts">
+              <div><dt>Asset</dt><dd className="mono">{asset.name}</dd></div>
+              <div><dt>Site</dt><dd>{site.name}</dd></div>
+              <div><dt>Issued</dt><dd className="mono">{doc.issued}</dd></div>
+              <div><dt>Valid to</dt><dd className="mono">{doc.valid}</dd></div>
+              <div><dt>Issued by</dt><dd>{doc.by}</dd></div>
+              <div><dt>Signed</dt><dd>{doc.person}</dd></div>
+              <div><dt>Their reference</dt><dd className="mono">{doc.ref}</dd></div>
+            </dl>
+            {doc.note && <p className={`fx-prev-note is-${doc.tone}`}>{doc.note}</p>}
+            <p className="fx-prev-filed mono">{doc.filed}</p>
+            <div className="fx-prev-btns">
+              <span className="pf-export-btn">Open</span>
+              <span className="pf-export-btn">Download</span>
+              <span className="pf-export-btn">Add to pack</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p className="fx-path mono">
+        <span>Estate</span><i aria-hidden="true">›</i>
+        <span>{site.name}</span><i aria-hidden="true">›</i>
+        <span>{asset.name}</span><i aria-hidden="true">›</i>
+        <span className="is-leaf">{doc.name}.pdf</span>
+        <span className="fx-path-r">{ESTATE.certificates.toLocaleString('en-GB')} documents · 0 unfiled</span>
+      </p>
+    </div>
   );
 }
 
@@ -692,16 +975,10 @@ export default function Platform() {
               {view === 'Documents' && (
                 <>
                   <p className="pf-lede muted">
-                    Every certificate, report and scheme, filed against the asset it belongs to.
+                    Every certificate, report and scheme filed against the asset it belongs to, and
+                    reachable by walking down to it. Nothing is orphaned.
                   </p>
-                  <div className="pf-export">
-                    <span className="pf-export-n mono">{ESTATE.certificates.toLocaleString('en-GB')}</span>
-                    <span className="pf-export-l">documents · 12 shown</span>
-                    <span className="pf-export-btn">Export index</span>
-                    <span className="pf-export-btn">Download all</span>
-                  </div>
-                  <Sheet cols={DOC_COLS} rows={DOC_ROWS} selected={1} cell="LOLER Thorough Examination"
-                         note="Every document is attached to an asset on the register. None are orphaned." />
+                  <Filing />
                 </>
               )}
 

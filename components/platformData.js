@@ -399,62 +399,146 @@ export const THREADS = [
   },
 ];
 
-/* Invoicing. Nothing reaches the customer for approval until the job, the
-   evidence and the invoice agree. The last row of the summary is the one
-   that matters commercially: Kiwi bills the provider, never the client. */
-export const INVOICE_SUMMARY = {
-  quarter: 'Quarter to 31 August 2026',
+/* ==========================================================================
+   Money. Kiwi is the single counterparty on the estate: every provider
+   invoice comes to us, is checked line by line against the quote and the
+   evidence, and only what survives that reaches the customer — as one
+   itemised statement a month. The customer pays Kiwi; Kiwi settles with
+   every provider behind it. Our fee sits inside the provider's rate, so
+   nothing is added to the amount the customer would otherwise have paid.
+   ========================================================================== */
+
+export const MONEY = {
+  period: 'August 2026',
+  providersPaid: 19,
   received: 214,
-  matched: 196,
-  queried: 18,
-  recovered: '£7,410',
+  receivedValue: '£194,120.00',
+  stopped: '£7,690.00',
+  onStatement: 206,
+  statementValue: '£183,220.00',
   kiwiCharged: '£0.00',
 };
 
-export const INVOICE_CHECKS = [
-  { label: 'Job exists and was instructed by Kiwi', note: 'No invoice for work nobody asked for.' },
-  { label: 'Evidence is on file', note: 'The certificate or report has arrived and been read.' },
-  { label: 'Amount matches the quote', note: 'Anything above the agreed figure is queried before you see it.' },
-  { label: 'Asset is on the register', note: 'An invoice for an asset we cannot place is held, not paid.' },
-  { label: 'Not already invoiced', note: 'Duplicates and re-issues are caught on reference and amount.' },
+/* The reconciliation between what providers claimed and what the customer is
+   asked to pay. Every line is subtracted before the statement is raised. */
+export const MONEY_RECON = {
+  rows: [
+    { label: 'Provider invoices received', note: '19 providers, 14 sites', count: '214', value: '£194,120.00', sign: '' },
+    { label: 'Rejected — duplicate or already settled', note: 'Caught on reference and amount', count: '−3', value: '£4,890.00', sign: '−', tone: 'action' },
+    { label: 'Held — evidence not yet on file', note: 'Attended, but no certificate or report returned', count: '−5', value: '£3,210.00', sign: '−', tone: 'due' },
+    { label: 'Corrected — invoiced above the agreed quote', note: 'Credited back before the statement was raised', count: '18', value: '£2,800.00', sign: '−', tone: 'due' },
+  ],
+  total: { label: 'On your August statement', count: '206', value: '£183,220.00' },
+};
+
+/* The gates a provider invoice passes before it can appear on a statement. */
+export const PAY_CHECKS = [
+  'Job was instructed by Kiwi',
+  'Evidence is on file',
+  'Amount matches the quote',
+  'Asset is on the register',
+  'Not already invoiced',
 ];
 
-export const INVOICES = [
+/* One invoice a month, from one supplier. Approval and payment dates are the
+   two facts a finance team asks for first, so they are columns, not notes. */
+export const STATEMENT = {
+  ref: 'KC-2026-08',
+  to: 'Estates & Facilities — Head Office',
+  po: 'PO-4471',
+  period: '1 – 31 August 2026',
+  raised: '01 Sep 2026',
+  terms: '30 days net',
+  due: '01 Oct 2026',
+  lines: 206,
+  providers: 19,
+  net: '£183,220.00',
+  vat: '£36,644.00',
+  gross: '£219,864.00',
+  state: 'Approved — awaiting payment',
+  tone: 'due',
+  approvedBy: 'S. Whitfield',
+  approvedOn: '02 Sep 2026',
+};
+
+export const STATEMENT_HISTORY = [
+  { ref: 'KC-2026-06', period: 'June 2026', net: '£171,940.00', raised: '01 Jul 2026', approved: '03 Jul · S. Whitfield', paid: '29 Jul 2026', state: 'Settled', tone: 'current' },
+  { ref: 'KC-2026-07', period: 'July 2026', net: '£179,505.00', raised: '01 Aug 2026', approved: '04 Aug · S. Whitfield', paid: '28 Aug 2026', state: 'Settled', tone: 'current' },
+  { ref: 'KC-2026-08', period: 'August 2026', net: '£183,220.00', raised: '01 Sep 2026', approved: '02 Sep · S. Whitfield', paid: 'Due 01 Oct 2026', state: 'Awaiting payment', tone: 'due' },
+];
+
+/* A sample of the 206 lines behind the August statement. Quoted against
+   invoiced is shown on every line, whether or not it moved. */
+export const STATEMENT_LINES = [
   {
-    ref: 'INV-40218', provider: 'Pennine Lift Services', job: 'J-2388',
-    site: 'Manchester Distribution Centre', quoted: '£2,240.00', amount: '£2,240.00',
-    state: 'Approved for payment', tone: 'current',
-    flag: 'Job, evidence and amount all agree. Released without anyone reading it.',
+    ref: 'L-0118', provider: 'Pennine Lift Services', work: 'LOLER thorough examination · 6 units',
+    asset: 'GL-02 — GL-05', site: 'Manchester DC',
+    quoted: '£2,240.00', invoiced: '£2,240.00', delta: '—', deltaTone: '',
+    evidence: 'Report 29 Aug', paid: 'Paid 05 Sep',
   },
   {
-    ref: 'INV-40231', provider: 'Midlands Electrical Testing', job: 'J-2394',
-    site: 'Shrewsbury Depot', quoted: '£3,150.00', amount: '£3,330.00',
-    state: 'Queried by Kiwi', tone: 'due',
-    flag: '£180 above quote, described as "additional board". Quote covered eleven boards; the engineer tested eleven. Query raised 28 Aug.',
+    ref: 'L-0121', provider: 'Vale Inspection Services', work: 'PSSR first examination',
+    asset: 'PV-0119', site: 'Chester Manufacturing',
+    quoted: '£410.00', invoiced: '£410.00', delta: '—', deltaTone: '',
+    evidence: 'Certificate 26 Aug', paid: 'Paid 05 Sep',
   },
   {
-    ref: 'INV-40233', provider: 'Midlands Electrical Testing', job: 'J-2394',
-    site: 'Shrewsbury Depot', quoted: '£3,150.00', amount: '£3,330.00',
-    state: 'Rejected — duplicate', tone: 'action',
-    flag: 'Same job, same amount, re-issued under a new reference four days later. Rejected automatically and confirmed with their accounts team.',
+    ref: 'L-0127', provider: 'Midlands Electrical Testing', work: 'Fixed wire — 11 distribution boards',
+    asset: 'EICR-0130', site: 'Shrewsbury Depot',
+    quoted: '£3,150.00', invoiced: '£3,150.00', delta: '−£180.00', deltaTone: 'current',
+    evidence: 'EICR 24 Aug', paid: 'Paid 05 Sep',
+    note: 'Invoiced at £3,330. Queried as an extra board the quote already covered; credited before the statement was raised.',
   },
   {
-    ref: 'INV-40240', provider: 'Northwest Extraction Testing', job: 'J-2415',
-    site: 'Shrewsbury Depot', quoted: '£980.00', amount: '£980.00',
-    state: 'Held — no evidence', tone: 'due',
-    flag: 'Work was attended but the report has not been issued. Held until the evidence is on file. See thread TH-2415.',
+    ref: 'L-0134', provider: 'Severn Fire Systems', work: 'Fire alarm inspection · quarterly',
+    asset: 'FIRE-0021', site: 'Bristol Office',
+    quoted: '£1,275.00', invoiced: '£1,275.00', delta: '—', deltaTone: '',
+    evidence: 'Certificate 12 Aug', paid: 'Paid 05 Sep',
   },
   {
-    ref: 'INV-40244', provider: 'Vale Inspection Services', job: 'J-2402',
-    site: 'Chester Manufacturing Site', quoted: '£410.00', amount: '£410.00',
-    state: 'Approved for payment', tone: 'current',
-    flag: 'First examination of PV-0119 — the receiver found in the compressor house. Asset added to the register before the invoice was matched.',
+    ref: 'L-0139', provider: 'Northwest Extraction Testing', work: 'LEV examination · 22 hoods',
+    asset: 'LEV-0148', site: 'Birmingham — Unit 4',
+    quoted: '£2,980.00', invoiced: '£2,980.00', delta: '—', deltaTone: '',
+    evidence: 'Report 06 Jul', paid: 'Paid 05 Sep',
   },
   {
-    ref: 'INV-40251', provider: 'Severn Fire Systems', job: 'J-2412',
-    site: 'Bristol Office', quoted: '£1,275.00', amount: '£1,275.00',
-    state: 'Paid', tone: 'current',
-    flag: 'Matched, approved and settled on your normal terms. Kiwi does not sit in the payment path.',
+    ref: 'L-0146', provider: 'Marches Water Hygiene', work: 'L8 monitoring · monthly',
+    asset: 'WH-0017', site: 'Bristol Office',
+    quoted: '£340.00', invoiced: '£340.00', delta: '—', deltaTone: '',
+    evidence: 'Log 28 Aug', paid: 'Paid 05 Sep',
+  },
+  {
+    ref: 'L-0151', provider: 'Pennine Lift Services', work: 'Thermographic survey · main intake',
+    asset: 'DB-0212', site: 'Chester Manufacturing',
+    quoted: '£1,120.00', invoiced: '£1,190.00', delta: '+£70.00', deltaTone: 'due',
+    evidence: 'Report 18 Aug', paid: 'Paid 05 Sep',
+    note: 'Second visit agreed in writing on 14 Aug after the intake could not be de-energised on the first. Variance accepted and shown here rather than absorbed.',
+  },
+];
+
+/* What Kiwi stopped, and why. This is the half of invoicing a customer never
+   normally sees, because it happens inside their own accounts payable. */
+export const STATEMENT_HELD = [
+  {
+    ref: 'INV-40233', provider: 'Midlands Electrical Testing', work: 'Fixed wire — 11 boards',
+    asset: 'EICR-0130', site: 'Shrewsbury Depot',
+    claimed: '£3,330.00', billed: '£0.00',
+    reason: 'Same job and amount, re-issued under a new reference four days later.',
+    state: 'Rejected', tone: 'action',
+  },
+  {
+    ref: 'INV-40240', provider: 'Northwest Extraction Testing', work: 'Ductwork remedial',
+    asset: 'LEV-0091', site: 'Shrewsbury Depot',
+    claimed: '£980.00', billed: '£0.00',
+    reason: 'Attended 25 Aug, report not issued. Held until the evidence is on file — day 9.',
+    state: 'Held', tone: 'due',
+  },
+  {
+    ref: 'INV-40255', provider: 'Cotswold Access Ltd', work: 'Anchor point test · 4 points',
+    asset: 'unmatched', site: 'Not identified',
+    claimed: '£620.00', billed: '£0.00',
+    reason: 'No asset on the register matches the four points, and no job was instructed.',
+    state: 'Held', tone: 'due',
   },
 ];
 
@@ -672,4 +756,182 @@ export const ACTIVITY_ROWS = [
   ['29 Aug 16:51', 'Defect extracted', 'GL-04', 'Kiwi', 'ACT-0361 raised'],
   ['27 Aug 09:40', 'Asset added', 'PV-0119', 'Vale Inspection', 'Examined, no defects'],
   ['26 Aug 14:02', 'Access arranged', 'PV-0119', 'Dan Ackroyd · Chester', 'Confirmed 19 Sep'],
+];
+
+/* ==========================================================================
+   Filing. The evidence is not a list, it is a hierarchy: site, then asset,
+   then the documents that belong to it. Nothing is orphaned, so every
+   document can be reached by walking down and every document knows the way
+   back up. Rendered as a column browser because that is how the people who
+   ask for this evidence already navigate a filing system.
+   ========================================================================== */
+
+export const FILING = [
+  {
+    id: 'MAN', name: 'Manchester DC', meta: '612 assets · 1,704 documents', tone: 'due',
+    kids: [
+      {
+        id: 'GL-04', name: 'GL-04', sub: 'Goods lift · LOLER', tone: 'action', meta: '4 documents',
+        kids: [
+          { id: 'MAN-GL04-1', name: 'LOLER Thorough Examination', kind: 'Report', issued: '29 Aug 2026', valid: '29 Feb 2027', size: '2.4 MB', pages: 11, tone: 'action',
+            by: 'Pennine Lift Services', person: 'M. Okonjo — competent person', ref: 'PLS-EX-88421',
+            filed: 'Received by email 29 Aug 16:44, read and filed 16:51',
+            note: 'Defect raised on the suspension gear. Action ACT-0361 opened automatically with a remedy deadline of 26 September.' },
+          { id: 'MAN-GL04-2', name: 'Repair quotation Q-88213', kind: 'Quote', issued: '30 Aug 2026', valid: '30 Sep 2026', size: '210 KB', pages: 2, tone: 'due',
+            by: 'Pennine Lift Services', person: 'M. Okonjo', ref: 'Q-88213',
+            filed: 'Received by email 30 Aug 10:20, filed 10:26',
+            note: 'Suspension gear repair, £1,840 + VAT, one day. Approved by S. Whitfield on 31 August.' },
+          { id: 'MAN-GL04-3', name: 'LOLER Thorough Examination', kind: 'Report', issued: '02 Mar 2026', valid: '02 Sep 2026', size: '2.2 MB', pages: 10, tone: 'current',
+            by: 'Pennine Lift Services', person: 'M. Okonjo', ref: 'PLS-EX-81104',
+            filed: 'Received by email 02 Mar 14:02, filed 14:09', note: 'No defects raised.' },
+          { id: 'MAN-GL04-4', name: 'Lift maintenance record', kind: 'Evidence', issued: '11 Aug 2026', valid: '—', size: '480 KB', pages: 3, tone: 'current',
+            by: 'Pennine Lift Services', person: 'Service desk', ref: 'PLS-SV-44902',
+            filed: 'Received by email 11 Aug 09:12, filed 09:18' },
+        ],
+      },
+      {
+        id: 'LIFT-008', name: 'LIFT-008', sub: 'Passenger lift · LOLER', tone: 'due', meta: '2 documents',
+        kids: [
+          { id: 'MAN-L8-1', name: 'LOLER Thorough Examination', kind: 'Certificate', issued: '14 Mar 2026', valid: '14 Sep 2026', size: '1.2 MB', pages: 6, tone: 'due',
+            by: 'Pennine Lift Services', person: 'M. Okonjo', ref: 'PLS-EX-81217',
+            filed: 'Received by email 14 Mar 11:40, filed 11:46',
+            note: 'Expires in 11 days. Next examination booked for 24 September.' },
+          { id: 'MAN-L8-2', name: 'Lift maintenance record', kind: 'Evidence', issued: '11 Aug 2026', valid: '—', size: '390 KB', pages: 2, tone: 'current',
+            by: 'Pennine Lift Services', person: 'Service desk', ref: 'PLS-SV-44903',
+            filed: 'Received by email 11 Aug 09:12, filed 09:18' },
+        ],
+      },
+      {
+        id: 'FIRE-0044', name: 'FIRE-0044', sub: 'Sprinklers · RRO', tone: 'current', meta: '2 documents',
+        kids: [
+          { id: 'MAN-F44-1', name: 'Sprinkler Service Record', kind: 'Certificate', issued: '02 Jun 2026', valid: '02 Jun 2027', size: '1.4 MB', pages: 7, tone: 'current',
+            by: 'Severn Fire Systems', person: 'A. Reece', ref: 'SFS-2026-0412',
+            filed: 'Received by email 02 Jun 15:31, filed 15:35' },
+          { id: 'MAN-F44-2', name: 'Fire Damper Test Record', kind: 'Report', issued: '11 May 2026', valid: '11 May 2027', size: '2.2 MB', pages: 14, tone: 'current',
+            by: 'Severn Fire Systems', person: 'A. Reece', ref: 'SFS-2026-0338',
+            filed: 'Received by email 11 May 10:04, filed 10:11' },
+        ],
+      },
+      {
+        id: 'FD-0077', name: 'FD-0077', sub: 'Fire dampers · 64', tone: 'current', meta: '1 document',
+        kids: [
+          { id: 'MAN-FD-1', name: 'Fire Damper Test Record', kind: 'Report', issued: '11 May 2026', valid: '11 May 2027', size: '2.2 MB', pages: 14, tone: 'current',
+            by: 'Severn Fire Systems', person: 'A. Reece', ref: 'SFS-2026-0338',
+            filed: 'Received by email 11 May 10:04, filed 10:11',
+            note: 'Covers all 64 dampers. Individual unit results are in the appendix and indexed against the register.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'CHE', name: 'Chester Manufacturing', meta: '884 assets · 2,391 documents', tone: 'current',
+    kids: [
+      {
+        id: 'PV-0119', name: 'PV-0119', sub: 'Air receiver · PSSR', tone: 'current', meta: '3 documents',
+        kids: [
+          { id: 'CHE-119-1', name: 'PSSR Thorough Examination', kind: 'Certificate', issued: '26 Aug 2026', valid: '26 Aug 2027', size: '1.1 MB', pages: 5, tone: 'current',
+            by: 'Vale Inspection Services', person: 'H. Dacre — competent person', ref: 'VIS-PS-20418',
+            filed: 'Received by email 27 Aug 09:22, filed 09:29',
+            note: 'First examination. The asset was found on site by the engineer and was not on the register we were given.' },
+          { id: 'CHE-119-2', name: 'Written Scheme of Examination', kind: 'Scheme', issued: '20 Aug 2026', valid: '20 Aug 2029', size: '910 KB', pages: 18, tone: 'current',
+            by: 'Vale Inspection Services', person: 'H. Dacre', ref: 'VIS-WS-3390',
+            filed: 'Received by email 20 Aug 16:10, filed 16:14',
+            note: 'Scheme extended to cover the receiver before the examination was instructed.' },
+          { id: 'CHE-119-3', name: 'Nameplate and safety valve photographs', kind: 'Evidence', issued: '18 Aug 2026', valid: '—', size: '3.8 MB', pages: 6, tone: 'current',
+            by: 'Vale Inspection Services', person: 'Site engineer', ref: 'VIS-PH-0771',
+            filed: 'Received by email 18 Aug 15:58, filed 16:02' },
+        ],
+      },
+      {
+        id: 'PV-0102', name: 'PV-0102', sub: 'Steam receiver · PSSR', tone: 'current', meta: '2 documents',
+        kids: [
+          { id: 'CHE-102-1', name: 'Written Scheme of Examination', kind: 'Scheme', issued: '02 Dec 2025', valid: '02 Dec 2028', size: '860 KB', pages: 16, tone: 'current',
+            by: 'Vale Inspection Services', person: 'H. Dacre', ref: 'VIS-WS-3102',
+            filed: 'Received by email 02 Dec 11:03, filed 11:09' },
+          { id: 'CHE-102-2', name: 'PSSR Thorough Examination', kind: 'Certificate', issued: '19 Feb 2026', valid: '19 Feb 2027', size: '1.0 MB', pages: 5, tone: 'current',
+            by: 'Vale Inspection Services', person: 'H. Dacre', ref: 'VIS-PS-19884',
+            filed: 'Received by email 20 Feb 08:40, filed 08:44' },
+        ],
+      },
+      {
+        id: 'DB-0212', name: 'DB-0212', sub: 'Main intake · EAWR', tone: 'current', meta: '1 document',
+        kids: [
+          { id: 'CHE-212-1', name: 'Thermographic Survey', kind: 'Report', issued: '18 Aug 2026', valid: '18 Aug 2027', size: '6.2 MB', pages: 42, tone: 'current',
+            by: 'Midlands Electrical Testing', person: 'G. Prentice', ref: 'MET-TH-7741',
+            filed: 'Received by email 18 Aug 17:20, filed 17:31',
+            note: 'Second visit. The intake could not be de-energised on the first attempt; the return visit was agreed in writing on 14 August.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'SHR', name: 'Shrewsbury Depot', meta: '318 assets · 742 documents', tone: 'action',
+    kids: [
+      {
+        id: 'EICR-0130', name: 'EICR-0130', sub: 'Fixed wire · EAWR', tone: 'action', meta: '2 documents',
+        kids: [
+          { id: 'SHR-130-1', name: 'EICR — Fixed Wire', kind: 'Certificate', issued: '24 Aug 2026', valid: '24 Aug 2031', size: '2.9 MB', pages: 34, tone: 'action',
+            by: 'Midlands Electrical Testing', person: 'G. Prentice', ref: 'MET-EI-6620',
+            filed: 'Received by email 24 Aug 18:02, filed 18:14',
+            note: 'Two C2 observations. Remedial quote chased since 26 August — day 9, escalated to their technical director.' },
+          { id: 'SHR-130-2', name: 'EICR — Fixed Wire', kind: 'Certificate', issued: '24 Oct 2023', valid: '24 Oct 2026', size: '2.7 MB', pages: 31, tone: 'current',
+            by: 'Midlands Electrical Testing', person: 'G. Prentice', ref: 'MET-EI-4118',
+            filed: 'Loaded from your handover pack 12 Jan 2026, filed the same day' },
+        ],
+      },
+      {
+        id: 'LEV-0091', name: 'LEV-0091', sub: 'Ductwork · COSHH 9', tone: 'due', meta: '2 documents',
+        kids: [
+          { id: 'SHR-091-1', name: 'Remedial Completion Record', kind: 'Evidence', issued: '05 Sep 2026', valid: '—', size: '520 KB', pages: 3, tone: 'due',
+            by: 'Northwest Extraction Testing', person: 'D. Hollins', ref: 'NWE-RM-2280',
+            filed: 'Received by email 05 Sep 12:41, filed 12:47',
+            note: 'Work attended 25 August. The examination report itself is still outstanding and the asset stays flagged until it arrives.' },
+          { id: 'SHR-091-2', name: 'LEV Examination Report', kind: 'Report', issued: '19 Jan 2026', valid: '19 Mar 2027', size: '2.8 MB', pages: 22, tone: 'current',
+            by: 'Northwest Extraction Testing', person: 'D. Hollins', ref: 'NWE-EX-1904',
+            filed: 'Received by email 19 Jan 15:22, filed 15:30' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'BIR', name: 'Birmingham Unit 4', meta: '241 assets · 606 documents', tone: 'current',
+    kids: [
+      {
+        id: 'LEV-0148', name: 'LEV-0148', sub: 'Dust extraction · 22', tone: 'current', meta: '2 documents',
+        kids: [
+          { id: 'BIR-148-1', name: 'LEV Examination Report', kind: 'Report', issued: '06 Jul 2026', valid: '06 Sep 2027', size: '3.1 MB', pages: 26, tone: 'current',
+            by: 'Northwest Extraction Testing', person: 'D. Hollins', ref: 'NWE-EX-2118',
+            filed: 'Received by email 06 Jul 13:55, filed 14:02',
+            note: 'All 22 hoods within specification. Face velocities are indexed per hood against the register.' },
+          { id: 'BIR-148-2', name: 'COSHH assessment reference', kind: 'Assessment', issued: '14 Apr 2026', valid: '14 Apr 2028', size: '1.7 MB', pages: 12, tone: 'current',
+            by: 'Client-supplied', person: 'SHE team', ref: 'WX-COSHH-0042',
+            filed: 'Loaded from your handover pack 14 Apr, filed the same day' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'BRI', name: 'Bristol Office', meta: '96 assets · 214 documents', tone: 'current',
+    kids: [
+      {
+        id: 'FIRE-0021', name: 'FIRE-0021', sub: 'Fire alarm · RRO', tone: 'current', meta: '1 document',
+        kids: [
+          { id: 'BRI-21-1', name: 'Fire Alarm Inspection', kind: 'Certificate', issued: '12 Aug 2026', valid: '12 Feb 2027', size: '740 KB', pages: 4, tone: 'current',
+            by: 'Severn Fire Systems', person: 'A. Reece', ref: 'SFS-2026-0501',
+            filed: 'Received by email 12 Aug 16:20, filed 16:24' },
+        ],
+      },
+      {
+        id: 'WH-0017', name: 'WH-0017', sub: 'Water · ACoP L8', tone: 'current', meta: '2 documents',
+        kids: [
+          { id: 'BRI-17-1', name: 'Water Risk Assessment', kind: 'Assessment', issued: '21 Feb 2026', valid: '21 Feb 2028', size: '4.6 MB', pages: 38, tone: 'current',
+            by: 'Marches Water Hygiene', person: 'L. Trant', ref: 'MWH-RA-0912',
+            filed: 'Received by email 21 Feb 09:50, filed 09:58' },
+          { id: 'BRI-17-2', name: 'Monthly monitoring log', kind: 'Evidence', issued: '28 Aug 2026', valid: '—', size: '260 KB', pages: 2, tone: 'current',
+            by: 'Marches Water Hygiene', person: 'L. Trant', ref: 'MWH-LG-2608',
+            filed: 'Received by email 28 Aug 08:31, filed 08:34' },
+        ],
+      },
+    ],
+  },
 ];

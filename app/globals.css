@@ -690,6 +690,12 @@ button { font: inherit; color: inherit; }
 .pf-table tbody tr.is-clickable:hover { background: var(--kiwi-soft); }
 .pf-id { font-weight: 500; }
 
+/* Dense variant, for the financial tables where the columns a finance team
+   came for — approved, paid, variance — must not fall off the right edge. */
+.pf-table.is-tight { font-size: 0.79rem; }
+.pf-table.is-tight th { padding: 9px 10px; letter-spacing: 0.1em; }
+.pf-table.is-tight td { padding: 9px 10px; }
+
 .pf-back {
   background: none; border: 0; padding: 0; margin-bottom: 16px; cursor: pointer;
   font-size: 0.82rem; color: var(--kiwi); font-weight: 500;
@@ -1281,107 +1287,255 @@ button { font: inherit; color: inherit; }
   font-size: 0.8rem; position: relative; top: 3px;
 }
 
-/* --- comms: thread list ------------------------------------------------- */
-.threads { display: grid; gap: 12px; }
-.threads > li { min-width: 0; }
-.thread {
-  display: grid; gap: 7px; width: 100%; text-align: left;
-  padding: 18px 20px; border: 1px solid var(--border); border-radius: 12px;
-  background: var(--white); cursor: pointer;
-  transition: border-color 0.18s ease, transform 0.18s ease;
+/* --- comms: a mailbox, not a feed --------------------------------------- */
+/* Correspondence reads like correspondence. List on the left, thread on the
+   right, a hairline between messages instead of a card around each one. */
+.cm {
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+  background: var(--white);
 }
-.thread:hover { border-color: var(--border-strong); transform: translateY(-1px); }
-.thread-top { display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; }
-.thread-subject { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
-.thread-meta { font-size: 0.78rem; color: var(--muted); }
-.thread-summary { font-size: 0.9rem; line-height: 1.55; color: var(--muted); }
-.thread-action { font-size: 0.78rem; color: var(--kiwi); }
-.thread-action.is-you { color: var(--action); font-weight: 500; }
+@media (min-width: 1000px) { .cm { grid-template-columns: 268px minmax(0, 1fr); } }
 
-/* --- comms: one thread -------------------------------------------------- */
-.th-detail-head {
-  display: flex; gap: 16px; align-items: flex-start; justify-content: space-between;
-  padding-bottom: 16px; border-bottom: 1px solid var(--border);
+.cm-list { border-bottom: 1px solid var(--border); background: var(--warm-sunk); min-width: 0; }
+@media (min-width: 1000px) { .cm-list { border-bottom: 0; border-right: 1px solid var(--border); } }
+.cm-list-top {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  padding: 9px 12px; border-bottom: 1px solid var(--border);
 }
-.th-detail-subject { font-size: 1.1rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); }
-.th-detail-meta { margin-top: 5px; font-size: 0.8rem; color: var(--muted); }
-.th-detail-summary {
-  margin-top: 16px; padding-left: 14px; border-left: 2px solid var(--kiwi);
-  font-size: 0.92rem; line-height: 1.6; color: var(--ink);
+.cm-list-h { font-size: 0.66rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.cm-list-n { font-size: 0.66rem; color: var(--muted); }
+
+.cm-item {
+  display: grid; gap: 3px; width: 100%; text-align: left; cursor: pointer;
+  padding: 9px 12px; background: none; border: 0;
+  border-bottom: 1px solid var(--border); border-left: 2px solid transparent;
+  transition: background-color 0.15s ease;
+}
+.cm-item:hover { background: rgba(16, 32, 27, 0.035); }
+.cm-item.is-on { background: var(--white); border-left-color: var(--kiwi); }
+.cm-item-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.cm-item-who { font-size: 0.79rem; font-weight: 600; color: var(--ink); }
+.cm-item-n { font-size: 0.64rem; color: var(--muted); flex-shrink: 0; }
+.cm-item-subject {
+  font-size: 0.77rem; line-height: 1.38; color: var(--ink);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.cm-item-foot { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.cm-item-state { font-size: 0.66rem; font-weight: 500; }
+.cm-item-state.is-current { color: var(--kiwi); }
+.cm-item-state.is-due { color: var(--due); }
+.cm-item-state.is-action { color: var(--action); }
+.cm-item-site { font-size: 0.66rem; color: var(--muted); }
+.cm-list-note { padding: 10px 12px; font-size: 0.7rem; line-height: 1.5; color: var(--muted); }
+
+.cm-read { min-width: 0; padding: 13px clamp(12px, 1.6vw, 20px) 15px; }
+.cm-read-head { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; }
+.cm-read-headmain { min-width: 0; }
+.cm-read-subject { font-size: 0.98rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.3; }
+.cm-read-meta { margin-top: 3px; font-size: 0.72rem; color: var(--muted); }
+.cm-read-sum {
+  margin-top: 10px; padding: 7px 11px; border-left: 2px solid var(--kiwi);
+  background: var(--kiwi-soft); font-size: 0.78rem; line-height: 1.5; color: var(--ink);
 }
 
-.msgs { margin-top: 24px; display: grid; gap: 14px; }
-.msg {
-  min-width: 0; padding: 16px 18px; border-radius: 12px;
-  border: 1px solid var(--border); background: var(--white);
+.cmms { margin-top: 10px; display: grid; }
+.cmm {
+  display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px;
+  padding: 11px 0; border-top: 1px solid var(--border);
 }
-/* Outbound from Kiwi is tinted so the mailbox reads at a glance as ours. */
-.msg.is-out { border-color: #CFE0D4; background: var(--kiwi-soft); }
-.msg.is-note { border-left: 3px solid var(--kiwi); }
-.msg.is-call { background: var(--warm-sunk); border-style: dashed; }
-.msg.is-sys { background: transparent; border-style: dashed; }
-
-.msg-head { display: flex; gap: 12px; align-items: baseline; justify-content: space-between; }
-.msg-dir {
-  font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase;
-  color: var(--kiwi); font-weight: 500;
+.cmm:first-child { border-top: 0; padding-top: 6px; }
+.cmm-av {
+  width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
+  font-size: 0.62rem; font-weight: 600;
 }
-.msg.is-in .msg-dir, .msg.is-sys .msg-dir { color: var(--muted); }
-.msg-time { font-size: 0.72rem; color: var(--muted); }
-.msg-people { margin-top: 7px; font-size: 0.8rem; color: var(--ink); }
-.msg-arrow { margin: 0 7px; color: var(--muted); }
-.msg-to { color: var(--muted); }
-.msg-body {
-  margin-top: 10px; font-size: 0.9rem; line-height: 1.62; color: var(--ink);
-  white-space: pre-wrap;
-}
-.msg.is-sys .msg-body { color: var(--muted); font-size: 0.86rem; }
-.msg-foot { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.msg-tag {
-  font-size: 0.68rem; letter-spacing: 0.03em; padding: 3px 8px; border-radius: 5px;
+.cmm-av.is-kiwi { background: var(--kiwi); color: var(--warm); }
+.cmm-av.is-them { background: var(--white); color: var(--muted); border: 1px solid var(--border-strong); }
+.cmm-main { min-width: 0; }
+.cmm-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+.cmm-who { font-size: 0.78rem; font-weight: 600; color: var(--ink); }
+.cmm-to { font-size: 0.69rem; color: var(--muted); }
+.cmm-time { margin-left: auto; font-size: 0.65rem; color: var(--muted); }
+.cmm-body { margin-top: 4px; max-width: 80ch; font-size: 0.8rem; line-height: 1.56; color: var(--ink); white-space: pre-wrap; }
+.cmm-foot { margin-top: 6px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.cmm-tag {
+  font-size: 0.62rem; letter-spacing: 0.03em; padding: 2px 7px; border-radius: 4px;
   background: rgba(16, 32, 27, 0.06); color: var(--muted);
 }
-.msg-attach { font-size: 0.72rem; color: var(--kiwi); }
-
-/* --- invoicing ---------------------------------------------------------- */
-.inv-quarter { margin-top: 10px; font-size: 0.75rem; color: var(--muted); }
-
-.inv-checks { display: grid; gap: 10px; }
-.inv-checks li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 12px; align-items: start; }
-.inv-check-n {
-  display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
-  border: 1px solid var(--border-strong); font-size: 0.7rem; color: var(--kiwi);
+.cmm-attach { font-size: 0.66rem; color: var(--kiwi); }
+.cmm.is-sys {
+  display: flex; gap: 10px; align-items: baseline; padding: 7px 0 7px 36px;
+  border-top: 1px dashed var(--border);
 }
-.inv-check-body { display: grid; gap: 2px; min-width: 0; }
-.inv-check-label { font-size: 0.9rem; font-weight: 500; color: var(--ink); }
-.inv-check-note { font-size: 0.82rem; color: var(--muted); }
+.cmm-sys-time { font-size: 0.64rem; color: var(--muted); flex-shrink: 0; }
+.cmm-sys-body { font-size: 0.73rem; line-height: 1.5; color: var(--muted); }
 
-.invoices { display: grid; gap: 12px; }
-.invoices > li {
-  min-width: 0; padding: 16px 18px; border: 1px solid var(--border);
-  border-radius: 12px; background: var(--white);
+.cm-actions {
+  margin-top: 12px; padding-top: 11px; border-top: 1px solid var(--border);
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
 }
-.inv-top { display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; }
-.inv-ref { font-size: 0.76rem; color: var(--muted); }
-.inv-provider { margin-top: 3px; font-size: 0.98rem; font-weight: 500; color: var(--ink); }
-.inv-meta { margin-top: 3px; font-size: 0.78rem; color: var(--muted); }
-.inv-right { text-align: right; display: grid; gap: 4px; justify-items: end; }
-.inv-amount { font-size: 1.06rem; font-weight: 500; letter-spacing: -0.02em; color: var(--ink); }
-.inv-quoted { font-size: 0.72rem; color: var(--due); text-decoration: line-through; }
-.inv-flag {
-  margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);
-  font-size: 0.84rem; line-height: 1.55; color: var(--muted);
+.cm-act {
+  font-size: 0.72rem; padding: 5px 13px; border-radius: 999px;
+  border: 1px solid var(--border-strong); color: var(--ink);
 }
+.cm-act.is-primary { background: var(--kiwi); border-color: var(--kiwi); color: var(--warm); }
+.cm-act-note { margin-left: auto; font-size: 0.64rem; color: var(--muted); }
 
-/* The commercial model, restated where a finance reader will look for it. */
-.inv-fee {
-  display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;
-  padding: 20px 22px; border-radius: 12px;
-  background: var(--kiwi-soft); border: 1px solid #CFE0D4;
+/* --- invoicing: Kiwi is the counterparty -------------------------------- */
+/* Top lane carries invoices left to right, bottom lane carries money right
+   to left. The customer's side of both is a single line. */
+.mflow {
+  display: grid; gap: 10px; align-items: center;
+  margin-bottom: 20px; padding: 13px 15px;
+  border: 1px solid var(--border); border-radius: 10px; background: var(--white);
 }
-.inv-fee-n { font-size: 1.9rem; font-weight: 500; letter-spacing: -0.035em; color: var(--kiwi); }
-.inv-fee-l { font-size: 0.95rem; font-weight: 500; color: var(--ink); }
-.inv-fee-note { margin-top: 7px; max-width: 52ch; font-size: 0.85rem; line-height: 1.6; color: var(--muted); }
+@media (min-width: 820px) {
+  .mflow { grid-template-columns: auto minmax(96px, 1fr) auto minmax(96px, 1fr) auto; gap: 14px; }
+}
+.mflow-node {
+  display: grid; gap: 2px; padding: 9px 13px; border-radius: 8px; text-align: center;
+  border: 1px solid var(--border); background: var(--warm-sunk);
+}
+.mflow-node.is-kiwi { background: var(--ink); border-color: var(--ink); }
+.mflow-node.is-kiwi .mflow-node-t { color: var(--warm); letter-spacing: 0.14em; font-weight: 700; }
+.mflow-node.is-kiwi .mflow-node-s { color: rgba(246, 247, 242, 0.66); }
+.mflow-node.is-you { background: var(--kiwi-soft); border-color: var(--kiwi); }
+.mflow-node-t { font-size: 0.79rem; font-weight: 600; color: var(--ink); }
+.mflow-node-s { font-size: 0.67rem; color: var(--muted); }
+.mflow-gap { display: grid; gap: 5px; justify-items: center; }
+.mflow-arrow {
+  display: flex; gap: 6px; align-items: center; justify-content: center; width: 100%;
+  font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.01em; white-space: nowrap;
+}
+.mflow-arrow.is-doc { color: var(--muted); padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+.mflow-arrow.is-cash { color: var(--kiwi); font-weight: 500; }
+.mflow-arrow i { font-style: normal; }
+
+.st { border: 1px solid var(--border); border-radius: 10px; background: var(--white); overflow: hidden; }
+.st-head { display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; padding: 14px 16px; }
+.st-ref { font-size: 0.73rem; letter-spacing: 0.04em; color: var(--muted); }
+.st-from { margin-top: 6px; font-size: 0.7rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.st-to { margin-top: 1px; font-size: 1rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); }
+.st-period { margin-top: 3px; font-size: 0.74rem; color: var(--muted); }
+.st-money { display: grid; gap: 5px; justify-items: end; text-align: right; }
+.st-gross { font-size: 1.5rem; font-weight: 500; letter-spacing: -0.035em; color: var(--ink); }
+.st-split { font-size: 0.7rem; color: var(--muted); }
+.st-dates {
+  display: flex; flex-wrap: wrap; gap: 1px;
+  background: var(--border); border-top: 1px solid var(--border);
+}
+.st-dates > div { flex: 1 1 132px; padding: 9px 16px; background: var(--warm-sunk); }
+.st-dates dt { font-size: 0.64rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.st-dates dd { margin: 3px 0 0; font-size: 0.78rem; color: var(--ink); }
+.st-dates .is-fee dd { color: var(--kiwi); font-weight: 500; }
+
+.recon.is-money { max-width: 760px; }
+.recon-c { text-align: right; padding-right: 26px; font-size: 0.86rem; color: var(--muted); white-space: nowrap; }
+.recon-total .recon-c { color: var(--ink); }
+
+.st-stopped {
+  margin-top: 14px; max-width: 66ch; font-size: 0.84rem; line-height: 1.62; color: var(--muted);
+}
+.st-stopped-n { font-size: 1.1rem; font-weight: 500; letter-spacing: -0.02em; color: var(--action); }
+
+.st-site, .st-asset { display: block; font-size: 0.68rem; color: var(--muted); }
+.st-note { display: block; margin-top: 3px; max-width: 52ch; white-space: normal; font-size: 0.68rem; line-height: 1.45; color: var(--muted); }
+.st-num { white-space: nowrap; }
+.st-delta.is-current { color: var(--current); }
+.st-delta.is-due { color: var(--due); }
+.st-zero { color: var(--kiwi); }
+.st-eviq { font-size: 0.73rem; color: var(--muted); white-space: nowrap; }
+.st-paid { font-size: 0.73rem; color: var(--current); white-space: nowrap; }
+.st-why { display: block; max-width: 30ch; white-space: normal; font-size: 0.72rem; line-height: 1.45; color: var(--muted); }
+
+/* --- filing: a column browser ------------------------------------------- */
+/* Site, then asset, then the documents that belong to it. Walk down to the
+   certificate; the certificate knows the way back up. */
+.fx { border: 1px solid var(--border); border-radius: 10px; background: var(--white); overflow: hidden; }
+.fx-cols {
+  display: grid; grid-template-columns: 212px 190px 218px minmax(248px, 1fr);
+  overflow-x: auto; min-height: 352px; scroll-behavior: smooth;
+}
+@media (max-width: 720px) {
+  .fx-cols { grid-template-columns: 178px 166px 196px minmax(224px, 1fr); min-height: 280px; }
+}
+.fx-col { display: flex; flex-direction: column; min-width: 0; border-right: 1px solid var(--border); }
+.fx-col:last-child { border-right: 0; }
+.fx-col-h {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  padding: 7px 10px; border-bottom: 1px solid var(--border); background: var(--warm-sunk);
+  font-size: 0.63rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+}
+.fx-col-n { letter-spacing: 0; }
+.fx-col > ul { flex: 1; min-height: 0; overflow-y: auto; }
+.fx-row {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center;
+  width: 100%; text-align: left; padding: 7px 10px; cursor: pointer;
+  background: none; border: 0; transition: background-color 0.14s ease;
+}
+.fx-row:hover { background: rgba(16, 32, 27, 0.04); }
+.fx-row.is-on { background: var(--kiwi); }
+.fx-row.is-on .fx-row-t, .fx-row.is-on .fx-chev, .fx-row.is-on .fx-file { color: var(--warm); }
+.fx-row.is-on .fx-row-s { color: rgba(246, 247, 242, 0.72); }
+/* The selected row is filled kiwi green, so the status dot has to switch to
+   the light end of each status colour or it disappears into the fill. */
+.fx-row.is-on .fx-dot.is-current { background: #A7D94B; }
+.fx-row.is-on .fx-dot.is-due { background: #E2AF4C; }
+.fx-row.is-on .fx-dot.is-action { background: #E08E72; }
+.fx-row-main { display: grid; gap: 1px; min-width: 0; }
+.fx-row-t {
+  font-size: 0.77rem; font-weight: 500; color: var(--ink);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.fx-row-s {
+  font-size: 0.66rem; color: var(--muted);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.fx-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.fx-dot.is-current { background: var(--current); }
+.fx-dot.is-due { background: var(--due); }
+.fx-dot.is-action { background: var(--action); }
+.fx-file { font-size: 0.72rem; color: var(--muted); }
+.fx-chev { font-size: 0.85rem; color: var(--muted); line-height: 1; }
+
+.fx-col.is-preview { background: var(--warm-sunk); }
+.fx-prev { flex: 1; min-height: 0; overflow-y: auto; padding: 12px 14px; display: grid; gap: 9px; justify-items: start; }
+.fx-page {
+  position: relative; width: 104px; height: 136px;
+  padding: 11px 10px; display: grid; gap: 6px; align-content: start;
+  background: var(--white); border: 1px solid var(--border); border-radius: 3px;
+  box-shadow: 0 8px 18px -12px rgba(16, 32, 27, 0.6);
+}
+.fx-page-brand { font-size: 0.42rem; letter-spacing: 0.12em; color: var(--kiwi); font-family: var(--mono); }
+.fx-page-line { height: 3px; width: var(--w); background: var(--border); border-radius: 2px; }
+.fx-page-seal {
+  position: absolute; right: 9px; bottom: 9px; width: 22px; height: 22px;
+  border-radius: 50%; border: 1.5px solid var(--kiwi); opacity: 0.45;
+}
+.fx-prev-t { font-size: 0.86rem; font-weight: 600; line-height: 1.32; color: var(--ink); }
+.fx-prev-s { font-size: 0.7rem; color: var(--muted); }
+.fx-facts { display: grid; gap: 4px; width: 100%; }
+.fx-facts > div { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.fx-facts dt { font-size: 0.65rem; color: var(--muted); }
+.fx-facts dd { margin: 0; font-size: 0.7rem; line-height: 1.4; color: var(--ink); }
+.fx-prev-note {
+  width: 100%; padding: 7px 9px; border-radius: 6px; background: var(--white);
+  border-left: 2px solid var(--muted); font-size: 0.7rem; line-height: 1.48; color: var(--ink);
+}
+.fx-prev-note.is-current { border-left-color: var(--kiwi); }
+.fx-prev-note.is-due { border-left-color: var(--due); }
+.fx-prev-note.is-action { border-left-color: var(--action); }
+.fx-prev-filed { font-size: 0.62rem; line-height: 1.45; color: var(--muted); }
+.fx-prev-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.fx-path {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  padding: 7px 12px; border-top: 1px solid var(--border); background: var(--warm-sunk);
+  font-size: 0.66rem; color: var(--muted);
+}
+.fx-path i { font-style: normal; opacity: 0.5; }
+.fx-path .is-leaf { color: var(--ink); }
+.fx-path-r { margin-left: auto; }
 
 /* --- intake ------------------------------------------------------------- */
 .intake-drop {
@@ -2165,3 +2319,65 @@ button { font: inherit; color: inherit; }
 /* The "what Kiwi did" column is the point of the resolved state, so it reads
    as narrative rather than as another data field. */
 .register-did { color: var(--muted); }
+
+/* ==========================================================================
+   The money flow
+   Two lanes, one picture. Invoices travel left to right and converge on one;
+   money travels right to left and fans back out. The customer's side of both
+   is a single line, which is the whole argument.
+   ========================================================================== */
+.mf { margin: clamp(22px, 2.8vw, 34px) 0 0; overflow-x: auto; }
+.mf svg { width: 100%; min-width: 700px; height: auto; display: block; }
+
+.mf-node rect { fill: var(--white); stroke: var(--border); }
+.mf-node.is-kiwi rect { fill: var(--ink); stroke: var(--ink); }
+.mf-node.is-you rect { stroke: var(--kiwi); stroke-width: 1.5; }
+.mf-node-t { font-size: 14px; font-weight: 600; fill: var(--ink); font-family: var(--sans); }
+.mf-node-s { font-size: 10.5px; fill: var(--muted); font-family: var(--sans); }
+.mf-kiwi-t { font-size: 16px; font-weight: 700; letter-spacing: 0.14em; fill: var(--warm); font-family: var(--sans); }
+.mf-kiwi-s { font-size: 10.5px; fill: rgba(246, 247, 242, 0.62); font-family: var(--sans); }
+.mf-node { opacity: 0; }
+.mf.is-in .mf-node { animation: fanFade 0.4s ease forwards; animation-delay: calc(var(--i) * 90ms); }
+
+.mf-line { fill: none; stroke-width: 1.6; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.mf-line.is-doc { stroke: var(--border-strong); }
+.mf-line.is-cash { stroke: var(--kiwi); stroke-width: 2.2; }
+.mf.is-in .mf-line {
+  animation: fanDraw 0.55s var(--ease) forwards;
+  animation-delay: calc(var(--i) * 150ms + 320ms);
+}
+.mf-head { fill: none; stroke-width: 1.8; opacity: 0; }
+.mf-head.is-doc { stroke: var(--border-strong); }
+.mf-head.is-cash { stroke: var(--kiwi); stroke-width: 2.2; }
+.mf.is-in .mf-head {
+  animation: fanFade 0.3s ease forwards;
+  animation-delay: calc(var(--i) * 150ms + 800ms);
+}
+
+.mf-lab { font-size: 11.5px; fill: var(--ink); font-family: var(--mono); }
+.mf-lab.is-strong { fill: var(--kiwi); font-weight: 500; }
+.mf-sub { font-size: 9.5px; fill: var(--muted); font-family: var(--sans); }
+.mf-lane { font-size: 9.5px; letter-spacing: 0.16em; fill: var(--muted); opacity: 0.65; font-family: var(--mono); }
+.mf-lane.is-cash { fill: var(--kiwi); opacity: 0.8; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mf-line { stroke-dashoffset: 0; animation: none !important; }
+  .mf-node, .mf-head { opacity: 1; animation: none !important; }
+}
+
+/* --- the commercial section's flow block --------------------------------- */
+.paid-flow { margin-top: clamp(44px, 5.4vw, 76px); }
+.paid-flow-head { max-width: 64ch; }
+.paid-flow-title { letter-spacing: -0.02em; }
+.paid-flow-copy { margin-top: 10px; font-size: 0.96rem; line-height: 1.62; }
+
+.paid-ledger {
+  margin-top: clamp(22px, 2.6vw, 34px);
+  display: grid; gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+}
+@media (min-width: 720px)  { .paid-ledger { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1080px) { .paid-ledger { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.paid-ledger > div { background: var(--white); padding: 16px 18px; min-width: 0; }
+.paid-ledger dt { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+.paid-ledger dd { margin: 6px 0 0; font-size: 0.84rem; line-height: 1.55; }
