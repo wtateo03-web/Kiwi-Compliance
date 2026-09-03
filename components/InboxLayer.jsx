@@ -5,7 +5,7 @@ import Reveal from './Reveal';
 import { PerchedKiwi } from './KiwiMarks';
 import { FruitCorner } from './Decor';
 import { useInView } from './hooks';
-import { EMAILS, WEEK, FAN } from './inboxData';
+import { EMAILS, WEEK, FAN, NOISE, FOLDERS, LABELS } from './inboxData';
 
 /* ==========================================================================
    Your inbox is the interface
@@ -79,13 +79,13 @@ function FanIn() {
         <g className="fan-box">
           <rect x={BOX.x} y={BOX.y} width={BOX.w} height={BOX.h} rx="10" />
           <text x={BOX.x + BOX.w / 2} y={BOX.y + 32} textAnchor="middle" className="fan-box-t">Your inbox</text>
-          <text x={BOX.x + BOX.w / 2} y={BOX.y + 51} textAnchor="middle" className="fan-box-s">4 emails</text>
+          <text x={BOX.x + BOX.w / 2} y={BOX.y + 51} textAnchor="middle" className="fan-box-s">2 emails</text>
         </g>
 
         <text x="278" y="42" textAnchor="middle" className="fan-note">143 exchanges</text>
         <text x="278" y="58" textAnchor="middle" className="fan-note fan-note-sub">handled by us</text>
-        <text x="611" y="138" textAnchor="middle" className="fan-note">4 emails</text>
-        <text x="611" y="153" textAnchor="middle" className="fan-note fan-note-sub">1 needed a reply</text>
+        <text x="611" y="138" textAnchor="middle" className="fan-note">2 actionable emails</text>
+        <text x="611" y="153" textAnchor="middle" className="fan-note fan-note-sub">nothing else sent</text>
       </svg>
     </figure>
   );
@@ -98,27 +98,37 @@ function Mail({ mail }) {
     <div className="mb-read">
       <header className="mb-read-head">
         <h4 className="mb-read-subject">{mail.subject}</h4>
-        <p className="mb-read-meta">
-          <span className="mb-read-from">{mail.from}</span>
-          <span className="mono mb-read-addr">{mail.address}</span>
-        </p>
-        <p className="mb-read-to mono">to {mail.to} · {mail.day} {mail.time}</p>
+        <span className="mb-read-label">{mail.label}</span>
       </header>
 
-      <p className="mb-body">{mail.body}</p>
+      <ol className="mb-thread">
+        {mail.thread.map((m, i) => (
+          <li key={i} className={`mbm is-${m.kind}`}>
+            <span className={`mbm-av is-${m.kind}`} aria-hidden="true">{m.init}</span>
+            <div className="mbm-main">
+              <p className="mbm-line">
+                <span className="mbm-who">{m.who}</span>
+                <span className="mono mbm-addr">&lt;{m.addr}&gt;</span>
+                <span className="mono mbm-time">{m.time}</span>
+              </p>
+              <p className="mono mbm-to">to {m.to}</p>
+              <p className="mbm-body">{m.body}</p>
+              {m.attach && (
+                <p className="mbm-attach">
+                  <span className="mbm-clip" aria-hidden="true">▤</span>
+                  <span className="mono">{m.attach}</span>
+                  <span className="mbm-dl">Download</span>
+                </p>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
 
-      <div className="mb-reply">
-            <p className="mb-reply-label">
-              <span className="mb-reply-tag">Your reply</span>
-              <span className="mono mb-reply-time">{mail.replyTime}</span>
-            </p>
-        <p className="mb-reply-text">{mail.reply}</p>
-      </div>
-      <div className="mb-close">
-        <p className="mb-close-label">
-          <span className="mb-close-tag">Kiwi, {mail.closeTime}</span>
-        </p>
-        <p className="mb-close-text">{mail.close}</p>
+      <div className="mb-actions">
+        <span className="mb-act is-primary">Reply</span>
+        <span className="mb-act">Reply all</span>
+        <span className="mb-act">Forward</span>
       </div>
     </div>
   );
@@ -139,7 +149,7 @@ export default function InboxLayer() {
           </div>
           <p className="lead muted ib-head-copy">
             There is nothing for your team to log into, learn or administer. Kiwi works the estate
-            Kiwi works the estate in the background and writes to you only when the answer is
+            in the background and writes to you only when the answer is
             genuinely yours to give. No digests, no notifications, no copies for information — if an
             email arrives, one line settles it.
           </p>
@@ -193,42 +203,81 @@ export default function InboxLayer() {
           <Reveal className="ib-front">
             <div className="mb">
               <header className="mb-top">
-                <span className="mb-crumb">
-                  Inbox <span className="mb-crumb-sep" aria-hidden="true">›</span>
-                  <span className="mb-label">Kiwi Compliance</span>
-                </span>
+                <span className="mb-brand">Mail</span>
                 <span className="mb-search" aria-hidden="true">Search mail</span>
                 <span className="mb-who">Sarah Whitfield</span>
+                <span className="mb-avatar" aria-hidden="true">SW</span>
               </header>
-              <div className="mb-tools" aria-hidden="true">
-                <span className="mb-tool">Archive</span>
-                <span className="mb-tool">Snooze</span>
-                <span className="mb-tool">Label</span>
-                <span className="mb-count mono">{EMAILS.length} of {EMAILS.length}</span>
-              </div>
 
-              <div className="mb-split">
-                <ul className="mb-list" role="tablist" aria-label="Emails from Kiwi this week">
-                  {EMAILS.map((e) => (
-                    <li key={e.id}>
-                      <button
-                        role="tab"
-                        aria-selected={e.id === open}
-                        className={`mb-item${e.id === open ? ' is-on' : ''}`}
-                        onClick={() => setOpen(e.id)}
-                      >
-                        <span className="mb-check" aria-hidden="true" />
-                        <span className="mb-star" aria-hidden="true">☆</span>
-                        <span className="mb-item-from">{e.from}</span>
-                        <span className="mb-item-line">
-                          <span className="mb-item-subject">{e.subject}</span>
-                          <span className="mb-item-snip"> — {e.snippet}</span>
+              <div className="mb-frame">
+                <nav className="mb-folders" aria-hidden="true">
+                  <span className="mb-compose">Compose</span>
+                  <ul>
+                    {FOLDERS.map((f) => (
+                      <li key={f.name} className={f.on ? 'is-on' : undefined}>
+                        {f.name}{f.n ? <span className="mono mb-fn">{f.n}</span> : null}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mb-lab-h">Labels</p>
+                  <ul className="mb-labels">
+                    {LABELS.map((l) => (
+                      <li key={l.name}>
+                        <span className={`mb-lab-dot is-${l.tone}`} />{l.name}
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+
+                <div className="mb-listwrap">
+                  <div className="mb-tools" aria-hidden="true">
+                    <span className="mb-check" />
+                    <span className="mb-tool">Archive</span>
+                    <span className="mb-tool">Snooze</span>
+                    <span className="mb-tool">Label</span>
+                    <span className="mono mb-count">1–10 of 34</span>
+                  </div>
+
+                  <ul className="mb-list" role="tablist" aria-label="Emails from Kiwi this week">
+                    {EMAILS.map((e) => (
+                      <li key={e.id}>
+                        <button
+                          role="tab"
+                          aria-selected={e.id === open}
+                          className={`mb-item${e.id === open ? ' is-on' : ''}`}
+                          onClick={() => setOpen(e.id)}
+                        >
+                          <span className="mb-check" aria-hidden="true" />
+                          <span className="mb-star" aria-hidden="true">★</span>
+                          <span className="mb-item-from">Kiwi Compliance</span>
+                          <span className="mono mb-item-date">{e.date}</span>
+                          <span className="mb-item-line">
+                            <span className="mb-tag">{e.label}</span>
+                            <span className="mb-item-subject">{e.subject}</span>
+                            <span className="mb-item-snip"> — {e.snippet}</span>
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+
+                    {/* The rest of the week's post. Present so the two Kiwi
+                        threads read as rare; deliberately inert. */}
+                    {NOISE.map((n) => (
+                      <li key={n.subject} aria-hidden="true">
+                        <span className={`mb-item is-dim${n.unread ? ' is-unread' : ''}`}>
+                          <span className="mb-check" />
+                          <span className="mb-star">☆</span>
+                          <span className="mb-item-from">{n.from}</span>
+                          <span className="mono mb-item-date">{n.date}</span>
+                          <span className="mb-item-line">
+                            <span className="mb-item-subject">{n.subject}</span>
+                            <span className="mb-item-snip"> — {n.snippet}</span>
+                          </span>
                         </span>
-                        <span className="mono mb-item-date">{e.date}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
                 <div className="mb-pane"><Mail mail={mail} /></div>
               </div>

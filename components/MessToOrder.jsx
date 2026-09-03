@@ -15,11 +15,11 @@ const MESS = [
 ];
 
 const REGISTER = [
-  ['LEV-0148',  'Birmingham — Unit 4',    '06 Sep 2027', 'Current',         'current'],
-  ['LIFT-008',  'Manchester Distribution','14 Sep 2026', 'Due soon',        'due'],
-  ['PV-0102',   'Chester Manufacturing',  '02 Dec 2026', 'Current',         'current'],
-  ['EICR-0130', 'Shrewsbury Depot',       '24 Oct 2026', 'Action required', 'action'],
-  ['FIRE-0021', 'Bristol Office',         '12 Feb 2027', 'Current',         'current'],
+  ['GL-04',     'LOLER thorough examination', 'Defect found, repaired, re-examined', 'Closed',        'current'],
+  ['LEV-0148',  'COSHH reg. 9 examination',   'Booked, attended, evidence filed',    'Closed',        'current'],
+  ['PV-0119',   'PSSR first examination',     'Found on site, added, examined',      'Closed',        'current'],
+  ['LIFT-008',  'LOLER thorough examination', 'Provider instructed, slot confirmed', 'Booked 14 Sep', 'due'],
+  ['EICR-0130', 'Fixed wire remedial',        'Quote chased — day 9, escalated',     'In progress',   'action'],
 ];
 
 const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
@@ -51,10 +51,10 @@ export default function MessToOrder() {
         <div className="container">
           <div className="mess-heads">
             <h2 className="h2 mess-head" style={{ opacity: 1 - clamp01(p / 0.45) }}>
-              Compliance information ends up everywhere.
+              Compliance arrives from everywhere, owned by nobody.
             </h2>
             <h2 className="h2 mess-head mess-head-2" style={{ opacity: clamp01((p - 0.45) / 0.3) }}>
-              Kiwi puts it in order, and keeps it there.
+              Kiwi takes it, runs it, and closes it.
             </h2>
           </div>
 
@@ -89,16 +89,16 @@ export default function MessToOrder() {
               aria-hidden={resolve < 0.5}
             >
               <div className="register-head">
-                <span className="register-title">Compliance register</span>
-                <span className="register-meta mono">14 sites · 2,438 assets</span>
+                <span className="register-title">Every obligation, run to closed</span>
+                <span className="register-meta mono">14 sites · 2,438 assets · 0 overdue</span>
               </div>
               <div className="register-scroll">
                 <table className="register-table">
                   <thead>
-                    <tr><th>Asset</th><th>Site</th><th>Next due</th><th>Status</th></tr>
+                    <tr><th>Asset</th><th>Obligation</th><th>What Kiwi did</th><th>State</th></tr>
                   </thead>
                   <tbody>
-                    {REGISTER.map(([id, site, due, status, tone], i) => (
+                    {REGISTER.map(([id, obligation, did, state, tone], i) => (
                       <tr
                         key={id}
                         style={{
@@ -107,12 +107,12 @@ export default function MessToOrder() {
                         }}
                       >
                         <td className="mono register-id">{id}</td>
-                        <td>{site}</td>
-                        <td className="mono">{due}</td>
+                        <td>{obligation}</td>
+                        <td className="register-did">{did}</td>
                         <td>
                           <span className="status">
                             <span className={`dot is-${tone}`} />
-                            {status}
+                            {state}
                           </span>
                         </td>
                       </tr>
