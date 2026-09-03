@@ -53,7 +53,7 @@ export default function Nav() {
             Client login
           </a>
           <a className="btn btn-primary" href="#contact">
-            Talk to Kiwi <span className="arw" aria-hidden="true">→</span>
+            Start with one site <span className="arw" aria-hidden="true">→</span>
           </a>
         </div>
 
@@ -77,7 +77,7 @@ export default function Nav() {
           ))}
           <a href="#contact">Client login</a>
           <a className="btn btn-primary" href="#contact">
-            Talk to Kiwi <span className="arw" aria-hidden="true">→</span>
+            Start with one site <span className="arw" aria-hidden="true">→</span>
           </a>
         </div>
       )}

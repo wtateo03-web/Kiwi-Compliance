@@ -1729,3 +1729,64 @@ button { font: inherit; color: inherit; }
   border: 1px solid var(--border-strong); border-radius: 6px;
   color: var(--ink); background: var(--white);
 }
+
+/* ==========================================================================
+   Where responsibility sits
+   Two columns that must read as a division of ownership rather than a list of
+   features, so the roles are stated above the rule and the items below it.
+   ========================================================================== */
+.acct-head { display: grid; gap: clamp(18px, 2.4vw, 32px); }
+@media (min-width: 900px) {
+  .acct-head { grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr); align-items: end; }
+}
+.acct-head-copy { max-width: 44ch; }
+
+.acct-split {
+  position: relative;
+  margin-top: clamp(36px, 4.4vw, 58px);
+  padding-top: 32px;
+  border-top: 1px solid var(--border-strong);
+  display: grid; gap: clamp(28px, 3.6vw, 56px);
+}
+@media (min-width: 820px) { .acct-split { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.acct-col { min-width: 0; }
+.acct-who {
+  font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted);
+}
+.acct-role {
+  margin-top: 8px;
+  font-size: clamp(1.14rem, 1.8vw, 1.4rem); font-weight: 600;
+  letter-spacing: -0.02em; color: var(--ink);
+}
+.acct-col.is-kiwi .acct-role { color: var(--kiwi); }
+
+.acct-list { margin-top: 20px; display: grid; gap: 11px; }
+.acct-list li {
+  position: relative; padding-left: 20px;
+  font-size: 0.94rem; line-height: 1.55; color: var(--muted);
+}
+.acct-list li::before {
+  content: ''; position: absolute; left: 0; top: 0.62em;
+  width: 8px; height: 1.5px; background: var(--border-strong);
+}
+.acct-col.is-kiwi .acct-list li::before { background: var(--kiwi); }
+
+.acct-duty {
+  margin-top: clamp(34px, 4vw, 52px);
+  padding: 22px 24px; border-radius: var(--r-lg);
+  background: var(--kiwi-soft); border: 1px solid #CFE0D4;
+  max-width: 64ch;
+}
+.acct-duty-t { font-size: 1.02rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); }
+.acct-duty-b { margin-top: 9px; font-size: 0.93rem; line-height: 1.62; color: var(--muted); }
+
+/* The hero's contrast line carries the whole positioning, so it is stated
+   rather than tucked into the supporting copy. */
+.hero-contrast {
+  margin-top: 22px; padding-top: 18px;
+  border-top: 1px solid var(--border-strong);
+  font-size: clamp(1.06rem, 1.7vw, 1.28rem);
+  font-weight: 600; letter-spacing: -0.02em; color: var(--ink);
+}

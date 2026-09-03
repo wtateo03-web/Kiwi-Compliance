@@ -18,14 +18,14 @@ const STAGES = [
   },
   {
     n: '03',
-    title: 'We arrange the work.',
-    body: 'When something falls due, Kiwi books it with your provider — or sources one where you have a gap — and chases it through to completion.',
+    title: 'We get the work done.',
+    body: 'When something falls due, Kiwi instructs your specialist — or sources one where you have a gap — arranges access and drives it to attendance.',
     Visual: RoutingDiagram,
   },
   {
     n: '04',
-    title: 'We keep the record current.',
-    body: 'Reports, certificates, remedial actions and next inspection dates stay together.',
+    title: 'We close it out.',
+    body: 'Certificate collected, findings extracted, every defect driven to closure and the record left complete enough to hand an auditor.',
     Visual: RecordDiagram,
   },
 ];
@@ -37,7 +37,7 @@ export default function HowItWorks() {
       <div className="container">
         <Reveal>
           <p className="eyebrow">How Kiwi works</p>
-          <h2 className="h2 measure">Give us what&rsquo;s due. We keep it moving.</h2>
+          <h2 className="h2 measure">From what&rsquo;s due to the obligation closed.</h2>
         </Reveal>
 
         <ol className="stages">

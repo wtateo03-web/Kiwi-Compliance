@@ -2,16 +2,16 @@ import './globals.css';
 
 export const metadata = {
   metadataBase: new URL('https://kiwicompliance.com'),
-  title: 'Kiwi Compliance — Managed compliance coordination',
+  title: 'Kiwi Compliance — We run your physical compliance',
   description:
-    'Kiwi takes care of the chasing behind statutory compliance — organising your records, arranging specialist inspections, tracking completion and keeping the evidence current. Keep your existing team, systems and contractors.',
+    'Managed physical compliance. Kiwi runs recurring statutory compliance across your estate — from what falls due, through inspection and evidence, to every action closed. Using the specialists, systems and rates you already have.',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     siteName: 'Kiwi Compliance',
-    title: 'Kiwi Compliance — Less compliance admin. More control.',
+    title: 'Kiwi Compliance — We run your physical compliance.',
     description:
-      'You stay in control. Kiwi keeps the work moving — booking inspections, chasing providers and keeping the evidence current, around the systems and contractors you already have.',
+      'Software tells you what is due. Kiwi gets it done — the independent specialist signs the examination, and we run everything around it.',
     url: '/',
     locale: 'en_GB',
   },

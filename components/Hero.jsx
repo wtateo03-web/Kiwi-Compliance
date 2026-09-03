@@ -12,25 +12,27 @@ export default function Hero() {
           the sentence; the supporting copy and the visual sit beneath it. */}
       <div className="container">
         <Reveal className="hero-head">
-          <p className="eyebrow">Physical compliance, managed</p>
-          <h1 className="display">Less compliance admin. More control.</h1>
+          <p className="eyebrow">Managed physical compliance</p>
+          <h1 className="display">We run your physical compliance.</h1>
         </Reveal>
       </div>
 
       <div className="container hero-grid">
         <Reveal className="hero-copy" delay={60}>
           <p className="lead hero-lead">
-            Kiwi takes care of the chasing behind statutory compliance — organising your records,
-            arranging specialist inspections, tracking completion and keeping the evidence current.
+            From what falls due, through the inspection, the evidence and every action it raises,
+            to the obligation being closed. Using the specialists, the systems and the rates you
+            already have.
           </p>
-          <p className="hero-sub muted">
-            Keep your existing team, systems and trusted contractors. We work around what you already
-            have.
+
+          {/* The whole positioning in one line: not a better tracker, the work. */}
+          <p className="hero-contrast">
+            Software tells you what&rsquo;s due. We get it done.
           </p>
 
           <div className="btn-row">
             <a className="btn btn-primary" href="#contact">
-              Talk to Kiwi <span className="arw" aria-hidden="true">→</span>
+              Start with one site <span className="arw" aria-hidden="true">→</span>
             </a>
             <a className="btn btn-ghost" href="#how">
               See how it works <span aria-hidden="true">↓</span>
@@ -39,7 +41,7 @@ export default function Hero() {
 
           <p className="hero-strap">
             <PerchedKiwi where="strap" pose="walk" flip tilt={0} />
-            You stay in control. Kiwi keeps the work moving.
+            The specialist signs the examination. We run everything around it.
           </p>
         </Reveal>
 

@@ -16,11 +16,11 @@ export default function About() {
             The specialist firms carry out the examinations and earn the revenue. The client&rsquo;s
             facilities team carries the administration around it — working out what is due, booking
             it, chasing attendance, extracting the certificate, tracking the defects it raised and
-            keeping the record straight. One side is paid. The other side does the coordinating.
+            keeping the record straight. One side is paid. The other side runs the operation.
           </p>
           <p className="ab-question"><KiwiSlice tone="simple" />So we moved the work.</p>
           <p className="muted">
-            Kiwi takes the coordination off the client and is paid by the supply side instead. The
+            Kiwi takes that operation off the client and is paid by the supply side instead. The
             people responsible for buildings and equipment get their week back, and one question stops
             being difficult to answer: what is current, what is due, and what is still open.
           </p>

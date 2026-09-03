@@ -50,7 +50,7 @@ export default function Services() {
       <div className="container">
         <Reveal>
           <p className="eyebrow">Services</p>
-          <h2 className="h2 measure">One relationship across specialist compliance.</h2>
+          <h2 className="h2 measure">One operator across every discipline.</h2>
           <p className="lead muted svc-lede">
             Every discipline below can run through the provider you already use, or one we source for
             you. Either way there is one number to call and one record to look at.
@@ -80,7 +80,7 @@ export default function Services() {
             Where your thorough examinations come through your engineering insurer&rsquo;s inspection
             body, that arrangement stays exactly where it is.
           </span>{' '}
-          We coordinate around it. Requirements vary by site, asset and use, so Kiwi helps establish
+          We run the process around it. Requirements vary by site, asset and use, so Kiwi establishes
           the programme your estate actually needs rather than applying a fixed annual cycle to
           everything.
         </Reveal>

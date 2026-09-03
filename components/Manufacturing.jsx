@@ -116,13 +116,13 @@ export default function Manufacturing() {
           <div className="container">
             <Reveal className="hero-head">
               <p className="eyebrow">Manufacturing &amp; industrial</p>
-              <h1 className="display">Thousands of assets. Four sites. One record.</h1>
+              <h1 className="display">We run compliance on production estates.</h1>
             </Reveal>
             <Reveal className="mfg-lede" delay={60}>
               <p className="lead">
                 Statutory compliance on a production estate is dense, continuous and unforgiving of
-                administration. Kiwi takes over the coordination behind it — what is due, who is
-                attending, where the certificate is and which defects are still open — without
+                administration. Kiwi runs it — what is due, who attends, where the certificate is
+                and which defects are still open — through to every obligation closed, without
                 replacing your engineering team, your CAFM or your inspection bodies.
               </p>
               <p className="hero-sub muted">
@@ -130,7 +130,7 @@ export default function Manufacturing() {
               </p>
               <div className="btn-row">
                 <a className="btn btn-primary" href="#talk">
-                  Walk us through one site <span className="arw" aria-hidden="true">→</span>
+                  Start with one site <span className="arw" aria-hidden="true">→</span>
                 </a>
                 <a className="btn btn-ghost" href="/">
                   How Kiwi works <span aria-hidden="true">→</span>
@@ -163,12 +163,12 @@ export default function Manufacturing() {
           <FruitCorner where="services" />
           <div className="container">
             <Reveal>
-              <p className="eyebrow">What we coordinate</p>
+              <p className="eyebrow">What we run</p>
               <h2 className="h2 measure">The regimes that actually run your plant.</h2>
               <p className="lead muted svc-lede">
                 Each of these can stay with the specialist you use today. Where your thorough
                 examinations come through your engineering insurer&rsquo;s inspection body, that
-                arrangement is untouched — we coordinate around it.
+                arrangement is untouched — we run the process around it.
               </p>
             </Reveal>
 

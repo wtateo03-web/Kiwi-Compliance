@@ -32,7 +32,7 @@ export default function Trust() {
       <div className="container">
         <Reveal>
           <p className="eyebrow">How we work</p>
-          <h2 className="h2 measure">Clear responsibility. Clear records.</h2>
+          <h2 className="h2 measure">How we operate.</h2>
         </Reveal>
         <div className="tr-grid">
           {PRINCIPLES.map((p, i) => (
