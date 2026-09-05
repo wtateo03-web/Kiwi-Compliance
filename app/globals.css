@@ -541,6 +541,36 @@ button { font: inherit; color: inherit; }
 .stages-coda { margin-top: clamp(40px, 5vw, 60px); }
 .stages-coda-sub { margin-top: 14px; font-size: 1rem; max-width: 42em; }
 
+/* What enrolment finds — the day-five document, shown as rows */
+.ef {
+  position: relative; margin-top: clamp(36px, 4.5vw, 56px);
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: clamp(20px, 2.6vw, 32px);
+}
+.ef-head { display: grid; gap: 14px 48px; margin-bottom: 20px; }
+@media (min-width: 900px) { .ef-head { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); align-items: end; } }
+.ef-kicker { display: block; font-size: 0.72rem; color: var(--kiwi); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+.ef-lede { font-size: 0.98rem; max-width: 42em; }
+.ef-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+.ef-row {
+  display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 8px 12px;
+  padding: 14px 0; border-bottom: 1px solid var(--border); align-items: start;
+}
+.ef-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--due); margin-top: 7px; }
+.ef-dot.is-action { background: var(--action); }
+.ef-dot.is-dup { background: var(--border-strong); }
+.ef-type { font-weight: 600; font-size: 0.98rem; letter-spacing: -0.01em; }
+.ef-seen {
+  grid-column: 2; font-size: 0.78rem; color: var(--ink); background: var(--warm-sunk);
+  border-radius: var(--r); padding: 6px 9px; line-height: 1.45;
+}
+.ef-does { grid-column: 2; font-size: 0.93rem; line-height: 1.5; }
+@media (min-width: 900px) {
+  .ef-row { grid-template-columns: 14px 200px minmax(0, 1fr) minmax(0, 1.2fr); gap: 0 22px; align-items: center; padding: 15px 0; }
+  .ef-seen, .ef-does { grid-column: auto; }
+}
+.ef-foot { margin-top: 18px; font-size: 0.93rem; max-width: 56em; }
+
 /* ==========================================================================
    Section 4 — before / with Kiwi
    ========================================================================== */

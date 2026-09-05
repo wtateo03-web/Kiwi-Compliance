@@ -1,6 +1,7 @@
 import Reveal from './Reveal';
 import { PerchedKiwi } from './KiwiMarks';
 import { FruitCorner } from './Decor';
+import EnrolmentFinds from './EnrolmentFinds';
 import { IntakeDiagram, StructureDiagram, RoutingDiagram, RecordDiagram } from './Diagrams';
 
 /* Four stages, and none of them is "we remind you what is due". The interval
@@ -60,6 +61,8 @@ export default function HowItWorks() {
             </Reveal>
           ))}
         </ol>
+
+        <EnrolmentFinds />
 
         <Reveal className="stages-coda">
           <p className="statement">
