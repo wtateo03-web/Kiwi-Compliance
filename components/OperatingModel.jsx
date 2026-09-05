@@ -49,7 +49,7 @@ function OperatingDiagram() {
       {/* Kiwi */}
       <rect x="400" y="186" width="160" height="78" rx="8" fill="var(--fresh)" />
       <text x="480" y="222" textAnchor="middle" fontSize="17" fontWeight="700" letterSpacing="2.4" fill="var(--ink)" fontFamily="var(--sans)">KIWI</text>
-      <text x="480" y="242" textAnchor="middle" fontSize="10" fill="rgba(16,32,27,.72)" fontFamily="var(--sans)">coordinates it</text>
+      <text x="480" y="242" textAnchor="middle" fontSize="10" fill="rgba(16,32,27,.72)" fontFamily="var(--sans)">keeps it in date</text>
 
       {/* outcome */}
       <path d="M564 224 H 700" fill="none" stroke="var(--fresh)" strokeWidth="1.2" markerEnd="url(#om-g)" />
@@ -80,12 +80,13 @@ export default function OperatingModel() {
           </div>
           <div className="om-head-copy">
             <p className="muted">
-              Keep the contractors you trust. Introduce us, and we manage the dates, the bookings, the
-              paperwork and the follow-up with them.
+              Keep the contractors you trust. They keep their examination and their scheme. We make
+              sure each visit happens inside the interval, the evidence comes back, and what they
+              find is closed.
             </p>
             <p className="muted">
-              Where you don&rsquo;t have coverage, we source the right specialist and hold them to the
-              same standard. No supplier has to be replaced for Kiwi to start being useful.
+              Where an asset has no one covering it, we source the right specialist and hold them to
+              the same standard. No supplier has to be replaced for the estate to be complete.
             </p>
           </div>
         </Reveal>

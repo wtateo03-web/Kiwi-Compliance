@@ -79,7 +79,7 @@ function WithKiwiDiagram() {
 
       <rect x="146" y="124" width="88" height="66" rx="6" fill="var(--ink)" />
       <text x="190" y="154" textAnchor="middle" fontSize="12" fontWeight="700" letterSpacing="1.6" fill="var(--warm)" fontFamily="var(--sans)">KIWI</text>
-      <text x="190" y="168" textAnchor="middle" fontSize="8.5" fill="#97A69D" fontFamily="var(--sans)">coordinates</text>
+      <text x="190" y="168" textAnchor="middle" fontSize="8.5" fill="#97A69D" fontFamily="var(--sans)">keeps it in date</text>
 
       {specialists.map((s) => (
         <g key={s.label}>
@@ -125,7 +125,7 @@ export default function BeforeAfter() {
             <h3 className="ba-title">With Kiwi</h3>
             <div className="ba-visual"><WithKiwiDiagram /></div>
             <PerchedKiwi where="card" pose="alert" flip tilt={0} />
-            <p className="ba-note ba-note-good">We know what&rsquo;s due, arrange the work and return the evidence.</p>
+            <p className="ba-note ba-note-good">One record, one owner. Every asset in date and every finding closed.</p>
           </Reveal>
         </div>
       </div>

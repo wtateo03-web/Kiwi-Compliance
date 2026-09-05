@@ -121,12 +121,12 @@ export default function Manufacturing() {
             <Reveal className="mfg-lede" delay={60}>
               <p className="lead">
                 Statutory compliance on a production estate is dense, continuous and unforgiving of
-                administration. Kiwi runs it — what is due, who attends, where the certificate is
-                and which defects are still open — through to every obligation closed, without
-                replacing your engineering team, your CAFM or your inspection bodies.
+                gaps. Kiwi keeps every asset on it in date, evidenced and closed &mdash; as a state
+                you can show on any date, not a calendar of visits &mdash; without replacing your
+                engineering team, your CAFM or your inspection bodies.
               </p>
               <p className="hero-sub muted">
-                There is no fee to you. We are paid by the supply side, and the provider absorbs it.
+                One flat fee per covered asset. Your specialists&rsquo; work at the rate you already agreed. The first cycle is free.
               </p>
               <div className="btn-row">
                 <a className="btn btn-primary" href="#talk">
@@ -205,16 +205,16 @@ export default function Manufacturing() {
                 </li>
                 <li>
                   <span className="mfg-step-n mono">2</span>
-                  We reconcile it, tell you what we could not account for, and agree the schedule with
+                  We enrol it, tell you what we could not account for, and agree the programme with
                   you before contacting anybody.
                 </li>
                 <li>
                   <span className="mfg-step-n mono">3</span>
-                  We book, chase, collect the evidence and track every defect raised to closure.
+                  We keep it in date, collect the evidence and drive every defect raised to closure.
                 </li>
                 <li>
                   <span className="mfg-step-n mono">4</span>
-                  You decide whether it was worth extending. Nothing was signed and nothing was paid.
+                  You decide whether it was worth extending. Nothing was signed, and the first cycle cost you nothing beyond the examinations themselves.
                 </li>
               </ol>
               <p className="mfg-candid">

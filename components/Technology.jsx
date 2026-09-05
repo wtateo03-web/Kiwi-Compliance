@@ -7,7 +7,7 @@ const PIPELINE = [
   { Icon: Certificate,  label: 'Documents arrive',     note: 'Reports, certificates, registers', by: 'kiwi' },
   { Icon: Layers,       label: 'Information extracted', note: 'Asset, date, provider, outcome',  by: 'kiwi' },
   { Icon: Spreadsheet,  label: 'Data structured',       note: 'One consistent register',          by: 'kiwi' },
-  { Icon: Clock,        label: 'Requirements identified', note: 'What falls due, and when',       by: 'kiwi' },
+  { Icon: Clock,        label: 'Obligations attached',    note: 'Which regime, which interval, which asset', by: 'kiwi' },
   { Icon: Engineer,     label: 'Specialist attends',    note: 'Competent person, on site',        by: 'human' },
   { Icon: Tick,         label: 'Record updates',        note: 'Evidence back on the asset',       by: 'kiwi' },
 ];

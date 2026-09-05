@@ -17,7 +17,7 @@ import {
 } from './platformData';
 
 const NAV = [
-  'Overview', 'Register', 'Coordination', 'Comms', 'Invoicing',
+  'Overview', 'Register', 'Work', 'Comms', 'Invoicing',
   'Documents', 'Sites', 'Providers', 'Reports',
 ];
 
@@ -393,9 +393,9 @@ function Invoicing() {
   return (
     <>
       <p className="pf-lede muted">
-        We are the only compliance supplier on your ledger. Every provider invoice comes to us, is
-        checked against the quote and the evidence, and what survives becomes one itemised statement.
-        You pay us; we pay all {MONEY.providersPaid} providers behind it.
+        You pay Kiwi one flat fee per covered asset for the state. Your specialists&rsquo; work passes
+        through at the rate you agreed, on one statement, checked against the quote and the evidence.
+        We pay all {MONEY.providersPaid} of them at their rate and deduct nothing.
       </p>
 
       <MoneyStrip />
@@ -422,7 +422,7 @@ function Invoicing() {
             <div><dt>Approved</dt><dd className="mono">{s.approvedOn} · {s.approvedBy}</dd></div>
             <div><dt>Terms</dt><dd className="mono">{s.terms}</dd></div>
             <div><dt>Payment due</dt><dd className="mono">{s.due}</dd></div>
-            <div className="is-fee"><dt>Kiwi fee added</dt><dd className="mono">{MONEY.kiwiCharged}</dd></div>
+            <div className="is-fee"><dt>Kiwi fee · {MONEY.coveredAssets} assets</dt><dd className="mono">{MONEY.kiwiCharged}</dd></div>
           </dl>
         </div>
       </section>
@@ -533,8 +533,9 @@ function Invoicing() {
 
       <p className="inv-fee-line">
         <span className="mono inv-fee-n">{MONEY.kiwiCharged}</span>
-        added by Kiwi to any of it. We are paid an agreed share of the work we place with each
-        provider, out of their rate — never on top of yours.
+        is the only line on this statement that is ours: a flat fee for {MONEY.coveredAssets} covered
+        assets kept in date. Everything else is your specialists&rsquo; work at their rate. We take
+        nothing from them, and nothing on what they find.
       </p>
     </>
   );
@@ -937,7 +938,7 @@ export default function Platform() {
               {view === 'Register' && <Register asset={asset} setAsset={setAsset} />}
 
               {/* -------------------------------------------- coordination */}
-              {view === 'Coordination' && !caseOpen && (
+              {view === 'Work' && !caseOpen && (
                 <>
                   <p className="pf-lede muted">
                     Every requirement travels the same route. We move it; you can watch it.
@@ -962,7 +963,7 @@ export default function Platform() {
                 </>
               )}
 
-              {view === 'Coordination' && caseOpen && <CaseFile onBack={() => setCaseOpen(false)} />}
+              {view === 'Work' && caseOpen && <CaseFile onBack={() => setCaseOpen(false)} />}
 
               {/* --------------------------------------------------- comms */}
               {view === 'Comms' && <Comms open={thread} setOpen={setThread} />}

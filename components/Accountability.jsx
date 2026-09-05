@@ -18,8 +18,8 @@ const SPECIALIST = [
 ];
 
 const KIWI = [
-  'What is due, on what interval, against which asset',
-  'Who is attending, and when they are on site',
+  'Every asset that carries an obligation, and which obligation it carries',
+  'That the specialist attends inside the interval their scheme sets',
   'Whether the evidence comes back, and chasing it until it does',
   'Whether every defect raised is driven to closure',
   'Whether the record is complete enough to hand an auditor',
@@ -37,9 +37,10 @@ export default function Accountability() {
             </h2>
           </div>
           <p className="lead muted acct-head-copy">
-            Coordination sounds like an assistant. This is not that. Kiwi takes operational
-            ownership of the process — and is accountable for it — while the parts that must stay
-            with a qualified person, and with you, stay exactly where the law puts them.
+            Each of your specialists is responsible for their examination and nothing beyond it.
+            Kiwi is answerable to you for the whole: that every asset is on the record, in date,
+            closed when something is found, and provable on demand. The parts that must stay with
+            a qualified person, and with you, stay exactly where the law puts them.
           </p>
         </Reveal>
 
@@ -67,9 +68,10 @@ export default function Accountability() {
         <Reveal className="acct-duty">
           <p className="acct-duty-t">The statutory duty stays with you.</p>
           <p className="acct-duty-b">
-            It cannot be contracted out, and we would not claim to take it. What we take is the
-            operating burden that sits on top of it — and the accountability for whether the work
-            actually happened, was evidenced, and was closed.
+            It cannot be contracted out, and we would not claim to take it. What we take on, in
+            writing, is being answerable to you for four things: that the record is complete, that
+            every asset on it is in date, that every finding is closed, and that all of it can be
+            shown on the day someone asks.
           </p>
         </Reveal>
       </div>

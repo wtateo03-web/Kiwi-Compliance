@@ -50,8 +50,8 @@ export default function MultiSite() {
           <p className="eyebrow">Multi-site</p>
           <h2 className="h2">One estate. However many postcodes.</h2>
           <p className="lead muted ms-lead">
-            Kiwi gives organisations with multiple sites one place to understand what has been completed,
-            what is due and what needs attention.
+            One live record of every asset across every site, held to one standard, whoever
+            attends it locally.
           </p>
           <ul className="ms-points">
             {[

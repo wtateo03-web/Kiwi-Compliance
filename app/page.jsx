@@ -11,7 +11,7 @@ import OperatingModel from '@/components/OperatingModel';
 import Technology from '@/components/Technology';
 import Services from '@/components/Services';
 import MultiSite from '@/components/MultiSite';
-import HowPaid from '@/components/HowPaid';
+import Pricing from '@/components/Pricing';
 import Pilot from '@/components/Pilot';
 import About from '@/components/About';
 import FinalCta from '@/components/FinalCta';
@@ -35,7 +35,7 @@ export default function Home() {
         <Technology />
         <Services />
         <MultiSite />
-        <HowPaid />
+        <Pricing />
         <About />
         <Pilot />
         <FinalCta />

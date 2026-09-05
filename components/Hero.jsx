@@ -13,21 +13,21 @@ export default function Hero() {
       <div className="container">
         <Reveal className="hero-head">
           <p className="eyebrow">Managed physical compliance</p>
-          <h1 className="display">We run your physical compliance.</h1>
+          <h1 className="display">We keep your estate in date.</h1>
         </Reveal>
       </div>
 
       <div className="container hero-grid">
         <Reveal className="hero-copy" delay={60}>
           <p className="lead hero-lead">
-            From what falls due, through the inspection, the evidence and every action it raises,
-            to the obligation being closed. Using the specialists, the systems and the rates you
-            already have.
+            Every asset that must be examined, tested or certified &mdash; kept in date, evidenced,
+            and every finding it raises closed. Continuously, not once a year. Using the specialists,
+            the systems and the rates you already have.
           </p>
 
-          {/* The whole positioning in one line: not a better tracker, the work. */}
+          {/* The whole positioning in one line: execution is proven everywhere, completeness nowhere. */}
           <p className="hero-contrast">
-            Software tells you what&rsquo;s due. We get it done.
+            Your contractors can each prove their work was done. Nobody can prove your estate is complete.
           </p>
 
           <div className="btn-row">
@@ -41,7 +41,7 @@ export default function Hero() {
 
           <p className="hero-strap">
             <PerchedKiwi where="strap" pose="walk" flip tilt={0} />
-            The specialist signs the examination. We run everything around it.
+            The specialist signs the examination. We keep the whole estate current.
           </p>
         </Reveal>
 

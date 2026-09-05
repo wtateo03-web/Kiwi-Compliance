@@ -22,7 +22,7 @@ const STEPS = [
   },
   {
     when: 'Days 2–4',
-    title: 'We reconcile it.',
+    title: 'We enrol it.',
     body:
       'Every asset matched three ways: what you declared, what the certificates actually evidence, ' +
       'and what is on site. Duplicates collapsed, and anything we cannot account for opened as an ' +
@@ -53,8 +53,8 @@ const TERMS = [
     'A one-page scope naming the site, the asset class and the cycle. No master agreement, no minimum term, no notice period.',
   ],
   [
-    'Nothing extra is paid.',
-    'You pay for the examination you were buying anyway, at the rate you already agreed with your specialist. There is no Kiwi fee on this cycle or after it.',
+    'The first cycle is free.',
+    'One asset class, one site, one full cycle at no charge from Kiwi. Your specialists’ work is billed at the rate you already agreed. After that, a flat fee per covered asset, put in writing before anything else is instructed.',
   ],
   [
     'Nothing is replaced.',
@@ -73,9 +73,9 @@ export default function Pilot() {
             <h2 className="h2">One asset class. One site. One cycle.</h2>
           </div>
           <p className="lead muted pl-head-copy">
-            A first engagement should not need a procurement process. Pick the regime that causes
-            your team the most administration, at a single site, and let us run it end to end once.
-            You will know inside a week whether we are worth the conversation.
+            A first engagement should not need a procurement process. Pick one regime at one site
+            and let us enrol it, keep it in date and close what it raises, for one full cycle. By day
+            five you will be looking at your own estate, not our demo.
           </p>
         </Reveal>
 

@@ -33,7 +33,7 @@ export default function Footer() {
             <a href="#top" aria-label="Kiwi Compliance — home">
               <Logo />
             </a>
-            <p className="footer-tag">Physical compliance, managed.</p>
+            <p className="footer-tag">Every asset, in date.</p>
           </div>
 
           {COLUMNS.map((col) => (

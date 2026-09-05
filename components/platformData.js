@@ -247,7 +247,7 @@ export const THREADS = [
       {
         dir: 'out', from: 'Kiwi', to: 'Marie Okonjo · Pennine Lift Services',
         time: '02 Sep, 08:12', tag: 'Automated · personalised',
-        body: 'Hi Marie,\n\nLOLER thorough examination falls due on 26 September for six units at Manchester Distribution Centre (goods lifts GL-02 to GL-05, plus the two dock levellers). Same scope as March.\n\nCan you confirm a date on or before the 26th? Site contact is Rob Nayler on the gatehouse number, and the yard needs a 24-hour notice for a scissor lift.\n\nThanks,\nKiwi Compliance — coordinating on behalf of the estates team',
+        body: 'Hi Marie,\n\nLOLER thorough examination falls due on 26 September for six units at Manchester Distribution Centre (goods lifts GL-02 to GL-05, plus the two dock levellers). Same scope as March.\n\nCan you confirm a date on or before the 26th? Site contact is Rob Nayler on the gatehouse number, and the yard needs a 24-hour notice for a scissor lift.\n\nThanks,\nKiwi Compliance — on behalf of the estates team',
       },
       {
         dir: 'in', from: 'Marie Okonjo · Pennine Lift Services', to: 'Kiwi',
@@ -400,12 +400,12 @@ export const THREADS = [
 ];
 
 /* ==========================================================================
-   Money. Kiwi is the single counterparty on the estate: every provider
-   invoice comes to us, is checked line by line against the quote and the
-   evidence, and only what survives that reaches the customer — as one
-   itemised statement a month. The customer pays Kiwi; Kiwi settles with
-   every provider behind it. Our fee sits inside the provider's rate, so
-   nothing is added to the amount the customer would otherwise have paid.
+   Money. The customer pays Kiwi a flat fee per covered asset for the
+   state. Every specialist invoice comes to us, is checked line by line
+   against the quote and the evidence, and passes through at the agreed
+   rate on one itemised statement with our fee as its own line. Kiwi
+   settles with every specialist at their rate and deducts nothing — the
+   fee is the only money that is ours, and it never moves with findings.
    ========================================================================== */
 
 export const MONEY = {
@@ -416,7 +416,8 @@ export const MONEY = {
   stopped: '£7,690.00',
   onStatement: 206,
   statementValue: '£183,220.00',
-  kiwiCharged: '£0.00',
+  coveredAssets: '2,438',
+  kiwiCharged: '£4,876.00',
 };
 
 /* The reconciliation between what providers claimed and what the customer is
@@ -428,7 +429,7 @@ export const MONEY_RECON = {
     { label: 'Held — evidence not yet on file', note: 'Attended, but no certificate or report returned', count: '−5', value: '£3,210.00', sign: '−', tone: 'due' },
     { label: 'Corrected — invoiced above the agreed quote', note: 'Credited back before the statement was raised', count: '18', value: '£2,800.00', sign: '−', tone: 'due' },
   ],
-  total: { label: 'On your August statement', count: '206', value: '£183,220.00' },
+  total: { label: 'Specialists’ work on your August statement', count: '206', value: '£183,220.00' },
 };
 
 /* The gates a provider invoice passes before it can appear on a statement. */
@@ -452,9 +453,9 @@ export const STATEMENT = {
   due: '01 Oct 2026',
   lines: 206,
   providers: 19,
-  net: '£183,220.00',
-  vat: '£36,644.00',
-  gross: '£219,864.00',
+  net: '£188,096.00',
+  vat: '£37,619.20',
+  gross: '£225,715.20',
   state: 'Approved — awaiting payment',
   tone: 'due',
   approvedBy: 'S. Whitfield',
@@ -462,9 +463,9 @@ export const STATEMENT = {
 };
 
 export const STATEMENT_HISTORY = [
-  { ref: 'KC-2026-06', period: 'June 2026', net: '£171,940.00', raised: '01 Jul 2026', approved: '03 Jul · S. Whitfield', paid: '29 Jul 2026', state: 'Settled', tone: 'current' },
-  { ref: 'KC-2026-07', period: 'July 2026', net: '£179,505.00', raised: '01 Aug 2026', approved: '04 Aug · S. Whitfield', paid: '28 Aug 2026', state: 'Settled', tone: 'current' },
-  { ref: 'KC-2026-08', period: 'August 2026', net: '£183,220.00', raised: '01 Sep 2026', approved: '02 Sep · S. Whitfield', paid: 'Due 01 Oct 2026', state: 'Awaiting payment', tone: 'due' },
+  { ref: 'KC-2026-06', period: 'June 2026', net: '£176,816.00', raised: '01 Jul 2026', approved: '03 Jul · S. Whitfield', paid: '29 Jul 2026', state: 'Settled', tone: 'current' },
+  { ref: 'KC-2026-07', period: 'July 2026', net: '£184,381.00', raised: '01 Aug 2026', approved: '04 Aug · S. Whitfield', paid: '28 Aug 2026', state: 'Settled', tone: 'current' },
+  { ref: 'KC-2026-08', period: 'August 2026', net: '£188,096.00', raised: '01 Sep 2026', approved: '02 Sep · S. Whitfield', paid: 'Due 01 Oct 2026', state: 'Awaiting payment', tone: 'due' },
 ];
 
 /* A sample of the 206 lines behind the August statement. Quoted against

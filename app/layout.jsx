@@ -2,16 +2,16 @@ import './globals.css';
 
 export const metadata = {
   metadataBase: new URL('https://kiwicompliance.com'),
-  title: 'Kiwi Compliance — We run your physical compliance',
+  title: 'Kiwi Compliance — We keep your estate in date',
   description:
-    'Managed physical compliance. Kiwi runs recurring statutory compliance across your estate — from what falls due, through inspection and evidence, to every action closed. Using the specialists, systems and rates you already have.',
+    'Managed physical compliance. Every asset that must be examined, tested or certified — kept in date, evidenced and closed, continuously, with the specialists you already use. One fee per covered asset.',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     siteName: 'Kiwi Compliance',
-    title: 'Kiwi Compliance — We run your physical compliance.',
+    title: 'Kiwi Compliance — We keep your estate in date.',
     description:
-      'Software tells you what is due. Kiwi gets it done — the independent specialist signs the examination, and we run everything around it.',
+      'Your contractors can each prove their work was done. None of them can prove your estate is complete. Kiwi keeps every asset in date, evidenced and closed, and can.',
     url: '/',
     locale: 'en_GB',
   },

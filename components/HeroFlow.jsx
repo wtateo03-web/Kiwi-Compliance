@@ -201,7 +201,7 @@ export default function HeroFlow() {
       <div className="flow-core" ref={coreRef}>
         <div className="core-head">
           <span className="core-brand">KIWI</span>
-          <span className="core-sub">Your managed compliance desk</span>
+          <span className="core-sub">One live record. Every asset.</span>
         </div>
 
         <div className="core-body">

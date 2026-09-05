@@ -70,13 +70,13 @@ export default function MoneyFlow({ label }) {
         <text x={(lA + lB) / 2} y={TOP + 22} textAnchor="middle" className="mf-sub">checked line by line</text>
 
         <text x={(rA + rB) / 2} y={TOP - 15} textAnchor="middle" className="mf-lab is-strong">1 invoice out</text>
-        <text x={(rA + rB) / 2} y={TOP + 22} textAnchor="middle" className="mf-sub">itemised, monthly</text>
+        <text x={(rA + rB) / 2} y={TOP + 22} textAnchor="middle" className="mf-sub">their work at cost, plus our fee</text>
 
         <text x={(rA + rB) / 2} y={BOT - 15} textAnchor="middle" className="mf-lab is-strong">1 payment</text>
         <text x={(rA + rB) / 2} y={BOT + 22} textAnchor="middle" className="mf-sub">on your terms</text>
 
         <text x={(lA + lB) / 2} y={BOT - 15} textAnchor="middle" className="mf-lab">19 providers paid</text>
-        <text x={(lA + lB) / 2} y={BOT + 22} textAnchor="middle" className="mf-sub">on ours, not yours</text>
+        <text x={(lA + lB) / 2} y={BOT + 22} textAnchor="middle" className="mf-sub">at their rate, nothing deducted</text>
 
         {/* ---- lane keys ---- */}
         <text x="450" y="30" textAnchor="middle" className="mf-lane">INVOICES TRAVEL THIS WAY →</text>

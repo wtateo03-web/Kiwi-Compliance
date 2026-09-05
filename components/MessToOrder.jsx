@@ -54,7 +54,7 @@ export default function MessToOrder() {
               Compliance arrives from everywhere, owned by nobody.
             </h2>
             <h2 className="h2 mess-head mess-head-2" style={{ opacity: clamp01((p - 0.45) / 0.3) }}>
-              Kiwi takes it, runs it, and closes it.
+              Kiwi holds it as one record, and keeps every asset in date.
             </h2>
           </div>
 
@@ -124,7 +124,7 @@ export default function MessToOrder() {
           </div>
 
           <p className="mess-caption muted" style={{ opacity: resolve }}>
-            Same information. One structure, one schedule, one place to look.
+            The same estate. One record, one owner, and a state you can prove on any date.
           </p>
         </div>
       </div>

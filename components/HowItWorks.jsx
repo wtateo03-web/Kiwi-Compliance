@@ -3,29 +3,33 @@ import { PerchedKiwi } from './KiwiMarks';
 import { FruitCorner } from './Decor';
 import { IntakeDiagram, StructureDiagram, RoutingDiagram, RecordDiagram } from './Diagrams';
 
+/* Four stages, and none of them is "we remind you what is due". The interval
+   belongs to regulation or to the competent person's scheme; what Kiwi owns
+   is that every asset is on the record, attended inside its window, closed
+   when something is found, and provable on any date a third party picks. */
 const STAGES = [
   {
     n: '01',
-    title: 'Send us what you have.',
-    body: 'Spreadsheets, certificates, emails, asset lists, your existing contractors and site information. However it currently sits.',
+    title: 'Every asset goes on the record.',
+    body: 'We reconcile what you declare against what the certificates evidence and what is actually on site. Each asset that carries an obligation is enrolled with that obligation attached. Anything we cannot place is raised as an exception, not quietly dropped.',
     Visual: IntakeDiagram,
   },
   {
     n: '02',
-    title: 'We organise it.',
-    body: 'Kiwi structures your sites, assets, records, schedules and upcoming requirements.',
-    Visual: StructureDiagram,
-  },
-  {
-    n: '03',
-    title: 'We get the work done.',
-    body: 'When something falls due, Kiwi instructs your specialist — or sources one where you have a gap — arranges access and drives it to attendance.',
+    title: 'Each one is kept in date.',
+    body: 'The interval is set by regulation or by your competent person’s scheme, not by us. Our job is that the specialist attends inside it: instructed, access arranged, and replaced if a provider fails — using the firms you already use wherever you have them.',
     Visual: RoutingDiagram,
   },
   {
+    n: '03',
+    title: 'What is found gets closed.',
+    body: 'An examination that raises a defect starts a clock, and the inspector’s duty ends at the report. Every finding gets an owner, a deadline and evidence it was done, so nothing stays open because it fell between the person who found it and the person who fixes it.',
+    Visual: StructureDiagram,
+  },
+  {
     n: '04',
-    title: 'We close it out.',
-    body: 'Certificate collected, findings extracted, every defect driven to closure and the record left complete enough to hand an auditor.',
+    title: 'The record holds.',
+    body: 'Certificate, findings and closure sit on the asset they belong to. On any date an auditor, insurer or acquirer chooses, the estate can show its position — not the position at the last annual review.',
     Visual: RecordDiagram,
   },
 ];
@@ -37,7 +41,7 @@ export default function HowItWorks() {
       <div className="container">
         <Reveal>
           <p className="eyebrow">How Kiwi works</p>
-          <h2 className="h2 measure">From what&rsquo;s due to the obligation closed.</h2>
+          <h2 className="h2 measure">Compliance kept as a state, not chased as a series of visits.</h2>
         </Reveal>
 
         <ol className="stages">
@@ -59,11 +63,10 @@ export default function HowItWorks() {
 
         <Reveal className="stages-coda">
           <p className="statement">
-            Not another system for your team to maintain. Kiwi manages the work behind it.
+            Your contractors are excellent inside their scope. The estate is what you are accountable for.
           </p>
           <p className="stages-coda-sub muted">
-            Due dates, bookings, contractors, certificates, follow-ups and records — handled by us,
-            visible to you.
+            Nobody sells you that. So the specialists keep their scope, and Kiwi keeps the whole.
           </p>
         </Reveal>
       </div>
